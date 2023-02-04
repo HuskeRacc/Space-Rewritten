@@ -5,7 +5,6 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] PlayerMovement player;
     [SerializeField] PlayerCurrency playerCurrency;
     [SerializeField] PlayerStatus status;
-    [SerializeField] ShopScreen shop;
     [SerializeField] ShipSystems ship;
 
     public void OnClick_Back()
@@ -18,10 +17,10 @@ public class ShopMenu : MonoBehaviour
 
     public void OnClick_BuyFuel()
     {
-        if (playerCurrency.currency >= shop.fuelPrice)
+        if (playerCurrency.currency >= ShopPrices.instance.fuelPrice)
         {
             ship.fuel += 75f;
-            playerCurrency.currency -= shop.fuelPrice;
+            playerCurrency.currency -= ShopPrices.instance.fuelPrice;
         }
         else
         {

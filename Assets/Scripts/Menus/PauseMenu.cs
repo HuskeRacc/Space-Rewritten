@@ -11,11 +11,8 @@ public class PauseMenu : MonoBehaviour
     
     public void OnClick_Resume()
     {
-        this.gameObject.SetActive(false);
-        PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        if(playerMovement == null)
+        if(!GameObject.Find("Player").TryGetComponent<PlayerMovement>(out var playerMovement))
         {
-            Debug.Log("failed to find playermovement");
             return;
         }
         playerMovement.Unpause();

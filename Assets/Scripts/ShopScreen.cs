@@ -10,12 +10,9 @@ public class ShopScreen : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI fuelPriceTXT;
 
-    // Placeholder Fuel Price
-    public float fuelPrice = 500f;
-
     private void Update()
     {
         currencyValue.text = "$" + playerCurrency.currency.ToString("F1");
-        fuelPriceTXT.text = fuelPrice.ToString("F0");
+        fuelPriceTXT.text = ShopPrices.instance.fuelPrice.ToString("F2");
     }
 }

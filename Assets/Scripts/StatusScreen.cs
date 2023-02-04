@@ -14,8 +14,8 @@ public class StatusScreen : MonoBehaviour
 
     private void Update()
     {
-        fuelValue.text = systems.fuel.ToString("F0");
-        oxyValue.text = systems.shipOxygen.ToString("F0");
+        fuelValue.text = systems.fuel.ToString("F1");
+        oxyValue.text = systems.shipOxygen.ToString("F1");
         //Add visual sliders
 
         if(power.powerGeneratorAvailable)
