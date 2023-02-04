@@ -9,13 +9,13 @@ public class ShopInteract : Interactable
 
     public override void OnFocus()
     {
-        
+
     }
 
     public override void OnInteract()
     {
         shopMenu.SetActive(true);
-        player.CanMove = false;
+        player.canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -28,7 +28,7 @@ public class ShopInteract : Interactable
     public void OnClick_CloseMenu()
     {
         shopMenu.SetActive(false);
-        player.CanMove = true;
+        player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

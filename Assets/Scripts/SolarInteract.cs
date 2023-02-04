@@ -15,7 +15,7 @@ public class SolarInteract : Interactable
     public override void OnInteract()
     {
         solarMenu.SetActive(true);
-        player.CanMove = false;
+        player.canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -28,7 +28,7 @@ public class SolarInteract : Interactable
     public void OnClick_CloseMenu()
     {
         solarMenu.SetActive(false);
-        player.CanMove = true;
+        player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

@@ -25,13 +25,6 @@ public class HelmMenu : MonoBehaviour
         }
     }
 
-    public void OnClick_Back()
-    {
-        this.gameObject.SetActive(false);
-        player.CanMove = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
 
     private void Update()
     {

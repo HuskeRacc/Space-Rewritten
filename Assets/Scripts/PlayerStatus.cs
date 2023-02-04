@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    [SerializeField] PlayerOxygen player;
+    [SerializeField] PlayerNeeds player;
     [SerializeField] ShipSystems ship;
     [SerializeField] TextMeshProUGUI statusText;
     [SerializeField] float popupCooldown = 10f;

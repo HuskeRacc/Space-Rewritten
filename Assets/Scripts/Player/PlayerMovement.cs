@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public bool CanMove = true;
+    public bool canMove = true;
     public bool IsSprinting => canSprint && Input.GetKey(sprintKey);
     private bool ShouldJump => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
     private bool ShouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnim && characterController.isGrounded;
@@ -25,11 +25,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool canCrouch = true;
     [SerializeField] bool canUseHeadbob = true;
     [SerializeField] bool canInteract = true;
+    [SerializeField] bool canPickup = true;
     [SerializeField] bool useStamina = true;
     [SerializeField] bool canPause = true;
     [SerializeField] bool canUseFlashlight = true;
     [SerializeField] bool useFootSteps = true;
     [SerializeField] bool canZoom = true;
+    [SerializeField] bool crosshairEnabled = true;
 
     [Header("Controls")]
     [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
@@ -37,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] KeyCode pauseKey = KeyCode.Escape;
     [SerializeField] KeyCode crouchKey = KeyCode.LeftControl;
     [SerializeField] KeyCode interactKey = KeyCode.Mouse0;
+    [SerializeField] KeyCode pickupKey = KeyCode.Mouse1;
     [SerializeField] KeyCode flashlightKey = KeyCode.F;
     [SerializeField] KeyCode zoomKey = KeyCode.Mouse1;
 
@@ -123,6 +126,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] LayerMask interactionLayer = default;
     Interactable currentInteractable;
 
+    [Header("Pickup")]
+    [SerializeField] Transform holdArea;
+    private Rigidbody heldObjRB;
+    [SerializeField] GameObject heldObj;
+
+    [Header("Pickup Physics")]
+    [SerializeField] private float pickupForce = 150.0f;
+
     [Header("Flashlight")]
     [SerializeField] GameObject flashlight;
     [SerializeField] bool flashlightOn = false;
@@ -159,10 +170,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!canMove)
+            canPause = false;
+        else canPause = true;
+
         if(canPause)
             HandlePause();
 
-        if (CanMove)
+        if (canMove)
         {
             HandleMovementInput();
             HandleMouseLook();
@@ -191,8 +206,21 @@ public class PlayerMovement : MonoBehaviour
                 HandleInteractionInput();
             }
 
+            if(canPickup)
+            {
+                HandlePickupInput();
+            }
+
+            if (heldObj != null)
+            {
+                HandlePickupObjectMovement();
+            }
+
             if (useStamina)
                 HandleStamina();
+
+            if(crosshairEnabled)
+            HandleCrosshairVisibility();
 
             ApplyFinalMovements();
         }
@@ -220,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
     public void Unpause()
     {
         //Lock & unpause
-        CanMove = true;
+        canMove = true;
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
@@ -232,7 +260,7 @@ public class PlayerMovement : MonoBehaviour
     void Pause()
     {
         //Unlock and Pause
-        CanMove = false;
+        canMove = false;
         pauseMenu.SetActive(true);
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
@@ -329,10 +357,74 @@ public class PlayerMovement : MonoBehaviour
     void HandleInteractionInput()
     {
         if(Input.GetKeyDown(interactKey) && currentInteractable != null 
-            && Physics.Raycast(playerCam.ViewportPointToRay(interactionRayPoint), 
-            out RaycastHit hit, interactionDistance, interactionLayer))
+        && Physics.Raycast(playerCam.ViewportPointToRay(interactionRayPoint), 
+        out RaycastHit hit, interactionDistance, interactionLayer))
         {
             currentInteractable.OnInteract();
+        }
+    }
+
+    void HandleCrosshairVisibility()
+    {
+        if(currentInteractable != null)
+        {
+            DynamicCrosshair.instance.SmoothCrosshairEnable();
+        }
+        else
+        {
+            DynamicCrosshair.instance.SmoothCrosshairDisable();
+        }
+    }
+
+    void HandlePickupInput()
+    {
+        if (Input.GetKeyDown(pickupKey))
+        {
+            if (heldObj == null)
+            {
+                if ((Physics.Raycast(playerCam.ViewportPointToRay(interactionRayPoint),
+                   out RaycastHit hit, interactionDistance, interactionLayer)))
+                {
+                    Debug.Log("Item picked up!");
+                    HandlePickup(hit.transform.gameObject);
+                }
+            }
+            else
+            {
+                Debug.Log("Item dropped!");
+                HandleDrop();
+            }
+        }
+    }
+
+    private void HandlePickup(GameObject pickObj)
+    {
+        if (pickObj.GetComponent<Rigidbody>())
+        {
+            heldObjRB = pickObj.GetComponent<Rigidbody>();
+            heldObjRB.useGravity = false;
+            heldObjRB.drag = 10;
+            heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
+            heldObjRB.transform.parent = holdArea;
+            heldObj = pickObj;
+        }
+    }
+
+    private void HandleDrop()
+    {
+        heldObjRB.useGravity = true;
+        heldObjRB.drag = 1;
+        heldObjRB.constraints = RigidbodyConstraints.None;
+        heldObjRB.transform.parent = null;
+        heldObj = null;
+    }
+
+    private void HandlePickupObjectMovement()
+    {
+        if (Vector3.Distance(heldObj.transform.position, holdArea.position) > 0.1f)
+        {
+            Vector3 pickupObjectMoveDirection = (holdArea.position - heldObj.transform.position);
+            heldObjRB.AddForce(pickupObjectMoveDirection * pickupForce);
         }
     }
 

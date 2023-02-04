@@ -23,7 +23,6 @@ public class DoorScript : Interactable
 
     public override void OnFocus()
     {
-        
     }
 
     public override void OnInteract()
@@ -40,6 +39,7 @@ public class DoorScript : Interactable
             }
             else if (!isOpen && interactedWith)
             {
+
                 CloseDoorAudio();
             }
         }
@@ -47,7 +47,6 @@ public class DoorScript : Interactable
 
     public override void OnLoseFocus()
     {
-        
     }
 
     IEnumerator AutoClose()
