@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DroneManager : MonoBehaviour
 {
-    [SerializeField] PlayerCurrency playerCurrency;
-    [SerializeField] PlayerStatus playerStatus;
+
+    public static DroneManager instance;
 
     [HideInInspector] public string droneStatus;
     [HideInInspector] public string buttonStatus;
@@ -14,18 +15,22 @@ public class DroneManager : MonoBehaviour
 
     public float timeToTravel = 30f;
 
+    [SerializeField] Button[] modeButtons;
+
     [Header("Drone Status")]
     public int status = 0;
 
-    public float droneHeldCurrency;
-
-    public float currencyToTransfer;
+    public int mode = 0;
 
     public float battery = 100f;
 
-    [Header("Currency Gain")]
-    public int minimumCurrencyGainTime = 3;
-    public int maximumCurrencyGainTime = 15;
+    [Header("Materials")]
+    public float satoniumAmount;
+    public float thrustiumAmount;
+    public float fueliumAmount;
+
+    public int MinimumMaterialGainTime = 3;
+    public int MaximumMaterialGainTime = 15;
 
     [Header("Battery Depletion")]
     [SerializeField] float batteryDepletionRate = 2f;
@@ -40,6 +45,22 @@ public class DroneManager : MonoBehaviour
     public float minimumMineable = 0.1f;
     public float maximumMineable = 1.0f;
 
+    public float thrustiumMinimumMineable = 0.01f;
+    public float thrustiumMaximumMineable = 0.02f;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void Update()
+    {
+        if (battery >= 100)
+            battery = 100;
+        if (battery <= 0)
+            battery = 0;
+    }
+
     private void Start()
     {
         Idle();
@@ -47,11 +68,18 @@ public class DroneManager : MonoBehaviour
 
     public void Idle()
     {
+        for (int i = 0; i < modeButtons.Length; i++)
+        {
+            modeButtons[i].interactable = true;
+        }
+
         anim.SetBool("TakeOff", false);
         anim.SetBool("Recall", true);
-        TransferCurrency();
+
+        BankMaterials();
 
         status = 0;
+
         droneStatus = "Idle";
         buttonStatus = "Send?";
 
@@ -60,50 +88,97 @@ public class DroneManager : MonoBehaviour
 
     public void Sending()
     {
+        for (int i = 0; i < modeButtons.Length; i++)
+        {
+            modeButtons[i].interactable = false;
+        }
+
         anim.SetBool("TakeOff",true);
         status = 1;
         droneStatus = "En-Route";
         buttonStatus = "Please Wait...";
         CancelInvoke(nameof(ChargeBattery));
-        Invoke(nameof(OnPlanet), timeToTravel);
+        Invoke(nameof(Mining), timeToTravel);
     }
 
-    public void OnPlanet()
+    public void Mining()
     {
         status = 2;
         droneStatus = "Mining";
         buttonStatus = "Return?";
-        InvokeRepeating(nameof(DroneCurrencyGain), 0, Random.Range(minimumCurrencyGainTime,maximumCurrencyGainTime));
+
+        if (mode == 0)
+        {
+            InvokeRepeating(nameof(Mode0MaterialGain), 4, Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+        }
+        if (mode == 1)
+        {
+            InvokeRepeating(nameof(Mode1MaterialGain), 4, Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+        }
+        if(mode== 2)
+        {
+            InvokeRepeating(nameof(Mode2MaterialGain), 4, Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+        }
         InvokeRepeating(nameof(DepleteBattery), 0, Random.Range(minimumBatteryDepletionTime, maximumBatteryDepletionTime));
     }
 
     public void Returning()
     {
-        anim.SetBool("TakeOff", false);
-        anim.SetBool("Recall", true);
-        status = 3;
-        droneStatus = "Returning";
-        buttonStatus = "Please Wait...";
-        currencyToTransfer = droneHeldCurrency;
-        CancelInvoke();
-        Invoke(nameof(Idle), timeToTravel);
-    }
-
-    void TransferCurrency()
-    {
-        if (currencyToTransfer != 0)
+        if(battery == 0)
         {
-            droneHeldCurrency = 0;
-            playerCurrency.currency += currencyToTransfer;
-            StartCoroutine(playerStatus.TextPopup("$" + currencyToTransfer.ToString("F2") + " was transferred to your account.", 5));
-            currencyToTransfer = 0;
+            droneStatus = "Out of Fuel, Returning.";
+            anim.SetBool("TakeOff", false);
+            anim.SetBool("Recall", true);
+            status = 3;
+            buttonStatus = "Please Wait...";
+            CancelInvoke();
+            Invoke(nameof(Idle), timeToTravel);
+        }
+        else
+        {
+            droneStatus = "Returning";
+            anim.SetBool("TakeOff", false);
+            anim.SetBool("Recall", true);
+            status = 3;
+            buttonStatus = "Please Wait...";
+            CancelInvoke();
+            Invoke(nameof(Idle), timeToTravel);
         }
     }
 
-    void DroneCurrencyGain()
+    void BankMaterials()
     {
-        float amountToMine = Random.Range(minimumMineable,maximumMineable);
-        droneHeldCurrency += amountToMine;
+        ShipMaterialBank.instance.satoniumBanked += satoniumAmount;
+        ShipMaterialBank.instance.thrustiumBanked += thrustiumAmount;
+        ShipMaterialBank.instance.fueliumBanked += fueliumAmount;
+        satoniumAmount = 0;
+        thrustiumAmount = 0;
+        fueliumAmount = 0;
+    }
+
+    void Mode0MaterialGain()
+    {
+        float satonium = Random.Range(minimumMineable,maximumMineable);
+        float thrustium = Random.Range(thrustiumMinimumMineable, thrustiumMaximumMineable);
+        float fuelium = Random.Range(minimumMineable,maximumMineable);
+
+        satoniumAmount += satonium;
+        fueliumAmount += fuelium;
+        thrustiumAmount += thrustium;
+    }
+
+    void Mode1MaterialGain()
+    {
+        float satonium = Random.Range(minimumMineable, maximumMineable);
+        
+        satoniumAmount += satonium;
+    }
+
+    void Mode2MaterialGain()
+    {
+        float fuelium = Random.Range(minimumMineable, maximumMineable);
+
+        fueliumAmount += fuelium;
     }
 
     void ChargeBattery()
@@ -113,6 +188,13 @@ public class DroneManager : MonoBehaviour
 
     void DepleteBattery()
     {
-        battery -= batteryDepletionRate;
+        if (battery == 0)
+        {
+            Returning();
+        }
+        else
+        {
+            battery -= batteryDepletionRate;
+        }
     }
 }

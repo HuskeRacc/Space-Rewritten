@@ -4,7 +4,7 @@ using UnityEngine;
 public class DoorScript : Interactable
 {
     private bool isOpen = false;
-    [SerializeField] bool canBeInteractedWith = true;
+    [SerializeField] bool openable = true;
     private Animator anim;
     private AudioSource doorAudioSource;
     private GameObject parentDoor;
@@ -27,7 +27,7 @@ public class DoorScript : Interactable
 
     public override void OnInteract()
     {
-        if(canBeInteractedWith)
+        if(openable)
         {
             isOpen = !isOpen;
             anim.SetBool("isOpen", isOpen);
@@ -42,6 +42,10 @@ public class DoorScript : Interactable
 
                 CloseDoorAudio();
             }
+        }
+        else
+        {
+            StartCoroutine(PlayerStatus.instance.TextPopup("Locked!", 2, false));
         }
     }
 

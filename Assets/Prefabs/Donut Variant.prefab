@@ -186,5 +186,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5843e442174a92942a86e75ab647be47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodItems: {fileID: 11400000, guid: 8003a9c9732f0524da172b61e2e181f4, type: 2}
+  items: {fileID: 11400000, guid: 8003a9c9732f0524da172b61e2e181f4, type: 2}
   amountLeft: 100

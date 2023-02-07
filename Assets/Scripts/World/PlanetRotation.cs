@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class PlanetRotation : MonoBehaviour
 {
-    [SerializeField] float rotSpeed = .1f;
+    public float rotSpeed = .1f;
+    public static PlanetRotation Instance;
+
+    private void Awake()
+    {
+        Instance = this;  
+    }
 
     private void Update()
     {

@@ -17,6 +17,8 @@ TagManager:
   - Door
   - Footsteps/metal
   - Lights
+  - backupLights
+  - fuelCan
   layers:
   - Default
   - TransparentFX

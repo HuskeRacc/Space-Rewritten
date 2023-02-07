@@ -3,7 +3,6 @@ using UnityEngine;
 public class ShopMenu : MonoBehaviour
 {
     [SerializeField] PlayerMovement player;
-    [SerializeField] PlayerCurrency playerCurrency;
     [SerializeField] PlayerStatus status;
     [SerializeField] ShipSystems ship;
 
@@ -18,40 +17,53 @@ public class ShopMenu : MonoBehaviour
 
     public void OnClick_BuyFuel()
     {
-        if (playerCurrency.currency >= ShopPrices.instance.fuelPrice)
+        if (ShipMaterialBank.instance.fueliumBanked >= ShopPrices.instance.fuelPrice)
         {
-            ship.fuel += 75f;
-            playerCurrency.currency -= ShopPrices.instance.fuelPrice;
+            ShipMaterialBank.instance.fueliumBanked -= ShopPrices.instance.fuelPrice;
+            ItemSpawner.instance.SpawnSmallItem(3);
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough Money!", 2));
+            StartCoroutine(status.TextPopup("Not Enough fuelium!", 2, false));
         }
     }
 
     public void OnClick_BuyMRE()
     {
-        if(playerCurrency.currency >= ShopPrices.instance.mrePrice)
+        if(ShipMaterialBank.instance.satoniumBanked >= ShopPrices.instance.mrePrice)
         {
-            playerCurrency.currency -= ShopPrices.instance.mrePrice;
+            ShipMaterialBank.instance.satoniumBanked -= ShopPrices.instance.mrePrice;
             ItemSpawner.instance.SpawnSmallItem(0);
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough Money!", 2));
+            StartCoroutine(status.TextPopup("Not Enough satonium!", 2, false));
         }
     }
 
     public void OnClick_BuyDonut()
     {
-        if (playerCurrency.currency >= ShopPrices.instance.donutPrice)
+        if (ShipMaterialBank.instance.satoniumBanked >= ShopPrices.instance.donutPrice)
         {
-            playerCurrency.currency -= ShopPrices.instance.donutPrice;
+            ShipMaterialBank.instance.satoniumBanked -= ShopPrices.instance.donutPrice;
             ItemSpawner.instance.SpawnSmallItem(1);
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough Money!", 2));
+            StartCoroutine(status.TextPopup("Not Enough satonium!", 2, false));
+        }
+    }
+
+    public void OnClick_BuyBattery()
+    {
+        if (ShipMaterialBank.instance.fueliumBanked >= ShopPrices.instance.batteryPrice)
+        {
+            ShipMaterialBank.instance.fueliumBanked -= ShopPrices.instance.batteryPrice;
+            ItemSpawner.instance.SpawnSmallItem(2);
+        }
+        else
+        {
+            StartCoroutine(status.TextPopup("Not Enough fuelium!", 2, false));
         }
     }
 

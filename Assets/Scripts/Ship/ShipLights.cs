@@ -5,6 +5,7 @@ public class ShipLights : MonoBehaviour
     [SerializeField] PowerGenerator power;
 
     [SerializeField] GameObject[] lights;
+    [SerializeField] GameObject[] backupLights;
 
     private void Start()
     {
@@ -24,12 +25,21 @@ public class ShipLights : MonoBehaviour
             {
                 lights[i].SetActive(false);
             }
+            for (int i = 0; i < backupLights.Length; i++)
+            {
+                backupLights[i].SetActive(true);
+            }
+
         }
         else
         {
             for (int i = 0; i < lights.Length; i++)
             {
                 lights[i].SetActive(true);
+            }
+            for (int i = 0; i < backupLights.Length; i++)
+            {
+                backupLights[i].SetActive(false);
             }
         }
     }

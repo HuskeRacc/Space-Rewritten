@@ -5,19 +5,34 @@ using UnityEngine;
 
 public class ShopScreen : MonoBehaviour
 {
-    [SerializeField] PlayerCurrency playerCurrency;
-    [SerializeField] TextMeshProUGUI currencyValue;
-
     [SerializeField] TextMeshProUGUI fuelPriceTXT;
 
     [SerializeField] TextMeshProUGUI mrePriceTXT;
     [SerializeField] TextMeshProUGUI donutPriceTXT;
+    [SerializeField] TextMeshProUGUI batteryPriceTXT;
+
+    [SerializeField] TextMeshProUGUI satoniumBankedValue;
+    [SerializeField] TextMeshProUGUI thrustiumBankedValue;
+    [SerializeField] TextMeshProUGUI fueliumBankedValue;
 
     private void Update()
     {
-        currencyValue.text = "$" + playerCurrency.currency.ToString("F1");
-        fuelPriceTXT.text = ShopPrices.instance.fuelPrice.ToString("F2");
-        mrePriceTXT.text = ShopPrices.instance.mrePrice.ToString("F2");
-        mrePriceTXT.text = ShopPrices.instance.donutPrice.ToString("F2");
+        DisplayPrices();
+        DisplayBankedValues();
+    }
+
+    void DisplayPrices()
+    {
+        fuelPriceTXT.text = "$Fuelium " + ShopPrices.instance.fuelPrice.ToString("F2");
+        mrePriceTXT.text = "$Satonium " + ShopPrices.instance.mrePrice.ToString("F2");
+        donutPriceTXT.text = "$Satonium " + ShopPrices.instance.donutPrice.ToString("F2");
+        batteryPriceTXT.text = "$Fuelium " + ShopPrices.instance.batteryPrice.ToString("F2");
+    }
+
+    void DisplayBankedValues()
+    {
+        satoniumBankedValue.text = ShipMaterialBank.instance.satoniumBanked.ToString("F2");
+        thrustiumBankedValue.text = ShipMaterialBank.instance.thrustiumBanked.ToString("F2");
+        fueliumBankedValue.text = ShipMaterialBank.instance.fueliumBanked.ToString("F2");
     }
 }

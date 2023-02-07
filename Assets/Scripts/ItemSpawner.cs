@@ -7,7 +7,7 @@ public class ItemSpawner : MonoBehaviour
     public static ItemSpawner instance;
 
     [SerializeField] Transform[] smallSpawnPoints;
-    [SerializeField] GameObject[] foodItems;
+    [SerializeField] GameObject[] itemsToSpawn;
 
     private void Awake()
     {
@@ -16,6 +16,6 @@ public class ItemSpawner : MonoBehaviour
 
     public void SpawnSmallItem(int itemToSpawn)
     {
-        Instantiate(foodItems[itemToSpawn], smallSpawnPoints[Random.Range(0,smallSpawnPoints.Length)].position, Quaternion.identity);
+        Instantiate(itemsToSpawn[itemToSpawn], smallSpawnPoints[Random.Range(0,smallSpawnPoints.Length)].position, Quaternion.identity);
     }
 }

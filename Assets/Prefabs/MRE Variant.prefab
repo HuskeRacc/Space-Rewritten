@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
       propertyPath: m_RootOrder
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
@@ -46,27 +46,27 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.0000000028767597
+      value: 0.000000017995667
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000022572952
+      value: 0.000000013927301
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.70710665
+      value: 0.00000065565104
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.707107
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5d0a2b05bd6bb845b15b9a552132b37,
         type: 3}
@@ -177,5 +177,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5843e442174a92942a86e75ab647be47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodItems: {fileID: 11400000, guid: 28baf7c43af200a44abf5a8d315beb4e, type: 2}
+  items: {fileID: 11400000, guid: 28baf7c43af200a44abf5a8d315beb4e, type: 2}
   amountLeft: 100

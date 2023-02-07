@@ -4,12 +4,14 @@ using UnityEngine;
 public class ShopPrices : MonoBehaviour
 {
     [Header("RNG Variables")]
-    [SerializeField] float fuelRNGLow = 300;
-    [SerializeField] float fuelRNGHi = 1500;
-    [SerializeField] float mreRNGLow = 400;
-    [SerializeField] float mreRNGHi = 800;
-    [SerializeField] float donutRNGLow = 200;
-    [SerializeField] float donutRNGHi = 400;
+    [SerializeField] float fuelRNGLow = 100;
+    [SerializeField] float fuelRNGHi = 300;
+    [SerializeField] float mreRNGLow = 50;
+    [SerializeField] float mreRNGHi = 250;
+    [SerializeField] float donutRNGLow = 25;
+    [SerializeField] float donutRNGHi = 200;
+    [SerializeField] float batteryRNGHi = 10;
+    [SerializeField] float batteryRNGLow = 25;
 
     [Header("Current Prices")]
     public float fuelPrice;
@@ -17,7 +19,8 @@ public class ShopPrices : MonoBehaviour
 
     public float mrePrice;
     public float donutPrice;
-
+    public float batteryPrice;
+    
     public static ShopPrices instance;
 
     private void Awake()
@@ -38,5 +41,6 @@ public class ShopPrices : MonoBehaviour
         fuelPrice = Random.Range(fuelRNGLow, fuelRNGHi);
         mrePrice = Random.Range(mreRNGLow, mreRNGHi);
         donutPrice = Random.Range(donutRNGLow, donutRNGHi);
+        batteryPrice = Random.Range(batteryRNGLow, batteryRNGHi);
     }
 }

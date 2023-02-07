@@ -5,16 +5,27 @@ using UnityEngine.UIElements;
 
 public class StarOrbit : MonoBehaviour
 {
+    public static StarOrbit instance;
+
     [SerializeField] float xSpread;
     [SerializeField] float zSpread;
     [SerializeField] float yOffset;
     [SerializeField] Transform centerPoint;
     [SerializeField] Transform sunLight;
 
-    [SerializeField] float orbitSpeed;
+    public float orbitSpeed;
+    public float savedOrbitSpeed;
+    public float sleepingOrbitSpeed;
     [SerializeField] bool orbitClockwise;
 
     float timer = 0;
+
+    private void Awake()
+    {
+        savedOrbitSpeed = orbitSpeed;
+        sleepingOrbitSpeed = orbitSpeed * 2;
+        instance = this;
+    }
 
     private void Update()
     {

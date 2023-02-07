@@ -8,13 +8,20 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] PlayerNeeds player;
     [SerializeField] ShipSystems ship;
     [SerializeField] TextMeshProUGUI statusText;
-    [SerializeField] float popupCooldown = 10f;
+    [SerializeField] float popupCooldown = 1f;
     [SerializeField] bool hasDisplayedRecently = false;
 
     [SerializeField] string hardToBreatheText = "It's getting harder to breathe.";
     [SerializeField] string cantBreatheText = "I can't breathe!";
 
     [SerializeField] float lowShipOxygenThreshold = 20f;
+
+    public static PlayerStatus instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -31,11 +38,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if(ship.shipOxygen < lowShipOxygenThreshold)
         {
-            StartCoroutine(TextPopup(hardToBreatheText, 5));
+            StartCoroutine(TextPopup(hardToBreatheText, 5, true));
         } 
         else if(player.oxygen <= 0)
         {
-            StartCoroutine(TextPopup(cantBreatheText, 5));
+            StartCoroutine(TextPopup(cantBreatheText, 5, true));
         }
         else 
         { 
@@ -43,7 +50,7 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
-    public IEnumerator TextPopup(string text, int timeDisplayed)
+    public IEnumerator TextPopup(string text, int timeDisplayed, bool cooldownRequired)
     {
         statusText.text = text;
         statusText.gameObject.SetActive(true);
@@ -52,6 +59,7 @@ public class PlayerStatus : MonoBehaviour
 
         statusText.gameObject.SetActive(false);
 
+        if(cooldownRequired)
         StartCoroutine(PopupCooldown());
     }
 

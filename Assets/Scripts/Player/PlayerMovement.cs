@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -139,6 +140,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool flashlightOn = false;
     [SerializeField] AudioSource flashlightToggleSFX = default;
     [SerializeField] AudioClip[] flashlightSounds = default;
+    public float flashlightBattery = 100f;
+    [SerializeField] TextMeshProUGUI flashlightBatteryValueText;
+    [SerializeField] float flashlightDepletionCooldownTimer = 0.1f;
 
     [Header("PauseMenu")]
     [SerializeField] GameObject pauseMenu;
@@ -271,22 +275,47 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleFlashlight()
     {
+        if (flashlightBattery >= 100)
+            flashlightBattery = 100;
+
+        if (flashlightBattery <= 0)
+            flashlightBattery = 0;
+
+        flashlightBatteryValueText.text = flashlightBattery.ToString();
+
         if (Input.GetKeyDown(flashlightKey))
         {
-            flashlightToggleSFX.PlayOneShot(flashlightSounds[0]);
-            flashlightOn = !flashlightOn;
+            if(flashlightBattery > 0 && flashlightOn == false)
+            {
+                FlashlightOn();
+                flashlightOn = true;
+            }
+            else
+            {
+                FlashlightOff();
+                flashlightOn = false;
+            }
         }
+    }
 
-        if (flashlightOn)
-        {
-            flashlight.SetActive(true);
-        }
+    void FlashlightOn()
+    {
+        flashlight.SetActive(true);
+        InvokeRepeating(nameof(HandleBatteryDepletion), 0, flashlightDepletionCooldownTimer);
+        flashlightToggleSFX.PlayOneShot(flashlightSounds[0]);
+    }
 
-        if (!flashlightOn)
-        {
-            flashlight.SetActive(false);
-        }
+    void FlashlightOff()
+    {
+        flashlight.SetActive(false);
+        CancelInvoke(nameof(HandleBatteryDepletion));
+        flashlightToggleSFX.PlayOneShot(flashlightSounds[0]);
+        flashlight.SetActive(false);
+    }
 
+    void HandleBatteryDepletion()
+    {
+        flashlightBattery--;
     }
 
     void HandleZoom()

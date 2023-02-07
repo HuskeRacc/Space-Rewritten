@@ -486,7 +486,6 @@ GameObject:
   - component: {fileID: 5497716960662369271}
   - component: {fileID: 5497716960662369270}
   - component: {fileID: 5497716960662359049}
-  - component: {fileID: 5497716960662359048}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -508,7 +507,7 @@ Transform:
   m_Children:
   - {fileID: 4140573086969774461}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &9045036143258285773
 MeshFilter:
@@ -556,23 +555,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d819d5a2ab1a84eb87b019286df21b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanMove: 1
+  canMove: 1
   isPaused: 0
   canSprint: 1
   canJump: 1
   canCrouch: 1
   canUseHeadbob: 1
   canInteract: 1
+  canPickup: 1
   useStamina: 1
   canPause: 1
   canUseFlashlight: 1
   useFootSteps: 1
   canZoom: 1
+  crosshairEnabled: 1
   sprintKey: 304
   jumpKey: 32
   pauseKey: 27
   crouchKey: 306
   interactKey: 323
+  pickupKey: 324
   flashlightKey: 102
   zoomKey: 324
   walkSpeed: 6
@@ -628,8 +630,16 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 512
+  holdArea: {fileID: 0}
+  heldObj: {fileID: 0}
+  pickupForce: 150
   flashlight: {fileID: 4140573085805575457}
   flashlightOn: 0
+  flashlightToggleSFX: {fileID: 0}
+  flashlightSounds: []
+  flashlightBattery: 100
+  flashlightBatteryValueText: {fileID: 0}
+  flashlightDepletionCooldownTimer: 0.1
   pauseMenu: {fileID: 0}
 --- !u!82 &5497716960662369270
 AudioSource:
@@ -748,16 +758,15 @@ MonoBehaviour:
   alreadyDamaged: 0
   suffocationDamage: 10
   damageCooldown: 5
---- !u!114 &5497716960662359048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9045036143258285811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e29f2a7f92a26f042bd63699e26828af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currency: 1000
+  oxygenValueText: {fileID: 0}
+  hunger: 100
+  hungerTickTime: 3
+  hungerDecreaseRate: 0.01
+  savedHungerDecreaseRate: 0
+  hungerValue: {fileID: 0}
+  fatigue: 100
+  fatigueTickTime: 5
+  fatigueDecreaseRate: 0.01
+  savedFatigueDecreaseRate: 0
+  fatigueGainRate: 0.01
+  fatigueValue: {fileID: 0}

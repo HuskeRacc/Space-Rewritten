@@ -98,7 +98,7 @@ public class PowerGenerator : Interactable
         }
         else
         {
-            StartCoroutine(status.TextPopup("No Fuel.", 5));
+            StartCoroutine(status.TextPopup("No Fuel.", 5, false));
         }
     }
 
@@ -111,6 +111,16 @@ public class PowerGenerator : Interactable
         if (powerGeneratorAvailable)
         {
             powerGeneratorActive = !powerGeneratorActive;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("fuelCan"))
+        {
+            Debug.Log("Generator Refueled!");
+            Destroy(other.gameObject);
+            ship.fuel += 75f;
         }
     }
 

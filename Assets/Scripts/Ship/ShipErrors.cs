@@ -12,16 +12,18 @@ public class ShipErrors : MonoBehaviour
     [SerializeField] float RNGCooldown = 3;
     [SerializeField] float RNGPowerTarget = 5;
     [SerializeField] float RNGOxygenTarget = 2;
-    [SerializeField] float RNGResult;
+    [SerializeField] int RNGResult;
     [SerializeField] float RNGStartupWait = 10f;
 
     [SerializeField] float minRNGResult = 1;
     [SerializeField] float maxRNGResult = 12;
+    [SerializeField] int failedRNGChecks = 0;
 
     private void Start()
     {
         StartCoroutine(StopRNG());
         StartCoroutine(RNGSystem());
+        RNGFailCheck();
     }
 
     private void Update()
@@ -49,6 +51,16 @@ public class ShipErrors : MonoBehaviour
         }
     }
 
+    void RNGFailCheck()
+    {
+        if (RNGResult != RNGOxygenTarget && RNGResult != RNGPowerTarget && canError && RNGResult != 0)
+        {
+            Debug.Log("Error RNG check does not equal targets.");
+            failedRNGChecks++;
+            RNGResult = 0;
+        }
+    }
+
     void PowerError()
     {
         power.powerGeneratorActive = false;
@@ -69,7 +81,7 @@ public class ShipErrors : MonoBehaviour
     {
         if (canError)
         {
-            RNGResult = Random.Range(minRNGResult, maxRNGResult);
+            RNGResult = (int)Random.Range(minRNGResult, maxRNGResult);
         }
             yield return new WaitForSeconds(RNGCooldown);
             StartCoroutine(RNGSystem());
