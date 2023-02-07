@@ -26,5 +26,3 @@ The player must manage (3) needs:
 Hunger is amended by crafting food via Satonium.
 Fatigue is amended by sleeping.
 Oxygen is amended by keeping the oxygen generator running.
-
-
