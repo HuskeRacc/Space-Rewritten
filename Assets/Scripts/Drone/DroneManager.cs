@@ -44,6 +44,10 @@ public class DroneManager : MonoBehaviour
     [Header("Mined Value")]
     public float minimumMineable = 0.1f;
     public float maximumMineable = 1.0f;
+    public float mode1MinMineable = 1.0f;
+    public float mode1MaxMineable = 1.0f;
+    public float mode2MinMineable = 1.0f;
+    public float mode2MaxMineable = 1.0f;
 
     public float thrustiumMinimumMineable = 0.01f;
     public float thrustiumMaximumMineable = 0.02f;
@@ -169,14 +173,14 @@ public class DroneManager : MonoBehaviour
 
     void Mode1MaterialGain()
     {
-        float satonium = Random.Range(minimumMineable, maximumMineable);
+        float satonium = Random.Range(mode1MinMineable, mode1MaxMineable);
         
         satoniumAmount += satonium;
     }
 
     void Mode2MaterialGain()
     {
-        float fuelium = Random.Range(minimumMineable, maximumMineable);
+        float fuelium = Random.Range(mode2MinMineable, mode2MaxMineable);
 
         fueliumAmount += fuelium;
     }
