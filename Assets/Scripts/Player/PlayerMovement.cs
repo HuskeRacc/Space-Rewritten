@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool canInteract = true;
     [SerializeField] bool canPickup = true;
     [SerializeField] bool useStamina = true;
-    [SerializeField] bool canPause = true;
+    public bool canPause = true;
     [SerializeField] bool canUseFlashlight = true;
     [SerializeField] bool useFootSteps = true;
     [SerializeField] bool canZoom = true;

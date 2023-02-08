@@ -20,6 +20,9 @@ public class ShopPrices : MonoBehaviour
     public float mrePrice;
     public float donutPrice;
     public float batteryPrice;
+
+    [Header("Upgrades")]
+    public float[] upgradePrices;
     
     public static ShopPrices instance;
 

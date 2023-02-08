@@ -22,6 +22,7 @@ public class SleepScript : Interactable
         {
             if (!isSleeping)
             {
+                PlayerMovement.instance.canPause = false;
                 sleepingPanel.SetActive(true);
                 PlayerNeeds.instance.InvokeSleep();
                 isSleeping = true;
@@ -46,13 +47,26 @@ public class SleepScript : Interactable
     {
         if(PlayerNeeds.instance.fatigue >= 100 && isSleeping)
         {
+
             sleepingPanel.SetActive(false);
             PlayerNeeds.instance.InvokeSleepBreak();
             sleepCamera.depth = 0;
             DynamicCrosshair.instance.SmoothCrosshairEnable();
             Time.timeScale = 1.0f;
-
             isSleeping = false;
+            PlayerMovement.instance.canPause = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape) && isSleeping)
+        {
+
+            sleepingPanel.SetActive(false);
+            PlayerNeeds.instance.InvokeSleepBreak();
+            sleepCamera.depth = 0;
+            DynamicCrosshair.instance.SmoothCrosshairEnable();
+            Time.timeScale = 1.0f;
+            isSleeping = false;
+            PlayerMovement.instance.canPause = true;
         }
     }
 }

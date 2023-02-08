@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PowerGenerator : Interactable
 {
+
     public bool powerGeneratorActive;
     public bool powerGeneratorAvailable;
 
@@ -13,7 +14,7 @@ public class PowerGenerator : Interactable
     [SerializeField] ShipSystems ship;
     [SerializeField] PlayerStatus status;
 
-    [SerializeField] float fuelConsumptionRate = 1f;
+    public float fuelConsumptionRate = 2f;
     [SerializeField] float fuelConsumptionTickRate = 5f;
 
     [Header("Displays")]

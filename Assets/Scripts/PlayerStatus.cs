@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
+    public static PlayerStatus instance;
+
     [SerializeField] PlayerNeeds player;
     [SerializeField] ShipSystems ship;
     [SerializeField] TextMeshProUGUI statusText;
@@ -15,8 +17,6 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] string cantBreatheText = "I can't breathe!";
 
     [SerializeField] float lowShipOxygenThreshold = 20f;
-
-    public static PlayerStatus instance;
 
     private void Awake()
     {

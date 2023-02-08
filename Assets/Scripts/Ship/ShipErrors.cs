@@ -63,6 +63,7 @@ public class ShipErrors : MonoBehaviour
 
     void PowerError()
     {
+        ErrorNotificationSystem.instance.GeneratorError();
         power.powerGeneratorActive = false;
         power.powerGeneratorAvailable = true;
         StartCoroutine(ErrorCooldown(240));
@@ -71,6 +72,7 @@ public class ShipErrors : MonoBehaviour
 
     void OxygenError()
     {
+        ErrorNotificationSystem.instance.OxygenError();
         oxygen.o2GeneratorActive = false;
         StartCoroutine(ErrorCooldown(120));
         Debug.Log("Oxygen Error Triggered");

@@ -32,8 +32,10 @@ public class DroneManager : MonoBehaviour
     public int MinimumMaterialGainTime = 3;
     public int MaximumMaterialGainTime = 15;
 
+    public int maxBatteryCharge = 100;
+
     [Header("Battery Depletion")]
-    [SerializeField] float batteryDepletionRate = 2f;
+    public float batteryDepletionRate = 4f;
     public int minimumBatteryDepletionTime = 1;
     public int maximumBatteryDepletionTime = 3;
 
@@ -59,8 +61,8 @@ public class DroneManager : MonoBehaviour
 
     private void Update()
     {
-        if (battery >= 100)
-            battery = 100;
+        if (battery >= maxBatteryCharge)
+            battery = maxBatteryCharge;
         if (battery <= 0)
             battery = 0;
     }

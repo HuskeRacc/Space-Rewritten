@@ -6,6 +6,8 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] PlayerStatus status;
     [SerializeField] ShipSystems ship;
 
+    [SerializeField] GameObject upgradesMenu;
+
 
     public void OnClick_Back()
     {
@@ -13,6 +15,12 @@ public class ShopMenu : MonoBehaviour
         player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public void OnClick_UpgradesMenu()
+    {
+        upgradesMenu.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 
     public void OnClick_BuyFuel()
@@ -66,5 +74,6 @@ public class ShopMenu : MonoBehaviour
             StartCoroutine(status.TextPopup("Not Enough fuelium!", 2, false));
         }
     }
+
 
 }
