@@ -11,6 +11,8 @@ public class SleepScript : Interactable
 
     [SerializeField] Camera sleepCamera;
 
+    [SerializeField] GameObject crosshair;
+
     public override void OnFocus()
     {
         
@@ -28,7 +30,7 @@ public class SleepScript : Interactable
                 isSleeping = true;
                 sleepCamera.depth = 2;
                 Time.timeScale = 24.0f;
-                DynamicCrosshair.instance.SmoothCrosshairDisable();
+                crosshair.SetActive(false);
             }
         }
         else
@@ -51,19 +53,18 @@ public class SleepScript : Interactable
             sleepingPanel.SetActive(false);
             PlayerNeeds.instance.InvokeSleepBreak();
             sleepCamera.depth = 0;
-            DynamicCrosshair.instance.SmoothCrosshairEnable();
+            crosshair.SetActive(true);
             Time.timeScale = 1.0f;
             isSleeping = false;
             PlayerMovement.instance.canPause = true;
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape) && isSleeping)
+        if(Input.GetKeyDown(KeyCode.Q) && isSleeping)
         {
-
             sleepingPanel.SetActive(false);
             PlayerNeeds.instance.InvokeSleepBreak();
             sleepCamera.depth = 0;
-            DynamicCrosshair.instance.SmoothCrosshairEnable();
+            crosshair.SetActive(true);
             Time.timeScale = 1.0f;
             isSleeping = false;
             PlayerMovement.instance.canPause = true;

@@ -63,6 +63,7 @@ public class DoorScript : Interactable
             {
                 isOpen = false;
                 anim.SetBool("isOpen", isOpen);
+                CloseDoorAudio();
             }
         }
     }
