@@ -4,61 +4,59 @@ using UnityEngine;
 
 public class ShipErrors : MonoBehaviour
 {
-    [SerializeField] PowerGenerator power;
+    [Header("Assignables")]
     [SerializeField] OxygenGenerator oxygen;
+    [SerializeField] PowerGenerator power;
 
+    [Header("General")]
     [SerializeField] bool canError = false;
 
+    [Header("RNG Targets")]
     [SerializeField] float RNGCooldown = 3;
-    [SerializeField] float RNGPowerTarget = 5;
-    [SerializeField] float RNGOxygenTarget = 2;
-    [SerializeField] int RNGResult;
-    [SerializeField] float RNGStartupWait = 10f;
 
-    [SerializeField] float minRNGResult = 1;
-    [SerializeField] float maxRNGResult = 12;
+    [SerializeField] int[] targetsForRNG;
+
+    [Header("RNG Variables")]
+    [SerializeField] int RNGStartupWait = 10;
+    [SerializeField] int RNGResult;
+    [SerializeField] int minRNGResult = 1;
+    [SerializeField] int maxRNGResult = 12;
     [SerializeField] int failedRNGChecks = 0;
 
     private void Start()
     {
         StartCoroutine(StopRNG());
         StartCoroutine(RNGSystem());
-        RNGFailCheck();
     }
 
     private void Update()
     {
         if (canError)
         {
-            PowerErrorCheck();
-            OxygenErrorCheck();
+            ErrorCheck();
         }
     }
 
-    void PowerErrorCheck()
+    void ErrorCheck()
     {
-        if (RNGResult == RNGPowerTarget)
+        if (RNGResult == targetsForRNG[0])
         {
             PowerError();
         }
-    }
+        else return;
 
-    void OxygenErrorCheck()
-    {
-        if (RNGResult == RNGOxygenTarget && canError)
+        if (RNGResult == targetsForRNG[1])
         {
             OxygenError();
         }
-    }
+        else return;
 
-    void RNGFailCheck()
-    {
-        if (RNGResult != RNGOxygenTarget && RNGResult != RNGPowerTarget && canError && RNGResult != 0)
+        if(RNGResult == targetsForRNG[2])
         {
-            Debug.Log("Error RNG check does not equal targets.");
-            failedRNGChecks++;
-            RNGResult = 0;
+            SolarError();   
         }
+
+        RNGResult = 0;
     }
 
     void PowerError()
@@ -78,12 +76,20 @@ public class ShipErrors : MonoBehaviour
         Debug.Log("Oxygen Error Triggered");
     }
 
+    void SolarError()
+    {
+        ErrorNotificationSystem.instance.SolarError();
+        ShipSystems.instance.solarsActive = false;
+        StartCoroutine(ErrorCooldown(120));
+        Debug.Log("Solars Error Triggered");
+    }
+
 
     IEnumerator RNGSystem()
     {
         if (canError)
         {
-            RNGResult = (int)Random.Range(minRNGResult, maxRNGResult);
+            RNGResult = Random.Range(minRNGResult, maxRNGResult);
         }
             yield return new WaitForSeconds(RNGCooldown);
             StartCoroutine(RNGSystem());

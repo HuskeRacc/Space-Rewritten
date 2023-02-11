@@ -19,6 +19,7 @@ TagManager:
   - Lights
   - backupLights
   - fuelCan
+  - eva
   layers:
   - Default
   - TransparentFX

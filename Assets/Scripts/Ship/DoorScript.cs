@@ -11,6 +11,7 @@ public class DoorScript : Interactable
     [SerializeField] AudioClip open;
     [SerializeField] AudioClip close;
     bool interactedWith = false;
+    [SerializeField] bool isAirlock = false;
 
     private void Start()
     {
@@ -45,7 +46,14 @@ public class DoorScript : Interactable
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Locked!", 2, false));
+            if (isAirlock)
+            {
+                StartCoroutine(PlayerStatus.instance.TextPopup("It's not safe!", 2, false));
+            }
+            else
+            {
+                StartCoroutine(PlayerStatus.instance.TextPopup("Locked!", 2, false));
+            }
         }
     }
 

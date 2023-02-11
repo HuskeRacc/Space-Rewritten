@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Functional Options")]
     [SerializeField] bool canSprint = true;
+    [SerializeField] bool hasGravity = true;
     [SerializeField] bool canJump = true;
     [SerializeField] bool canCrouch = true;
     [SerializeField] bool canUseHeadbob = true;
@@ -80,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Jump Params")]
     [SerializeField] float jumpForce = 8.0f;
-    [SerializeField] private float gravity = 30.0f;
+    public float gravity = 30.0f;
 
     [Header("Crouch Params")]
     [SerializeField] float crouchHeight = 1.35f;
@@ -183,26 +184,30 @@ public class PlayerMovement : MonoBehaviour
 
         if (canMove)
         {
-            HandleMovementInput();
+            if(hasGravity)
+            {
+                HandleMovementInput();
+
+                if (canJump)
+                    HandleJump();
+
+                if (canUseHeadbob)
+                    HandleHeadBob();
+
+                if (useFootSteps)
+                    HandleFootsteps();
+            }
+
             HandleMouseLook();
 
             if (canUseFlashlight)
                 HandleFlashlight();
 
-            if (canJump)
-                HandleJump();
-
             if (canCrouch)
                 HandleCrouch();
 
-            if (canUseHeadbob)
-                HandleHeadBob();
-
             if (canZoom)
                 HandleZoom();
-
-            if (useFootSteps)
-                HandleFootsteps();
 
             if(canInteract)
             {

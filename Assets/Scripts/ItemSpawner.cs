@@ -9,6 +9,14 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] Transform[] smallSpawnPoints;
     [SerializeField] GameObject[] itemsToSpawn;
 
+    public float craftingTime = 10f;
+
+    [SerializeField] AudioSource craftingAudioSource;
+    [SerializeField] AudioClip craftingAudioClip;
+    [SerializeField] AudioClip craftingCompleteAudioClip;
+
+    int localItemToSpawn;
+
     private void Awake()
     {
         instance = this;
@@ -16,6 +24,14 @@ public class ItemSpawner : MonoBehaviour
 
     public void SpawnSmallItem(int itemToSpawn)
     {
-        Instantiate(itemsToSpawn[itemToSpawn], smallSpawnPoints[Random.Range(0,smallSpawnPoints.Length)].position, Quaternion.identity);
+        localItemToSpawn = itemToSpawn;
+        craftingAudioSource.PlayOneShot(craftingAudioClip);
+        Invoke(nameof(SpawnSmallItemDelay), craftingTime);
+    }
+
+    void SpawnSmallItemDelay()
+    {
+        craftingAudioSource.PlayOneShot(craftingCompleteAudioClip);
+        Instantiate(itemsToSpawn[localItemToSpawn], smallSpawnPoints[Random.Range(0, smallSpawnPoints.Length)].position, Quaternion.identity);
     }
 }

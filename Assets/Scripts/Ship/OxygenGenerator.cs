@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class OxygenGenerator : Interactable
 {
+
     public bool o2GeneratorActive;
     public bool o2GeneratorAvailable;
 

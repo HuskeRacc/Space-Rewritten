@@ -33,6 +33,11 @@ public class HelmMenu : MonoBehaviour
         {
             droneManager.Returning();
         }
+
+        if (droneManager.status == 4)
+        {
+            droneManager.Returning();
+        }
     }
 
     public void OnClick_ResetMode0()

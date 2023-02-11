@@ -20,11 +20,6 @@ public class PowerGenerator : Interactable
     [Header("Displays")]
     [SerializeField] TextMeshProUGUI statusDisplayTXT;
 
-    private void Start()
-    {
-        StartCoroutine(ConsumeFuel());
-    }
-
     private void Update()
     {
         FuelCheck();

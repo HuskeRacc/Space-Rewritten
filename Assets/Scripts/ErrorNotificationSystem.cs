@@ -12,6 +12,7 @@ public class ErrorNotificationSystem : MonoBehaviour
 
     public bool oxygenUpgradeBought = false;
     public bool generatorUpgradeBought = false;
+    public bool solarUpgradeBought = false;
 
     private void Awake()
     {
@@ -33,5 +34,11 @@ public class ErrorNotificationSystem : MonoBehaviour
     {
         if(generatorUpgradeBought)
         errorSoundSource.PlayOneShot(errorSounds[1]);
+    }
+
+    public void SolarError()
+    {
+        if (solarUpgradeBought)
+            errorSoundSource.PlayOneShot(errorSounds[2]);
     }
 }

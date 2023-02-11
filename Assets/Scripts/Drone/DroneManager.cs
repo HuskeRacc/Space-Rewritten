@@ -40,6 +40,7 @@ public class DroneManager : MonoBehaviour
     public int maximumBatteryDepletionTime = 3;
 
     [Header("Battery Charging")]
+    public float batteryChargeRate = 4f;
     public int minimumBatteryChargeTime = 3;
     public int maximumBatteryChargeTime = 6;
 
@@ -130,18 +131,6 @@ public class DroneManager : MonoBehaviour
 
     public void Returning()
     {
-        if(battery == 0)
-        {
-            droneStatus = "Out of Fuel, Returning.";
-            anim.SetBool("TakeOff", false);
-            anim.SetBool("Recall", true);
-            status = 3;
-            buttonStatus = "Please Wait...";
-            CancelInvoke();
-            Invoke(nameof(Idle), timeToTravel);
-        }
-        else
-        {
             droneStatus = "Returning";
             anim.SetBool("TakeOff", false);
             anim.SetBool("Recall", true);
@@ -149,7 +138,15 @@ public class DroneManager : MonoBehaviour
             buttonStatus = "Please Wait...";
             CancelInvoke();
             Invoke(nameof(Idle), timeToTravel);
-        }
+    }
+
+    public void WaitingForReturn()
+    {
+        Debug.Log("Drone out of battery");
+        droneStatus = "Out of Fuel.";
+        status = 4;
+        buttonStatus = "Return?";
+        CancelInvoke();
     }
 
     void BankMaterials()
@@ -189,7 +186,19 @@ public class DroneManager : MonoBehaviour
 
     void ChargeBattery()
     {
-        battery += batteryDepletionRate;
+        if(ShipSystems.instance.shipBattery > batteryChargeRate)
+        {
+            battery += batteryChargeRate;
+
+            if(battery < maxBatteryCharge)
+            {
+                ShipSystems.instance.shipBattery -= batteryChargeRate / 3;
+            }
+        }
+        else
+        {
+            return;
+        }
     }
 
     void DepleteBattery()

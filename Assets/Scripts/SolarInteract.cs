@@ -5,7 +5,6 @@ using UnityEngine;
 public class SolarInteract : Interactable
 {
     [SerializeField] GameObject solarMenu;
-    [SerializeField] PlayerMovement player;
 
     public override void OnFocus()
     {
@@ -15,7 +14,7 @@ public class SolarInteract : Interactable
     public override void OnInteract()
     {
         solarMenu.SetActive(true);
-        player.canMove = false;
+        PlayerMovement.instance.canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -25,11 +24,4 @@ public class SolarInteract : Interactable
         
     }
 
-    public void OnClick_CloseMenu()
-    {
-        solarMenu.SetActive(false);
-        player.canMove = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
 }
