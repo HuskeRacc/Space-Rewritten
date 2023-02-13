@@ -15,6 +15,14 @@ public class StatusScreen : MonoBehaviour
 
     //Add visual sliders?
 
+    public void OnClick_CloseMenu()
+    {
+        this.gameObject.SetActive(false);
+        PlayerMovement.instance.canMove = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     private void Update()
     {
         ApplyTextValues();

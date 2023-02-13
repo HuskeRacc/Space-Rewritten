@@ -23,6 +23,13 @@ public class ShopPrices : MonoBehaviour
 
     [Header("Upgrades")]
     public float[] upgradePrices;
+
+    [Header("Assignables")]
+    public bool hasVaried = false;
+    public float priceVaryRate = 300f;
+
+    [Header("Script checks every 5 seconds")]
+    public bool forcePriceVary = false;
     
     public static ShopPrices instance;
 
@@ -36,14 +43,33 @@ public class ShopPrices : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("PriceVaries", 0, 300f);
+        InvokeRepeating(nameof(PriceVaries), 0, priceVaryRate);
+        InvokeRepeating(nameof(ForcePriceVary), 5, 5);
+        StartCoroutine(PriceVariedCall());
+    }
+
+    void ForcePriceVary()
+    {
+        if(forcePriceVary == true)
+        {
+            PriceVaries();
+            forcePriceVary = false;
+        }
     }
 
     void PriceVaries()
     {
-        fuelPrice = Random.Range(fuelRNGLow, fuelRNGHi);
-        mrePrice = Random.Range(mreRNGLow, mreRNGHi);
-        donutPrice = Random.Range(donutRNGLow, donutRNGHi);
-        batteryPrice = Random.Range(batteryRNGLow, batteryRNGHi);
+        fuelPrice = Mathf.Ceil(Random.Range(fuelRNGLow, fuelRNGHi));
+        mrePrice = Mathf.Ceil(Random.Range(mreRNGLow, mreRNGHi));
+        donutPrice = Mathf.Ceil(Random.Range(donutRNGLow, donutRNGHi));
+        batteryPrice = Mathf.Ceil(Random.Range(batteryRNGLow, batteryRNGHi));
+        StartCoroutine(PriceVariedCall());
+    }
+
+    IEnumerator PriceVariedCall()
+    {
+        hasVaried = true;
+        yield return new WaitForSeconds(1);
+        hasVaried = false;
     }
 }

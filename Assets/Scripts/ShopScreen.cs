@@ -21,12 +21,13 @@ public class ShopScreen : MonoBehaviour
         DisplayBankedValues();
     }
 
-    void DisplayPrices()
+
+     void DisplayPrices()
     {
-        fuelPriceTXT.text = "$Fuelium " + ShopPrices.instance.fuelPrice.ToString("F2");
-        mrePriceTXT.text = "$Satonium " + ShopPrices.instance.mrePrice.ToString("F2");
-        donutPriceTXT.text = "$Satonium " + ShopPrices.instance.donutPrice.ToString("F2");
-        batteryPriceTXT.text = "$Fuelium " + ShopPrices.instance.batteryPrice.ToString("F2");
+        fuelPriceTXT.text = "$Fuelium " + ShopPrices.instance.fuelPrice.ToString("F1");
+        mrePriceTXT.text = "$Satonium " + ShopPrices.instance.mrePrice.ToString("F1");
+        donutPriceTXT.text = "$Satonium " + ShopPrices.instance.donutPrice.ToString("F1");
+        batteryPriceTXT.text = "$Fuelium " + ShopPrices.instance.batteryPrice.ToString("F1");
     }
 
     void DisplayBankedValues()

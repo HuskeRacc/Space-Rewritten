@@ -22,6 +22,14 @@ public class HelmMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI thrustiumBankedValue;
     [SerializeField] TextMeshProUGUI fueliumBankedValue;
 
+
+    public void OnClick_Back()
+    {
+        this.gameObject.SetActive(false);
+        player.canMove = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     public void OnClick_SendDrone()
     {
         if (droneManager.status == 0)

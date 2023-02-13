@@ -9,6 +9,8 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField] Transform[] smallSpawnPoints;
     [SerializeField] GameObject[] itemsToSpawn;
 
+    [SerializeField] ParticleSystem selectedParticleSystem;
+
     public float craftingTime = 10f;
 
     [SerializeField] AudioSource craftingAudioSource;
@@ -31,7 +33,11 @@ public class ItemSpawner : MonoBehaviour
 
     void SpawnSmallItemDelay()
     {
+        int randomSelection = Random.Range(0, smallSpawnPoints.Length);
+        selectedParticleSystem = smallSpawnPoints[randomSelection].GetComponent<ParticleSystem>();
+        selectedParticleSystem.Play();
         craftingAudioSource.PlayOneShot(craftingCompleteAudioClip);
-        Instantiate(itemsToSpawn[localItemToSpawn], smallSpawnPoints[Random.Range(0, smallSpawnPoints.Length)].position, Quaternion.identity);
+        Instantiate(itemsToSpawn[localItemToSpawn], smallSpawnPoints[randomSelection].position, Quaternion.identity);
+
     }
 }

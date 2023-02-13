@@ -20,13 +20,4 @@ public class HelmInteract : Interactable
     public override void OnLoseFocus()
     {
     }
-
-
-    public void OnClick_Back()
-    {
-        helmMenu.SetActive(false);
-        player.canMove = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
 }

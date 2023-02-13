@@ -20,6 +20,10 @@ TagManager:
   - backupLights
   - fuelCan
   - eva
+  - CurrencyPickup
+  - Button1
+  - egg1
+  - stockindicator
   layers:
   - Default
   - TransparentFX

@@ -184,7 +184,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (canMove)
         {
-            if(hasGravity)
+            HandleMouseLook();
+
+            if (hasGravity)
             {
                 HandleMovementInput();
 
@@ -197,8 +199,6 @@ public class PlayerMovement : MonoBehaviour
                 if (useFootSteps)
                     HandleFootsteps();
             }
-
-            HandleMouseLook();
 
             if (canUseFlashlight)
                 HandleFlashlight();
@@ -419,7 +419,6 @@ public class PlayerMovement : MonoBehaviour
                 if ((Physics.Raycast(playerCam.ViewportPointToRay(interactionRayPoint),
                    out RaycastHit hit, interactionDistance, interactionLayer)))
                 {
-                    Debug.Log("Item picked up!");
                     HandlePickup(hit.transform.gameObject);
                 }
             }
@@ -435,6 +434,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (pickObj.GetComponent<Rigidbody>())
         {
+            Debug.Log("Item picked up! = " + pickObj.name);
             heldObjRB = pickObj.GetComponent<Rigidbody>();
             heldObjRB.useGravity = false;
             heldObjRB.drag = 10;

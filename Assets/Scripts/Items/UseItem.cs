@@ -34,11 +34,13 @@ public class UseItem : Interactable
                 if (amountLeft > 1)
                 {
                     PlayerNeeds.instance.HungerIncrease(items.satiation);
+                    PlayerNeeds.instance.gameObject.GetComponent<AudioSource>().PlayOneShot(PlayerNeeds.instance.audioClips[0]);
                     amountLeft--;
                 }
                 else if (amountLeft <= 1)
                 {
                     Debug.Log("No charges left");
+                    PlayerNeeds.instance.gameObject.GetComponent<AudioSource>().PlayOneShot(PlayerNeeds.instance.audioClips[0]);
                     PlayerNeeds.instance.HungerIncrease(items.satiation);
                     DynamicCrosshair.instance.SmoothCrosshairDisable();
                     Destroy(this.gameObject);
@@ -49,11 +51,13 @@ public class UseItem : Interactable
             {
                 if (amountLeft > 1)
                 {
+                    PlayerNeeds.instance.gameObject.GetComponent<AudioSource>().PlayOneShot(PlayerNeeds.instance.audioClips[0]);
                     PlayerNeeds.instance.HungerIncrease(items.satiation);
                     amountLeft--;
                 }
                 else if (amountLeft <= 1)
                 {
+                    PlayerNeeds.instance.gameObject.GetComponent<AudioSource>().PlayOneShot(PlayerNeeds.instance.audioClips[0]);
                     Debug.Log("No charges left");
                     PlayerNeeds.instance.HungerIncrease(items.satiation);
                     DynamicCrosshair.instance.SmoothCrosshairDisable();
@@ -64,6 +68,7 @@ public class UseItem : Interactable
 
         if(items.name == "Battery")
         {
+            PlayerNeeds.instance.gameObject.GetComponent<AudioSource>().PlayOneShot(PlayerNeeds.instance.audioClips[1]);
             PlayerMovement.instance.flashlightBattery = 100;
             Destroy(this.gameObject);
         }

@@ -185,7 +185,7 @@ public class UpgradesMenu : MonoBehaviour
         if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[8])
         {
             ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[8];
-            powerGenerator.fuelConsumptionRate -= 0.25f;
+            ItemSpawner.instance.craftingTime /= 1.5f;
             amountBought[7]++;
         }
         else

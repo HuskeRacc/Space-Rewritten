@@ -39,6 +39,9 @@ public class PlayerNeeds : MonoBehaviour
     [SerializeField] float fatigueGainRate = 0.01f;
     [SerializeField] TextMeshProUGUI fatigueValue;
 
+    [Header("Audio")]
+    public AudioClip[] audioClips;
+
     private void Awake()
     {
         instance = this;

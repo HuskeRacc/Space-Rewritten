@@ -21,12 +21,4 @@ public class SystemsInteract : Interactable
     public override void OnLoseFocus()
     {
     }
-
-    public void OnClick_CloseMenu()
-    {
-        systemsMenu.SetActive(false);
-        player.canMove = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
 }

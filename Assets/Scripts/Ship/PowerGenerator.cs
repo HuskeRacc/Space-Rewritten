@@ -10,6 +10,8 @@ public class PowerGenerator : Interactable
     public bool powerGeneratorAvailable;
 
     [SerializeField] AudioSource powerSound;
+    [SerializeField] AudioSource refuelAudioSource;
+    [SerializeField] AudioClip refuelAudioClip;
     [SerializeField] OxygenGenerator oxygen;
     [SerializeField] ShipSystems ship;
     [SerializeField] PlayerStatus status;
@@ -115,6 +117,7 @@ public class PowerGenerator : Interactable
         if(other.CompareTag("fuelCan"))
         {
             Debug.Log("Generator Refueled!");
+            refuelAudioSource.PlayOneShot(refuelAudioClip);
             Destroy(other.gameObject);
             ship.fuel += 75f;
         }
