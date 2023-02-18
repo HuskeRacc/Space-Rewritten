@@ -5,12 +5,16 @@ using UnityEngine.UI;
 public class HelmMenu : MonoBehaviour
 {
 
+    public static HelmMenu instance;
+
     [SerializeField] PlayerMovement player;
     [SerializeField] DroneManager droneManager;
 
     [SerializeField] TextMeshProUGUI statusText;
-    [SerializeField] TextMeshProUGUI buttonText;
+    [SerializeField] TextMeshProUGUI buttonTXT;
     [SerializeField] TextMeshProUGUI batteryTXT;
+    public TextMeshProUGUI travelTimeLeftValue;
+    [SerializeField] float timeToTravelCalculated;
 
     [SerializeField] TextMeshProUGUI modeValue;
 
@@ -23,6 +27,11 @@ public class HelmMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI fueliumBankedValue;
 
     [SerializeField] GameObject helmMenu;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     public void OnClick_Back()
     {
@@ -76,7 +85,7 @@ public class HelmMenu : MonoBehaviour
     void DisplayTextValues()
     {
         statusText.text = droneManager.droneStatus;
-        buttonText.text = droneManager.buttonStatus;
+        buttonTXT.text = droneManager.buttonStatus;
         batteryTXT.text = "Battery Power: " + droneManager.battery.ToString("F0") + "%";
     }
 
@@ -92,5 +101,24 @@ public class HelmMenu : MonoBehaviour
         satoniumBankedValue.text = ShipMaterialBank.instance.satoniumBanked.ToString("F2");
         thrustiumBankedValue.text = ShipMaterialBank.instance.thrustiumBanked.ToString("F2");
         fueliumBankedValue.text = ShipMaterialBank.instance.fueliumBanked.ToString("F2");
+    }
+
+    public void DisplayTravelTime(float timeToTravel)
+    {
+        timeToTravelCalculated = timeToTravel;
+        travelTimeLeftValue.text = timeToTravelCalculated.ToString("F0");
+        InvokeRepeating(nameof(CalculateTravelTimeLeft), 0, 1);
+        travelTimeLeftValue.gameObject.SetActive(true);
+    }
+
+    void CalculateTravelTimeLeft()
+    {
+        if (timeToTravelCalculated <= 0)
+        {
+            travelTimeLeftValue.gameObject.SetActive(false);
+            CancelInvoke(nameof(CalculateTravelTimeLeft));
+        }
+        travelTimeLeftValue.text = timeToTravelCalculated.ToString("F0");
+        timeToTravelCalculated--;
     }
 }

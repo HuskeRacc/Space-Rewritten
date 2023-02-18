@@ -85,9 +85,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade1()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[1])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[0])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[1];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[0];
             DroneManager.instance.batteryDepletionRate -= 0.25f;
             amountBought[0]++;
         }
@@ -99,9 +99,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade2()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[2])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[1])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[2];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[1];
             DroneManager.instance.maxBatteryCharge += 10;
             amountBought[1]++;
         }
@@ -113,9 +113,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade3()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[3])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[2])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[3];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[2];
             DroneManager.instance.timeToTravel -= 1f;
             amountBought[2]++;
         }
@@ -127,9 +127,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade4()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[4])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[3])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[4];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[3];
             DroneManager.instance.MaximumMaterialGainTime -= 1;
             amountBought[3]++;
         }
@@ -141,9 +141,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade5()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[5])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[4])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[5];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[4];
             DroneManager.instance.maximumMineable += 2.5f;
             amountBought[4]++;
         }
@@ -155,9 +155,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade6()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[6])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[5])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[6];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[5];
             ErrorNotificationSystem.instance.oxygenUpgradeBought = true;
             amountBought[5]++;
         }
@@ -169,9 +169,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade7()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[7])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[6])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[7];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[6];
             ErrorNotificationSystem.instance.generatorUpgradeBought = true;
             amountBought[6]++;
         }
@@ -183,9 +183,9 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_Upgrade8()
     {
-        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[8])
+        if (ShipMaterialBank.instance.thrustiumBanked >= ShopPrices.instance.upgradePrices[7])
         {
-            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[8];
+            ShipMaterialBank.instance.thrustiumBanked -= ShopPrices.instance.upgradePrices[7];
             ItemSpawner.instance.craftingTime /= 1.5f;
             amountBought[7]++;
         }

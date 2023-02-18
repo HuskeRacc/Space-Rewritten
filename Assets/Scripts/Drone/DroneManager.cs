@@ -102,6 +102,7 @@ public class DroneManager : MonoBehaviour
 
         anim.SetBool("TakeOff",true);
         status = 1;
+        DisplayTravelTime();
         droneStatus = "En-Route";
         buttonStatus = "Please Wait...";
         CancelInvoke(nameof(ChargeBattery));
@@ -131,13 +132,14 @@ public class DroneManager : MonoBehaviour
 
     public void Returning()
     {
-            droneStatus = "Returning";
-            anim.SetBool("TakeOff", false);
-            anim.SetBool("Recall", true);
-            status = 3;
-            buttonStatus = "Please Wait...";
-            CancelInvoke();
-            Invoke(nameof(Idle), timeToTravel);
+        droneStatus = "Returning";
+        anim.SetBool("TakeOff", false);
+        anim.SetBool("Recall", true);
+        status = 3;
+        DisplayTravelTime();
+        buttonStatus = "Please Wait...";
+        CancelInvoke();
+        Invoke(nameof(Idle), timeToTravel);
     }
 
     public void WaitingForReturn()
@@ -211,5 +213,10 @@ public class DroneManager : MonoBehaviour
         {
             battery -= batteryDepletionRate;
         }
+    }
+
+    public void DisplayTravelTime()
+    {
+        HelmMenu.instance.DisplayTravelTime(timeToTravel);
     }
 }

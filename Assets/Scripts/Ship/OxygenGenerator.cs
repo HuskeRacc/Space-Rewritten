@@ -9,9 +9,12 @@ public class OxygenGenerator : Interactable
     public bool o2GeneratorActive;
     public bool o2GeneratorAvailable;
 
+    [SerializeField] AudioSource toggleSource;
+    [SerializeField] AudioClip toggleClip;
+
     [SerializeField] ShipSystems ship;
 
-    [SerializeField] TextMeshProUGUI statusDisplayTXT;
+    [SerializeField] GameObject lightIndicator;
 
     public override void OnFocus()
     {
@@ -29,23 +32,23 @@ public class OxygenGenerator : Interactable
     private void Update()
     {
         HandleOxygen();
-
-        if (o2GeneratorActive)
-        {
-            statusDisplayTXT.text = "Running.";
-            statusDisplayTXT.color = Color.green;
-        }
-        else
-        {
-            statusDisplayTXT.text = "Inactive.";
-            statusDisplayTXT.color = Color.red;
-        }
+        HandleLight();
     }
 
     public void Toggleo2Generator()
     {
         if (o2GeneratorAvailable)
+        {
             o2GeneratorActive = !o2GeneratorActive;
+            toggleSource.PlayOneShot(toggleClip);
+        }
+    }
+
+    void HandleLight()
+    {
+        if(o2GeneratorActive)
+            lightIndicator.GetComponent<Renderer>().material.color = Color.green;
+        else lightIndicator.GetComponent<Renderer>().material.color = Color.red;
     }
 
     void HandleOxygen()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -11,7 +9,9 @@ public class PowerGenerator : Interactable
 
     [SerializeField] AudioSource powerSound;
     [SerializeField] AudioSource refuelAudioSource;
+    [SerializeField] AudioSource toggleSoundSource;
     [SerializeField] AudioClip refuelAudioClip;
+    [SerializeField] AudioClip toggleAudioClip;
     [SerializeField] OxygenGenerator oxygen;
     [SerializeField] ShipSystems ship;
     [SerializeField] PlayerStatus status;
@@ -19,27 +19,20 @@ public class PowerGenerator : Interactable
     public float fuelConsumptionRate = 2f;
     [SerializeField] float fuelConsumptionTickRate = 5f;
 
-    [Header("Displays")]
-    [SerializeField] TextMeshProUGUI statusDisplayTXT;
+    [SerializeField] GameObject lightIndicator;
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(ConsumeFuel), 0, fuelConsumptionTickRate);
+    }
 
     private void Update()
     {
-        FuelCheck();
+        FuelClamps();
         HandlePower();
-
-        if(powerGeneratorActive)
-        {
-            statusDisplayTXT.text = "Running.";
-            statusDisplayTXT.color = Color.green;
-        }
-        else
-        {
-            statusDisplayTXT.text = "Inactive.";
-            statusDisplayTXT.color = Color.red;
-        }
     }
 
-    void FuelCheck()
+    void FuelClamps()
     {
         if (ship.fuel > 100)
         {
@@ -63,10 +56,12 @@ public class PowerGenerator : Interactable
     {
         if (powerGeneratorActive)
         {
+            lightIndicator.GetComponent<Renderer>().material.color = Color.green;
             powerSound.UnPause();
         }
         if (!powerGeneratorActive)
         {
+            lightIndicator.GetComponent<Renderer>().material.color = Color.red;
             powerSound.Pause();
         }
 
@@ -108,6 +103,7 @@ public class PowerGenerator : Interactable
     {
         if (powerGeneratorAvailable)
         {
+            toggleSoundSource.PlayOneShot(toggleAudioClip);
             powerGeneratorActive = !powerGeneratorActive;
         }
     }
@@ -123,18 +119,11 @@ public class PowerGenerator : Interactable
         }
     }
 
-    IEnumerator ConsumeFuel()
+    void ConsumeFuel()
     {
-        if (ship.fuel > 0)
+        if (ship.fuel > 0 && powerGeneratorActive)
         {
             ship.fuel -= fuelConsumptionRate;
-            yield return new WaitForSeconds(fuelConsumptionTickRate);
-            StartCoroutine(ConsumeFuel());
-        }
-        else
-        {
-            yield return new WaitForSeconds(fuelConsumptionTickRate);
-            StartCoroutine(ConsumeFuel());
         }
     }
 }

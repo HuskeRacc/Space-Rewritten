@@ -23,6 +23,7 @@ public class ShipSystems : MonoBehaviour
     [Header("Battery")]
     public float shipBattery = 100f;
     public float batteryDecreaseRate = 1f;
+    public float amountToAdd = 0;
 
     private void Awake()
     {
@@ -81,14 +82,36 @@ public class ShipSystems : MonoBehaviour
         if (solarEfficiency >= 50)
         {
             if (solarsActive)
-                shipBattery += Random.Range(0.5f, 1.5f);
-            else shipBattery += 0.00f;
+            {
+                if(shipBattery < 100)
+                {
+                    amountToAdd = Random.Range(0.5f, 1.5f);
+                    shipBattery += amountToAdd;
+
+                }
+            }
+            else 
+            {
+                shipBattery += 0.00f;
+                DecreaseBattery();
+            }
         }
+
         if (solarEfficiency < 50)
         {
             if (solarsActive)
-                shipBattery += Random.Range(0.015f, 0.45f);
-            else shipBattery += 0;
+            {
+                if (shipBattery < 100)
+                {
+                    amountToAdd = Random.Range(0.015f, 0.45f);
+                    shipBattery += amountToAdd;
+                }
+            }
+            else
+            {
+                shipBattery += 0.00f;
+                DecreaseBattery();
+            }
         }
     }
 
@@ -99,9 +122,16 @@ public class ShipSystems : MonoBehaviour
 
     void DecreaseBattery()
     {
-        if(solarEfficiency < 50 && solarsActive)
+        if(!solarsActive)
         {
-            shipBattery -= 0.01f;
+            amountToAdd = -0.75f;
+            shipBattery += amountToAdd;
+        }
+
+        if (solarEfficiency <= 50 && solarsActive)
+        {
+            amountToAdd = -0.125f;
+            shipBattery += amountToAdd;
         }
     }
 
