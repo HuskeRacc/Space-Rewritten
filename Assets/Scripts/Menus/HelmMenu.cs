@@ -22,10 +22,11 @@ public class HelmMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI thrustiumBankedValue;
     [SerializeField] TextMeshProUGUI fueliumBankedValue;
 
+    [SerializeField] GameObject helmMenu;
 
     public void OnClick_Back()
     {
-        this.gameObject.SetActive(false);
+        helmMenu.SetActive(false);
         player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

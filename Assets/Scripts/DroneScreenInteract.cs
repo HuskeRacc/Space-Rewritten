@@ -1,16 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class SystemsInteract : Interactable
+public class DroneScreenInteract : Interactable
 {
-    [SerializeField] GameObject systemsMenu;
+    [SerializeField] GameObject droneRepairsMenu;
 
     public override void OnFocus()
     {
+        
     }
 
     public override void OnInteract()
     {
-        systemsMenu.SetActive(true);
+        droneRepairsMenu.SetActive(true);
         PlayerMovement.instance.canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -18,5 +21,6 @@ public class SystemsInteract : Interactable
 
     public override void OnLoseFocus()
     {
+        
     }
 }

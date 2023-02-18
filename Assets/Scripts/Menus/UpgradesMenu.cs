@@ -20,8 +20,9 @@ public class UpgradesMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI thrustiumBankedValue;
     [SerializeField] TextMeshProUGUI fueliumBankedValue;
 
-    [SerializeField] Button[] upgradeButtons;    
-    
+    [SerializeField] Button[] upgradeButtons;
+
+    [SerializeField] GameObject upgradeMenu;
 
 
     private void Update()
@@ -196,7 +197,7 @@ public class UpgradesMenu : MonoBehaviour
 
     public void OnClick_BackButton()
     {
-        this.gameObject.SetActive(false);
+        upgradeMenu.SetActive(false);
         shopMenu.SetActive(true);
     }
 }

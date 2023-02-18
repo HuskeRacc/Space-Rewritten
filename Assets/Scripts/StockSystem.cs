@@ -13,16 +13,15 @@ public class StockSystem : MonoBehaviour
 
     private void Awake()
     {
-        stockIndicators.AddRange(GameObject.FindGameObjectsWithTag("stockindicator"));
 
-        for (int i = 0; i < stockIndicators.Count; i++)
-        {
-            stockIndicators[i].SetActive(false);
-        }
     }
 
     private void Start()
     {
+        for (int i = 0; i < stockIndicators.Count; i++)
+        {
+            stockIndicators[i].SetActive(false);
+        }
         OldFuelPrice = ShopPrices.instance.fuelPrice;
         OldMREPrice = ShopPrices.instance.mrePrice;
         OldDonutPrice = ShopPrices.instance.donutPrice;

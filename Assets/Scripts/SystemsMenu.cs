@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class StatusScreen : MonoBehaviour
+public class SystemsMenu : MonoBehaviour
 {
     [SerializeField] ShipSystems systems;
     [SerializeField] PowerGenerator power;
@@ -13,11 +11,13 @@ public class StatusScreen : MonoBehaviour
     [SerializeField] TextMeshProUGUI oxyValue;
     [SerializeField] TextMeshProUGUI batteryValue;
 
+    [SerializeField] GameObject systemsMenu;
+
     //Add visual sliders?
 
     public void OnClick_CloseMenu()
     {
-        this.gameObject.SetActive(false);
+        systemsMenu.SetActive(false);
         PlayerMovement.instance.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

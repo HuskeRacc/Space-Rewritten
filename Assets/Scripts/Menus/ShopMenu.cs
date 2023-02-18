@@ -7,11 +7,11 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] ShipSystems ship;
 
     [SerializeField] GameObject upgradesMenu;
-
+    [SerializeField] GameObject shopMenu;
 
     public void OnClick_Back()
     {
-       this.gameObject.SetActive(false);
+        shopMenu.SetActive(false);
         player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -20,7 +20,7 @@ public class ShopMenu : MonoBehaviour
     public void OnClick_UpgradesMenu()
     {
         upgradesMenu.SetActive(true);
-        this.gameObject.SetActive(false);
+        shopMenu.SetActive(false);
     }
 
     public void OnClick_BuyFuel()

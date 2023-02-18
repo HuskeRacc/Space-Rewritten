@@ -24,6 +24,7 @@ TagManager:
   - Button1
   - egg1
   - stockindicator
+  - DroneScreen
   layers:
   - Default
   - TransparentFX

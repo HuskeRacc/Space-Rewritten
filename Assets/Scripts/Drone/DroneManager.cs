@@ -143,7 +143,7 @@ public class DroneManager : MonoBehaviour
     public void WaitingForReturn()
     {
         Debug.Log("Drone out of battery");
-        droneStatus = "Out of Fuel.";
+        droneStatus = "Out of Power.";
         status = 4;
         buttonStatus = "Return?";
         CancelInvoke();
@@ -203,9 +203,9 @@ public class DroneManager : MonoBehaviour
 
     void DepleteBattery()
     {
-        if (battery == 0)
+        if (battery <= 0)
         {
-            Returning();
+            WaitingForReturn();
         }
         else
         {

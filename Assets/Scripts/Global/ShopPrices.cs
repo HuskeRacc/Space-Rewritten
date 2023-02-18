@@ -28,6 +28,9 @@ public class ShopPrices : MonoBehaviour
     public bool hasVaried = false;
     public float priceVaryRate = 300f;
 
+    [Header("Repair Prices")]
+    public float[] repairPrices;
+
     [Header("Script checks every 5 seconds")]
     public bool forcePriceVary = false;
     
