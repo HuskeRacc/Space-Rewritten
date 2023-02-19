@@ -12,6 +12,8 @@ public class ShopPrices : MonoBehaviour
     [SerializeField] float donutRNGHi = 200;
     [SerializeField] float batteryRNGHi = 10;
     [SerializeField] float batteryRNGLow = 25;
+    [SerializeField] float coffeeRNGLow = 25;
+    [SerializeField] float coffeeRNGHi = 200;
 
     [Header("Current Prices")]
     public float fuelPrice;
@@ -20,6 +22,7 @@ public class ShopPrices : MonoBehaviour
     public float mrePrice;
     public float donutPrice;
     public float batteryPrice;
+    public float coffeePrice;
 
     [Header("Upgrades")]
     public float[] upgradePrices;
@@ -66,6 +69,7 @@ public class ShopPrices : MonoBehaviour
         mrePrice = Mathf.Ceil(Random.Range(mreRNGLow, mreRNGHi));
         donutPrice = Mathf.Ceil(Random.Range(donutRNGLow, donutRNGHi));
         batteryPrice = Mathf.Ceil(Random.Range(batteryRNGLow, batteryRNGHi));
+        coffeePrice = Mathf.Ceil(Random.Range(coffeeRNGLow, coffeeRNGHi));
         StartCoroutine(PriceVariedCall());
     }
 

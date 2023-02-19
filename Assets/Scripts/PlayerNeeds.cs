@@ -98,6 +98,12 @@ public class PlayerNeeds : MonoBehaviour
 
     #region Fatigue
 
+    public void FatigueIncrease(float fatigueIncreaseValue)
+    {
+        Debug.Log("Fatigue increased by " + fatigueIncreaseValue);
+        fatigue += fatigueIncreaseValue;
+    }
+
     public void InvokeSleep()
     {
         savedFatigueDecreaseRate = fatigueDecreaseRate;

@@ -74,6 +74,17 @@ public class ShopMenu : MonoBehaviour
             StartCoroutine(status.TextPopup("Not Enough fuelium!", 2, false));
         }
     }
-
+    public void OnClick_BuyCoffee()
+    {
+        if (ShipMaterialBank.instance.satoniumBanked >= ShopPrices.instance.coffeePrice)
+        {
+            ShipMaterialBank.instance.satoniumBanked -= ShopPrices.instance.coffeePrice;
+            ItemSpawner.instance.SpawnSmallItem(4);
+        }
+        else
+        {
+            StartCoroutine(status.TextPopup("Not Enough satonium!", 2, false));
+        }
+    }
 
 }

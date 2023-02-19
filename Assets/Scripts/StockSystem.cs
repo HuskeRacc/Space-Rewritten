@@ -8,6 +8,7 @@ public class StockSystem : MonoBehaviour
     [SerializeField] float OldMREPrice;
     [SerializeField] float OldDonutPrice;
     [SerializeField] float OldBatteryPrice;
+    [SerializeField] float OldCoffeePrice;
 
     [SerializeField] List<GameObject> stockIndicators;
 
@@ -85,6 +86,20 @@ public class StockSystem : MonoBehaviour
             stockIndicators[6].SetActive(false);
             stockIndicators[7].SetActive(true);
             OldBatteryPrice = ShopPrices.instance.batteryPrice;
+        }
+
+        //Coffee
+        if (OldCoffeePrice < ShopPrices.instance.coffeePrice)
+        {
+            stockIndicators[8].SetActive(true);
+            stockIndicators[9].SetActive(false);
+            OldBatteryPrice = ShopPrices.instance.coffeePrice;
+        }
+        else if (OldCoffeePrice > ShopPrices.instance.coffeePrice)
+        {
+            stockIndicators[8].SetActive(false);
+            stockIndicators[9].SetActive(true);
+            OldBatteryPrice = ShopPrices.instance.coffeePrice;
         }
     }
 }

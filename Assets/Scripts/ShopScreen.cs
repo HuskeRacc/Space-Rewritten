@@ -10,6 +10,7 @@ public class ShopScreen : MonoBehaviour
     [SerializeField] TextMeshProUGUI mrePriceTXT;
     [SerializeField] TextMeshProUGUI donutPriceTXT;
     [SerializeField] TextMeshProUGUI batteryPriceTXT;
+    [SerializeField] TextMeshProUGUI coffeePriceTXT;
 
     [SerializeField] TextMeshProUGUI satoniumBankedValue;
     [SerializeField] TextMeshProUGUI thrustiumBankedValue;
@@ -28,6 +29,7 @@ public class ShopScreen : MonoBehaviour
         mrePriceTXT.text = "$Satonium " + ShopPrices.instance.mrePrice.ToString("F1");
         donutPriceTXT.text = "$Satonium " + ShopPrices.instance.donutPrice.ToString("F1");
         batteryPriceTXT.text = "$Fuelium " + ShopPrices.instance.batteryPrice.ToString("F1");
+        coffeePriceTXT.text = "$Satonium " + ShopPrices.instance.coffeePrice.ToString("F1");
     }
 
     void DisplayBankedValues()
