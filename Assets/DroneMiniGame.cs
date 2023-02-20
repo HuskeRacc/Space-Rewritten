@@ -22,7 +22,9 @@ public class DroneMiniGame : MonoBehaviour
             int randomSpawnTime = Random.Range(30, 120);
             Debug.Log("Asteroid spawn coroutine success, staring cooldown of: " + randomSpawnTime.ToString());
             yield return new WaitForSeconds(randomSpawnTime);
-            Invoke(nameof(SpawnRandomAsteroid), 0);
+
+            if(DroneManager.instance.status == 2 && asteroidsSpawned == 0 && DroneManager.instance.mode == 0)
+                Invoke(nameof(SpawnRandomAsteroid), 0);
         }
         yield return new WaitForSeconds(10);
         StartCoroutine(SetSpawnRate());
