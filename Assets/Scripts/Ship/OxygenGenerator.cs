@@ -12,6 +12,8 @@ public class OxygenGenerator : Interactable
     [SerializeField] AudioSource toggleSource;
     [SerializeField] AudioClip toggleClip;
 
+    [SerializeField] AudioSource OxygenAudioSource;
+
     [SerializeField] ShipSystems ship;
 
     [SerializeField] GameObject lightIndicator;
@@ -33,6 +35,7 @@ public class OxygenGenerator : Interactable
     {
         HandleOxygen();
         HandleLight();
+        HandleAudio();
     }
 
     public void Toggleo2Generator()
@@ -41,6 +44,18 @@ public class OxygenGenerator : Interactable
         {
             o2GeneratorActive = !o2GeneratorActive;
             toggleSource.PlayOneShot(toggleClip);
+        }
+    }
+
+    void HandleAudio()
+    {
+        if(o2GeneratorActive)
+        {
+            OxygenAudioSource.UnPause();
+        }
+        else
+        {
+            OxygenAudioSource.Pause();
         }
     }
 

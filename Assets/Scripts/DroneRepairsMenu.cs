@@ -114,10 +114,10 @@ public class DroneRepairsMenu : MonoBehaviour
         #endregion
 
         #region Prices
-        jawsPrice.text = "$Satonium " + ShopPrices.instance.repairPrices[0];
-        cargoPrice.text = "$Satonium " + ShopPrices.instance.repairPrices[1];
-        chassisPrice.text = "$Satonium " + ShopPrices.instance.repairPrices[2];
-        thrusterPrice.text = "$Fuelium " + ShopPrices.instance.repairPrices[3];
+        jawsPrice.text = "$Sa " + ShopPrices.instance.repairPrices[0];
+        cargoPrice.text = "$Sa " + ShopPrices.instance.repairPrices[1];
+        chassisPrice.text = "$Sa " + ShopPrices.instance.repairPrices[2];
+        thrusterPrice.text = "$Fu " + ShopPrices.instance.repairPrices[3];
         #endregion
 
         #region Banked Values

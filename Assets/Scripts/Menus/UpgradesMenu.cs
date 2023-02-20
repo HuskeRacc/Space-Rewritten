@@ -72,7 +72,7 @@ public class UpgradesMenu : MonoBehaviour
     {
         for (int i = 0; i < priceTexts.Length; i++)
         {
-            priceTexts[i].text = "$Thrustium " + ShopPrices.instance.upgradePrices[i].ToString("F2");
+            priceTexts[i].text = "$Th " + ShopPrices.instance.upgradePrices[i].ToString("F2");
         }
     }
 

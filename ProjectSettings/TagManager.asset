@@ -25,6 +25,8 @@ TagManager:
   - egg1
   - stockindicator
   - DroneScreen
+  - lightswitch
+  - minigameasteroid
   layers:
   - Default
   - TransparentFX

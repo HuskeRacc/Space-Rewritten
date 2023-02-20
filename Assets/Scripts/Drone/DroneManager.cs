@@ -11,6 +11,9 @@ public class DroneManager : MonoBehaviour
     [HideInInspector] public string droneStatus;
     [HideInInspector] public string buttonStatus;
 
+    [SerializeField] AudioSource droneAudioSource;
+    [SerializeField] AudioClip[] droneSounds;
+
     [SerializeField] Animator anim;
 
     public float timeToTravel = 30f;
@@ -80,6 +83,8 @@ public class DroneManager : MonoBehaviour
             modeButtons[i].interactable = true;
         }
 
+        droneAudioSource.PlayOneShot(droneSounds[1]);
+
         anim.SetBool("TakeOff", false);
         anim.SetBool("Recall", true);
 
@@ -104,6 +109,7 @@ public class DroneManager : MonoBehaviour
         status = 1;
         DisplayTravelTime();
         droneStatus = "En-Route";
+        droneAudioSource.PlayOneShot(droneSounds[0]);
         buttonStatus = "Please Wait...";
         CancelInvoke(nameof(ChargeBattery));
         Invoke(nameof(Mining), timeToTravel);
@@ -190,10 +196,10 @@ public class DroneManager : MonoBehaviour
     {
         if(ShipSystems.instance.shipBattery > batteryChargeRate)
         {
-            battery += batteryChargeRate;
-
             if(battery < maxBatteryCharge)
             {
+                battery += batteryChargeRate;
+
                 ShipSystems.instance.shipBattery -= batteryChargeRate / 3;
             }
         }
