@@ -21,18 +21,19 @@ public class LightManager : Interactable
 
     public override void OnInteract()
     {
-        ToggleLights();
+        ToggleLightsOn();
     }
 
     public override void OnLoseFocus()
     {
     }
 
-    public void ToggleLights()
+    public void ToggleLightsOn()
     {
         toggle = !toggle;
         affectedLight.SetActive(toggle);
         lightSwitchAudioSource.PlayOneShot(lightSwitchAudioClip);
+        Debug.Log("Light Toggled. Bool: " + toggle);
     }
 
     public void ForceLightsOff()
@@ -40,5 +41,6 @@ public class LightManager : Interactable
         toggle = false;
         affectedLight.SetActive(toggle);
         lightSwitchAudioSource.PlayOneShot(lightSwitchAudioClip);
+        Debug.Log("Light Forced Off. Bool: " + toggle);
     }
 }

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: MRE
   food: 1
-  satiation: 5
+  satiation: 10
   amountLeft: 4
   flashlightCharge: 0
+  fatigueReduction: 0

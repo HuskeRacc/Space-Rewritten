@@ -67,6 +67,29 @@ public class DroneRepairsMenu : MonoBehaviour
         }
         #endregion
 
+        if (DroneManager.instance.status != 0)
+        {
+            jawsButton.gameObject.SetActive(false);
+            cargoButton.gameObject.SetActive(false);
+            chassisButton.gameObject.SetActive(false);
+            thrusterButton.gameObject.SetActive(false);
+            jawsPrice.gameObject.SetActive(false);
+            cargoPrice.gameObject.SetActive(false);
+            chassisPrice.gameObject.SetActive(false);
+            thrusterPrice.gameObject.SetActive(false);
+        }
+        else
+        {
+            jawsButton.gameObject.SetActive(true);
+            cargoButton.gameObject.SetActive(true);
+            chassisButton.gameObject.SetActive(true);
+            thrusterButton.gameObject.SetActive(true);
+            jawsPrice.gameObject.SetActive(true);
+            cargoPrice.gameObject.SetActive(true);
+            chassisPrice.gameObject.SetActive(true);
+            thrusterPrice.gameObject.SetActive(true);
+        }
+
         #region Damage Indicators
         if (DroneDamageManager.instance.jawsDamaged)
         {
