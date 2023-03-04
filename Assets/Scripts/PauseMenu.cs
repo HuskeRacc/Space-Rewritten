@@ -23,6 +23,7 @@ public class PauseMenu : MonoBehaviour
 
     public void OnClick_Exit()
     {
+        SavingLoading.instance.OnClick_Save();
         SceneManager.LoadScene(0);
     }
 }

@@ -27,6 +27,10 @@ TagManager:
   - DroneScreen
   - lightswitch
   - minigameasteroid
+  - asteroid
+  - env
+  - Collision/metal
+  - Collision/soft
   layers:
   - Default
   - TransparentFX

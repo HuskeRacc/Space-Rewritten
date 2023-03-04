@@ -3,7 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, ISaveable
 {
     public bool canMove = true;
     public bool IsSprinting => canSprint && Input.GetKey(sprintKey);
@@ -652,4 +652,26 @@ public class PlayerMovement : MonoBehaviour
 
         regeneratingStamina = null;
     }
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            SavedFlashlightBattery = flashlightBattery
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        flashlightBattery = saveData.SavedFlashlightBattery;
+    }
+
+    [Serializable]
+    private struct SaveData
+    {
+        public float SavedFlashlightBattery;
+    }
+
 }

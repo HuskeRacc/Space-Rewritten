@@ -9,6 +9,9 @@ public class LightManager : Interactable
     AudioSource lightSwitchAudioSource;
     [SerializeField] AudioClip lightSwitchAudioClip;
 
+    [SerializeField] PowerGenerator powerGenerator;
+
+    public static LightManager instance;
 
     private void Start()
     {
@@ -21,14 +24,24 @@ public class LightManager : Interactable
 
     public override void OnInteract()
     {
-        ToggleLightsOn();
+        if(powerGenerator.powerGeneratorActive)
+        {
+            if (toggle)
+                ToggleLightOff();
+            else
+                ToggleLightOn();
+        }
+        else
+        {
+            Debug.Log("Can't turn lights on with power off");
+        }
     }
 
     public override void OnLoseFocus()
     {
     }
 
-    public void ToggleLightsOn()
+    public void ToggleLightOn()
     {
         toggle = !toggle;
         affectedLight.SetActive(toggle);
@@ -36,7 +49,7 @@ public class LightManager : Interactable
         Debug.Log("Light Toggled. Bool: " + toggle);
     }
 
-    public void ForceLightsOff()
+    public void ToggleLightOff()
     {
         toggle = false;
         affectedLight.SetActive(toggle);

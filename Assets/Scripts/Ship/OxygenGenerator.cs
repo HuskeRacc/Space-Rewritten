@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class OxygenGenerator : Interactable
+public class OxygenGenerator : Interactable, ISaveable
 {
 
     public bool o2GeneratorActive;
@@ -17,6 +18,14 @@ public class OxygenGenerator : Interactable
     [SerializeField] ShipSystems ship;
 
     [SerializeField] GameObject lightIndicator;
+
+    [SerializeField] Animator anim;
+
+
+    private void Start()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
 
     public override void OnFocus()
     {
@@ -36,6 +45,15 @@ public class OxygenGenerator : Interactable
         HandleOxygen();
         HandleLight();
         HandleAudio();
+        HandleAnimation();
+    }
+
+    void HandleAnimation()
+    {
+        if (o2GeneratorActive)
+            anim.SetBool("togglestate", true);
+        else
+            anim.SetBool("togglestate", false);
     }
 
     public void Toggleo2Generator()
@@ -72,5 +90,26 @@ public class OxygenGenerator : Interactable
         {
             ship.shipOxygen += Time.deltaTime;
         }
+    }
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            savedOxygenStatus = o2GeneratorActive
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        o2GeneratorActive = saveData.savedOxygenStatus;
+    }
+
+    [Serializable]
+    private struct SaveData
+    {
+        public bool savedOxygenStatus;
     }
 }

@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class ShipSystems : MonoBehaviour
+public class ShipSystems : MonoBehaviour, ISaveable
 {
     public static ShipSystems instance;
 
@@ -85,7 +86,7 @@ public class ShipSystems : MonoBehaviour
             {
                 if(shipBattery < 100)
                 {
-                    amountToAdd = Random.Range(0.5f, 1.5f);
+                    amountToAdd = UnityEngine.Random.Range(0.5f, 1.5f);
                     shipBattery += amountToAdd;
 
                 }
@@ -103,7 +104,7 @@ public class ShipSystems : MonoBehaviour
             {
                 if (shipBattery < 100)
                 {
-                    amountToAdd = Random.Range(0.015f, 0.45f);
+                    amountToAdd = UnityEngine.Random.Range(0.015f, 0.45f);
                     shipBattery += amountToAdd;
                 }
             }
@@ -143,5 +144,30 @@ public class ShipSystems : MonoBehaviour
     public void Disable()
     {
         solarsActive = false;
+    }
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            savedShipBattery = shipBattery,
+            savedShipOxygen = shipBattery
+        };
+
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        shipBattery = saveData.savedShipBattery;
+        shipOxygen = saveData.savedShipOxygen;
+    }
+
+    [Serializable]
+    private struct SaveData
+    {
+        public float savedShipOxygen;
+        public float savedShipBattery;
     }
 }

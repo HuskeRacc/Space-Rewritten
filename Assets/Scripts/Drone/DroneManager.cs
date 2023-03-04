@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DroneManager : MonoBehaviour
+public class DroneManager : MonoBehaviour, ISaveable
 {
 
     public static DroneManager instance;
@@ -12,6 +13,7 @@ public class DroneManager : MonoBehaviour
     [HideInInspector] public string buttonStatus;
 
     [SerializeField] AudioSource droneAudioSource;
+    [SerializeField] bool init = true;
     [SerializeField] AudioClip[] droneSounds;
 
     [SerializeField] Animator anim;
@@ -73,7 +75,15 @@ public class DroneManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(droneSoundEnable());
         Idle();
+    }
+
+    IEnumerator droneSoundEnable()
+    {
+        init = true;
+        yield return new WaitForSeconds(5);
+        init = false;
     }
 
     public void Idle()
@@ -83,7 +93,8 @@ public class DroneManager : MonoBehaviour
             modeButtons[i].interactable = true;
         }
 
-        droneAudioSource.PlayOneShot(droneSounds[1]);
+        if (init == false)
+            droneAudioSource.PlayOneShot(droneSounds[1]);
 
         anim.SetBool("TakeOff", false);
         anim.SetBool("Recall", true);
@@ -95,7 +106,7 @@ public class DroneManager : MonoBehaviour
         droneStatus = "Idle";
         buttonStatus = "Send?";
 
-        InvokeRepeating(nameof(ChargeBattery), 0, Random.Range(minimumBatteryChargeTime, maximumBatteryChargeTime));
+        InvokeRepeating(nameof(ChargeBattery), 0, UnityEngine.Random.Range(minimumBatteryChargeTime, maximumBatteryChargeTime));
     }
 
     public void Sending()
@@ -123,17 +134,17 @@ public class DroneManager : MonoBehaviour
 
         if (mode == 0)
         {
-            InvokeRepeating(nameof(Mode0MaterialGain), 4, Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(Mode0MaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
         if (mode == 1)
         {
-            InvokeRepeating(nameof(Mode1MaterialGain), 4, Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(Mode1MaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
         if(mode== 2)
         {
-            InvokeRepeating(nameof(Mode2MaterialGain), 4, Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(Mode2MaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
-        InvokeRepeating(nameof(DepleteBattery), 0, Random.Range(minimumBatteryDepletionTime, maximumBatteryDepletionTime));
+        InvokeRepeating(nameof(DepleteBattery), 0, UnityEngine.Random.Range(minimumBatteryDepletionTime, maximumBatteryDepletionTime));
     }
 
     public void Returning()
@@ -169,9 +180,9 @@ public class DroneManager : MonoBehaviour
 
     void Mode0MaterialGain()
     {
-        float satonium = Random.Range(minimumMineable,maximumMineable);
-        float thrustium = Random.Range(thrustiumMinimumMineable, thrustiumMaximumMineable);
-        float fuelium = Random.Range(minimumMineable,maximumMineable);
+        float satonium = UnityEngine.Random.Range(minimumMineable,maximumMineable);
+        float thrustium = UnityEngine.Random.Range(thrustiumMinimumMineable, thrustiumMaximumMineable);
+        float fuelium = UnityEngine.Random.Range(minimumMineable,maximumMineable);
 
         satoniumAmount += satonium;
         fueliumAmount += fuelium;
@@ -180,14 +191,14 @@ public class DroneManager : MonoBehaviour
 
     void Mode1MaterialGain()
     {
-        float satonium = Random.Range(mode1MinMineable, mode1MaxMineable);
+        float satonium = UnityEngine.Random.Range(mode1MinMineable, mode1MaxMineable);
         
         satoniumAmount += satonium;
     }
 
     void Mode2MaterialGain()
     {
-        float fuelium = Random.Range(mode2MinMineable, mode2MaxMineable);
+        float fuelium = UnityEngine.Random.Range(mode2MinMineable, mode2MaxMineable);
 
         fueliumAmount += fuelium;
     }
@@ -224,5 +235,25 @@ public class DroneManager : MonoBehaviour
     public void DisplayTravelTime()
     {
         HelmMenu.instance.DisplayTravelTime(timeToTravel);
+    }
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+    }
+
+    [Serializable]
+    private struct SaveData
+    {
+        
     }
 }

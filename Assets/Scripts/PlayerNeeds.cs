@@ -1,8 +1,9 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 
-public class PlayerNeeds : MonoBehaviour
+public class PlayerNeeds : MonoBehaviour, ISaveable
 {
     public static PlayerNeeds instance;
 
@@ -220,5 +221,32 @@ public class PlayerNeeds : MonoBehaviour
         yield return new WaitForSeconds(fatigueTickTime);
         StartCoroutine(DecreaseFatigue());
     }
+
     #endregion
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+        savedHunger = hunger,
+        savedFatigue = fatigue,
+        savedOxygen = oxygen
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        hunger = saveData.savedHunger;
+        fatigue = saveData.savedFatigue;
+        oxygen = saveData.savedOxygen;
+    }
+
+    [Serializable] private struct SaveData
+    {
+        public float savedHunger;
+        public float savedFatigue;
+        public float savedOxygen;
+    }
 }

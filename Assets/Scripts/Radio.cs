@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Radio : Interactable
 {
-    AudioSource radioAudioSource;
+    [SerializeField] AudioSource radioAudioSource;
+    [SerializeField] GameObject audioSourceGameObject;
     [SerializeField] AudioClip[] music;
     [SerializeField] List<AudioClip> musicIndex;
     [SerializeField] AudioClip selectedClip;
+    [SerializeField] AudioClip[] spookyClip;
     int i = 1;
+
     private void Start()
     {
-        radioAudioSource = GetComponentInChildren<AudioSource>();
+        radioAudioSource = audioSourceGameObject.GetComponent<AudioSource>();
     }
 
     public override void OnInteract()
@@ -65,7 +68,15 @@ public class Radio : Interactable
         }
         else
         {
-            radioAudioSource.Pause();
+            radioAudioSource.Stop();
         }
+    }
+
+    public void ToggleMusicSpooky()
+    {
+        radioAudioSource.Stop();
+        selectedClip = spookyClip[Random.Range(0, spookyClip.Length)];
+        radioAudioSource.PlayOneShot(selectedClip);
+        selectedClip = null;
     }
 }

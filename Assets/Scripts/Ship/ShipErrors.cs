@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShipErrors : MonoBehaviour
@@ -7,6 +6,9 @@ public class ShipErrors : MonoBehaviour
     [Header("Assignables")]
     [SerializeField] OxygenGenerator oxygen;
     [SerializeField] PowerGenerator power;
+    [SerializeField] Radio radio;
+    GameObject[] lightsGO;
+    LightManager lights;
 
     [Header("General")]
     [SerializeField] bool canError = false;
@@ -24,15 +26,57 @@ public class ShipErrors : MonoBehaviour
     [SerializeField] int failedRNGChecks = 0;
     [SerializeField] int maxFailedAmount = 10;
 
+    [Header("Debug")]
+    [SerializeField] bool powerError;
+    [SerializeField] bool oxygenError;
+    [SerializeField] bool solarError;
+    [SerializeField] bool lightError;
+    [SerializeField] bool radioError;
+
     private void Start()
     {
+        lightsGO = GameObject.FindGameObjectsWithTag("lightswitch");
         StartCoroutine(RNGStartup());
         StartCoroutine(RNGSystem());
         InvokeRepeating(nameof(ErrorCheck), RNGStartupWait, timeBetweenChecks);
     }
 
+    private void Update()
+    {
+        if (powerError)
+        {
+            PowerError();
+            powerError = false;
+        }
+
+        if (oxygenError)
+        {
+            OxygenError();
+            oxygenError = false;
+        }
+
+        if (solarError)
+        {
+            SolarError();
+            solarError = false;
+        }
+
+        if (lightError)
+        {
+            LightError();
+            lightError = false;
+        }
+
+        if (radioError)
+        {
+            RadioError();
+            radioError = false;
+        }
+    }
+
     void ErrorCheck()
     {
+
         if (RNGResult == targetsForRNG[0])
         {
             PowerError();
@@ -48,7 +92,17 @@ public class ShipErrors : MonoBehaviour
             SolarError();
         }
 
-        if(failedRNGChecks >= maxFailedAmount)
+        if (RNGResult == targetsForRNG[3])
+        {
+            LightError();
+        }
+
+        if (RNGResult == targetsForRNG[4])
+        {
+            RadioError();
+        }
+
+        if (failedRNGChecks >= maxFailedAmount)
         {
             RNGResult = targetsForRNG[Random.Range(0,3)];
         }
@@ -57,6 +111,16 @@ public class ShipErrors : MonoBehaviour
             RNGResult = 0;
             failedRNGChecks++;
         }
+    }
+
+    void RadioError()
+    {
+        radio.ToggleMusicSpooky();
+        errorCooldown = 240;
+        StartCoroutine(ErrorCooldown(errorCooldown));
+        Debug.Log("Radio Error Triggered");
+        failedRNGChecks = 0;
+        RNGResult = 0;
     }
 
     void PowerError()
@@ -91,6 +155,21 @@ public class ShipErrors : MonoBehaviour
         Debug.Log("Solars Error Triggered");
         failedRNGChecks = 0;
         RNGResult = 0;
+    }
+
+    void LightError()
+    {
+        for (int i = 0; i < lightsGO.Length; i++)
+        {
+            lights = lightsGO[i].GetComponent<LightManager>();
+            lights.ToggleLightOff();
+            errorCooldown = 120;
+            StartCoroutine(ErrorCooldown(errorCooldown));
+            Debug.Log("Light Error Triggered");
+            failedRNGChecks = 0;
+            RNGResult = 0;
+        }
+
     }
 
 

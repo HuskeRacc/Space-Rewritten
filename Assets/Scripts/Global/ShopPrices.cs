@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class ShopPrices : MonoBehaviour
+public class ShopPrices : MonoBehaviour, ISaveable
 {
     [Header("RNG Variables")]
     [SerializeField] float fuelRNGLow = 100;
@@ -65,11 +66,11 @@ public class ShopPrices : MonoBehaviour
 
     void PriceVaries()
     {
-        fuelPrice = Mathf.Ceil(Random.Range(fuelRNGLow, fuelRNGHi));
-        mrePrice = Mathf.Ceil(Random.Range(mreRNGLow, mreRNGHi));
-        donutPrice = Mathf.Ceil(Random.Range(donutRNGLow, donutRNGHi));
-        batteryPrice = Mathf.Ceil(Random.Range(batteryRNGLow, batteryRNGHi));
-        coffeePrice = Mathf.Ceil(Random.Range(coffeeRNGLow, coffeeRNGHi));
+        fuelPrice = Mathf.Ceil(UnityEngine.Random.Range(fuelRNGLow, fuelRNGHi));
+        mrePrice = Mathf.Ceil(UnityEngine.Random.Range(mreRNGLow, mreRNGHi));
+        donutPrice = Mathf.Ceil(UnityEngine.Random.Range(donutRNGLow, donutRNGHi));
+        batteryPrice = Mathf.Ceil(UnityEngine.Random.Range(batteryRNGLow, batteryRNGHi));
+        coffeePrice = Mathf.Ceil(UnityEngine.Random.Range(coffeeRNGLow, coffeeRNGHi));
         StartCoroutine(PriceVariedCall());
     }
 
@@ -78,5 +79,38 @@ public class ShopPrices : MonoBehaviour
         hasVaried = true;
         yield return new WaitForSeconds(1);
         hasVaried = false;
+    }
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            savedFuelPrice = fuelPrice,
+            savedMrePrice = mrePrice,
+            savedDonutPrice = donutPrice,
+            savedBatteryPrice = batteryPrice,
+            savedCoffeePrice = coffeePrice
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        fuelPrice = saveData.savedFuelPrice;
+        mrePrice = saveData.savedMrePrice;
+        donutPrice = saveData.savedDonutPrice;
+        batteryPrice = saveData.savedBatteryPrice;
+        coffeePrice = saveData.savedCoffeePrice;
+    }
+
+    [Serializable]
+    private struct SaveData
+    {
+        public float savedFuelPrice;
+        public float savedMrePrice;
+        public float savedDonutPrice;
+        public float savedBatteryPrice;
+        public float savedCoffeePrice;
     }
 }

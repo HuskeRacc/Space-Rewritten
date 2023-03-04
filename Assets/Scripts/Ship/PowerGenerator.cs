@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PowerGenerator : Interactable
+public class PowerGenerator : Interactable, ISaveable
 {
 
     public bool powerGeneratorActive;
@@ -20,6 +21,8 @@ public class PowerGenerator : Interactable
     [SerializeField] List<LightManager> lightManager;
     [SerializeField] bool lightsOff = false;
 
+    [SerializeField] Animator anim;
+
     public float fuelConsumptionRate = 2f;
     [SerializeField] float fuelConsumptionTickRate = 5f;
 
@@ -27,6 +30,7 @@ public class PowerGenerator : Interactable
 
     private void Start()
     {
+        anim = GetComponentInChildren<Animator>();
         lightSwitches = GameObject.FindGameObjectsWithTag("lightswitch");
 
         for (int i = 0; i < lightSwitches.Length; i++)
@@ -41,6 +45,15 @@ public class PowerGenerator : Interactable
     {
         FuelClamps();
         HandlePower();
+        HandleAnimation();
+    }
+
+    void HandleAnimation()
+    {
+        if (powerGeneratorActive)
+            anim.SetBool("togglestate", true);
+        else
+            anim.SetBool("togglestate", false);
     }
 
     void FuelClamps()
@@ -137,7 +150,7 @@ public class PowerGenerator : Interactable
     {
         for (int i = 0; i < lightManager.Count; i++)
         {
-            lightManager[i].ForceLightsOff();
+            lightManager[i].ToggleLightOff();
         }
         lightsOff = true;
     }
@@ -148,5 +161,26 @@ public class PowerGenerator : Interactable
         {
             ship.fuel -= fuelConsumptionRate;
         }
+    }
+
+    public object CaptureState()
+    {
+        return new SaveData
+        {
+            savedPowerStatus = powerGeneratorActive
+        };
+    }
+
+    public void RestoreState(object state)
+    {
+        var saveData = (SaveData)state;
+
+        powerGeneratorActive = saveData.savedPowerStatus;
+    }
+
+    [Serializable]
+    private struct SaveData
+    {
+        public bool savedPowerStatus;
     }
 }
