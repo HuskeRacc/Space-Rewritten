@@ -38,6 +38,8 @@ using UnityEngine;
         }
     }
 
+    
+
     private Dictionary<string,object> LoadFile()
     {
         if(!File.Exists(SavePath))

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HelmMenu : MonoBehaviour
@@ -25,6 +26,8 @@ public class HelmMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI satoniumBankedValue;
     [SerializeField] TextMeshProUGUI thrustiumBankedValue;
     [SerializeField] TextMeshProUGUI fueliumBankedValue;
+
+    [SerializeField] Button travelButton;
 
     [SerializeField] GameObject helmMenu;
 
@@ -75,11 +78,28 @@ public class HelmMenu : MonoBehaviour
         modeValue.text = "2";
     }
 
+    public void Onclick_Travel()
+    {
+        if(ShipMaterialBank.instance.thrustiumBanked >= 250)
+        {
+            SceneManager.LoadScene(2);
+        }
+    }
+
     private void Update()
     {
         DisplayTextValues();
         DisplayDroneValues();
         DisplayBankedValues();
+
+        if (ShipMaterialBank.instance.thrustiumBanked >= 250)
+        {
+            travelButton.interactable = true;
+        }
+        else
+        {
+            travelButton.interactable = false;
+        }
     }
 
     void DisplayTextValues()

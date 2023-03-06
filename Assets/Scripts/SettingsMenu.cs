@@ -9,12 +9,13 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI volumeValue;
     [SerializeField] TextMeshProUGUI sensitivityValue;
 
-    
+
 
     private void Update()
     {
-        volumeValue.text = PlayerPrefs.GetFloat("volume").ToString("F0");
-        sensitivityValue.text = PlayerPrefs.GetFloat("sensitivity").ToString("F0");
+
+            volumeValue.text = PlayerPrefs.GetFloat("volume").ToString("F0");
+            sensitivityValue.text = PlayerPrefs.GetFloat("sensitivity").ToString("F0");
     }
 
     public void OnClick_Back()
