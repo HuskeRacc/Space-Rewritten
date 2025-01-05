@@ -437,7 +437,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
             Debug.Log("Item picked up! = " + pickObj.name);
             heldObjRB = pickObj.GetComponent<Rigidbody>();
             heldObjRB.useGravity = false;
-            heldObjRB.drag = 10;
+            heldObjRB.linearDamping = 10;
             heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;
             heldObjRB.transform.parent = holdArea;
             heldObj = pickObj;
@@ -447,7 +447,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     private void HandleDrop()
     {
         heldObjRB.useGravity = true;
-        heldObjRB.drag = 1;
+        heldObjRB.linearDamping = 1;
         heldObjRB.constraints = RigidbodyConstraints.None;
         heldObjRB.transform.parent = null;
         heldObj = null;
