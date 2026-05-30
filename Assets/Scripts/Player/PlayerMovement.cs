@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour, ISaveable
 {
     public bool canMove = true;
-    public bool IsSprinting => canSprint && Input.GetKey(sprintKey);
-    private bool ShouldJump => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
-    private bool ShouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnim && characterController.isGrounded;
+    public bool IsSprinting => canSprint && sprintAction.action.IsPressed();
+    private bool ShouldJump => jumpAction.action.WasPressedThisFrame() && characterController.isGrounded;
+    private bool ShouldCrouch => crouchAction.action.WasPressedThisFrame() && !duringCrouchAnim && characterController.isGrounded;
 
     private Camera playerCam;
     private CharacterController characterController;
@@ -35,15 +36,15 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     [SerializeField] bool canZoom = true;
     [SerializeField] bool crosshairEnabled = true;
 
-    [Header("Controls")]
-    [SerializeField] KeyCode sprintKey = KeyCode.LeftShift;
-    [SerializeField] KeyCode jumpKey = KeyCode.Space;
-    [SerializeField] KeyCode pauseKey = KeyCode.Escape;
-    [SerializeField] KeyCode crouchKey = KeyCode.LeftControl;
-    [SerializeField] KeyCode interactKey = KeyCode.Mouse0;
-    [SerializeField] KeyCode pickupKey = KeyCode.Mouse1;
-    [SerializeField] KeyCode flashlightKey = KeyCode.F;
-    [SerializeField] KeyCode zoomKey = KeyCode.Mouse1;
+    [Header("Input")]
+    [SerializeField] private InputActionReference sprintAction;
+    [SerializeField] private InputActionReference jumpAction;
+    [SerializeField] private InputActionReference pauseAction;
+    [SerializeField] private InputActionReference crouchAction;
+    [SerializeField] private InputActionReference interactAction;
+    [SerializeField] private InputActionReference pickupAction;
+    [SerializeField] private InputActionReference flashlightAction;
+    [SerializeField] private InputActionReference zoomAction;
 
     [Header("Movement Params")]
     [SerializeField] float walkSpeed = 6.0f;
@@ -153,11 +154,30 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     private void OnEnable()
     {
         OnTakeDamage += ApplyDamage;
+
+        sprintAction?.action.Enable();
+        jumpAction?.action.Enable();
+        pauseAction?.action.Enable();
+        crouchAction?.action.Enable();
+        interactAction?.action.Enable();
+        pickupAction?.action.Enable();
+        flashlightAction?.action.Enable();
+        zoomAction?.action.Enable();
     }
 
     private void OnDisable()
     {
         OnTakeDamage -= ApplyDamage;
+
+        sprintAction?.action.Disable();
+        jumpAction?.action.Disable();
+        pauseAction?.action.Disable();
+        crouchAction?.action.Disable();
+        interactAction?.action.Disable();
+        pickupAction?.action.Disable();
+        flashlightAction?.action.Disable();
+        zoomAction?.action.Disable();
+
     }
 
     private void Awake()
@@ -237,7 +257,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
 
     void HandlePause()
     {
-        if (Input.GetKeyDown(pauseKey))
+        if (pauseAction.action.WasPressedThisFrame())
         {
             if (lockCursor)
                 lockCursor = false;
@@ -288,7 +308,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
 
         flashlightBatteryValueText.text = flashlightBattery.ToString();
 
-        if (Input.GetKeyDown(flashlightKey))
+        if (flashlightAction.action.WasPressedThisFrame())
         {
             if(flashlightBattery > 0 && flashlightOn == false)
             {
@@ -325,7 +345,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
 
     void HandleZoom()
     {
-        if(Input.GetKeyDown(zoomKey))
+        if(zoomAction.action.WasPressedThisFrame())
         {
             if(zoomRoutine != null)
             {
@@ -335,7 +355,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
             zoomRoutine = StartCoroutine(ToggleZoom(true));
         }
 
-        if (Input.GetKeyUp(zoomKey))
+        if (zoomAction.action.WasReleasedThisFrame())
         {
             if (zoomRoutine != null)
             {
@@ -390,7 +410,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
 
     void HandleInteractionInput()
     {
-        if(Input.GetKeyDown(interactKey) && currentInteractable != null 
+        if(interactAction.action.WasPressedThisFrame() && currentInteractable != null 
         && Physics.Raycast(playerCam.ViewportPointToRay(interactionRayPoint), 
         out RaycastHit hit, interactionDistance, interactionLayer))
         {
@@ -412,7 +432,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
 
     void HandlePickupInput()
     {
-        if (Input.GetKeyDown(pickupKey))
+        if (pickupAction.action.WasPressedThisFrame())
         {
             if (heldObj == null)
             {

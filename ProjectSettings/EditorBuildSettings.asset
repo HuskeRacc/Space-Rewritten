@@ -14,4 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/EndGame.unity
     guid: 8503ffb44255ba44d9ff272f080f1a08
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+      type: 3}

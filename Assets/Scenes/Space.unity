@@ -49001,6 +49001,54 @@ PrefabInstance:
       objectReference: {fileID: 516569467}
     - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
         type: 3}
+      propertyPath: jumpAction
+      value: 
+      objectReference: {fileID: -8228340993872951088, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
+      propertyPath: zoomAction
+      value: 
+      objectReference: {fileID: 8745865922835341740, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
+      propertyPath: pauseAction
+      value: 
+      objectReference: {fileID: -1711760146548795431, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
+      propertyPath: crouchAction
+      value: 
+      objectReference: {fileID: 2866446582306458572, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
+      propertyPath: pickupAction
+      value: 
+      objectReference: {fileID: -4316888752973757478, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
+      propertyPath: sprintAction
+      value: 
+      objectReference: {fileID: -866112289804787143, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
+      propertyPath: interactAction
+      value: 
+      objectReference: {fileID: -8988640042885011798, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
+      propertyPath: flashlightAction
+      value: 
+      objectReference: {fileID: -5707819661410436228, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+        type: 3}
+    - target: {fileID: 6571476490605686604, guid: 53712aed064ecfc41b59e950ec7cc693,
+        type: 3}
       propertyPath: flashlightBatteryValueText
       value: 
       objectReference: {fileID: 85355993}
