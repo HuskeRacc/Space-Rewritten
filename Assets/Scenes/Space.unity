@@ -40634,7 +40634,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectedLight: {fileID: 1551910481936473535}
-  toggle: 1
+  lightSwitchOn: 1
+  hasPower: 1
+  hasError: 0
   lightSwitchAudioClip: {fileID: 8300000, guid: 4ac49ecf38e05434d85e4283daf3125f,
     type: 3}
   powerGenerator: {fileID: 8018071311715465215}
@@ -61899,7 +61901,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectedLight: {fileID: 3653752394945749116}
-  toggle: 1
+  lightSwitchOn: 1
+  hasPower: 1
+  hasError: 0
   lightSwitchAudioClip: {fileID: 8300000, guid: 4ac49ecf38e05434d85e4283daf3125f,
     type: 3}
   powerGenerator: {fileID: 8018071311715465215}
@@ -91059,12 +91063,13 @@ MonoBehaviour:
   oxygen: {fileID: 5641048298297125738}
   ship: {fileID: 2067334836}
   status: {fileID: 335008514}
-  lightSwitches: []
-  lightManager: []
-  lightsOff: 0
   anim: {fileID: 0}
   fuelConsumptionRate: 0.1
   fuelConsumptionTickRate: 3
+  lightManagers:
+  - {fileID: 8121254669175142142}
+  - {fileID: 96203494924985594}
+  - {fileID: 3530121097189196120}
   lightIndicator: {fileID: 632778658533843215}
 --- !u!64 &8020609666486413083
 MeshCollider:
@@ -91202,7 +91207,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectedLight: {fileID: 4698505903767962719}
-  toggle: 1
+  lightSwitchOn: 1
+  hasPower: 1
+  hasError: 0
   lightSwitchAudioClip: {fileID: 8300000, guid: 4ac49ecf38e05434d85e4283daf3125f,
     type: 3}
   powerGenerator: {fileID: 8018071311715465215}

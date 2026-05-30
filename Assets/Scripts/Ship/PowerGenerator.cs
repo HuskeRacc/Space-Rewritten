@@ -17,26 +17,23 @@ public class PowerGenerator : Interactable, ISaveable
     [SerializeField] OxygenGenerator oxygen;
     [SerializeField] ShipSystems ship;
     [SerializeField] PlayerStatus status;
-    [SerializeField] GameObject[] lightSwitches;
-    [SerializeField] List<LightManager> lightManager;
-    [SerializeField] bool lightsOff = false;
 
     [SerializeField] Animator anim;
 
     public float fuelConsumptionRate = 2f;
     [SerializeField] float fuelConsumptionTickRate = 5f;
 
+    [SerializeField] private List<LightManager> lightManagers = new();
+    private bool previousPowerState;
+
     [SerializeField] GameObject lightIndicator;
 
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        lightSwitches = GameObject.FindGameObjectsWithTag("lightswitch");
 
-        for (int i = 0; i < lightSwitches.Length; i++)
-        {
-            lightManager.Add(lightSwitches[i].GetComponent<LightManager>());
-        }
+        previousPowerState = powerGeneratorActive;
+        SetAllLightsPower(powerGeneratorActive);
 
         InvokeRepeating(nameof(ConsumeFuel), 0, fuelConsumptionTickRate);
     }
@@ -76,18 +73,42 @@ public class PowerGenerator : Interactable, ISaveable
 
     }
 
+
+    public override void OnFocus()
+    {
+    }
+
+    public override void OnInteract()
+    {
+        if (ship.fuel > 0)
+        {
+            TogglePowerGenerator();
+        }
+        else
+        {
+            StartCoroutine(status.TextPopup("No Fuel.", 5, false));
+        }
+    }
+
+    public override void OnLoseFocus()
+    {
+    }
+
     public void HandlePower()
     {
+        if (powerGeneratorActive != previousPowerState)
+        {
+            SetAllLightsPower(powerGeneratorActive);
+            previousPowerState = powerGeneratorActive;
+        }
+
         if (powerGeneratorActive)
         {
-            lightsOff = false;
             lightIndicator.GetComponent<Renderer>().material.color = Color.green;
             powerSound.UnPause();
         }
-        if (!powerGeneratorActive)
+        else
         {
-            if (!lightsOff)
-                TurnOffAllLights();
             lightIndicator.GetComponent<Renderer>().material.color = Color.red;
             powerSound.Pause();
         }
@@ -106,24 +127,21 @@ public class PowerGenerator : Interactable, ISaveable
         }
     }
 
-    public override void OnFocus()
+    private void SetAllLightsPower(bool hasPower)
     {
-    }
+        Debug.Log("Setting all lights power to: " + hasPower + ". Light count: " + lightManagers.Count);
 
-    public override void OnInteract()
-    {
-        if(ship.fuel > 0)
+        for (int i = 0; i < lightManagers.Count; i++)
         {
-            TogglePowerGenerator();
+            if (lightManagers[i] != null)
+            {
+                lightManagers[i].SetPower(hasPower);
+            }
+            else
+            {
+                Debug.LogWarning("LightManager at index " + i + " is null.");
+            }
         }
-        else
-        {
-            StartCoroutine(status.TextPopup("No Fuel.", 5, false));
-        }
-    }
-
-    public override void OnLoseFocus()
-    {
     }
 
     public void TogglePowerGenerator()
@@ -144,15 +162,6 @@ public class PowerGenerator : Interactable, ISaveable
             Destroy(other.gameObject);
             ship.fuel += 75f;
         }
-    }
-
-    private void TurnOffAllLights()
-    {
-        for (int i = 0; i < lightManager.Count; i++)
-        {
-            lightManager[i].ToggleLightOff();
-        }
-        lightsOff = true;
     }
 
     void ConsumeFuel()

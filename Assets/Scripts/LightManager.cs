@@ -1,21 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LightManager : Interactable
 {
-    [SerializeField] GameObject affectedLight;
-    [SerializeField] bool toggle = true;
-    AudioSource lightSwitchAudioSource;
-    [SerializeField] AudioClip lightSwitchAudioClip;
+    [SerializeField] private GameObject affectedLight;
 
-    [SerializeField] PowerGenerator powerGenerator;
+    [Header("State")]
+    [SerializeField] private bool lightSwitchOn = true;
+    [SerializeField] private bool hasPower = true;
+    [SerializeField] private bool hasError = false;
 
-    public static LightManager instance;
+    [Header("Audio")]
+    private AudioSource lightSwitchAudioSource;
+    [SerializeField] private AudioClip lightSwitchAudioClip;
+
+    [Header("References")]
+    [SerializeField] private PowerGenerator powerGenerator;
 
     private void Start()
     {
         lightSwitchAudioSource = GetComponent<AudioSource>();
+
+        if (powerGenerator != null)
+        {
+            hasPower = powerGenerator.powerGeneratorActive;
+        }
+
+        ApplyLightState();
     }
 
     public override void OnFocus()
@@ -24,36 +34,52 @@ public class LightManager : Interactable
 
     public override void OnInteract()
     {
-        if(powerGenerator.powerGeneratorActive)
-        {
-            if (toggle)
-                ToggleLightOff();
-            else
-                ToggleLightOn();
-        }
-        else
+        if (!hasPower)
         {
             Debug.Log("Can't turn lights on with power off");
+            return;
         }
+
+        ToggleLightSwitch();
     }
 
     public override void OnLoseFocus()
     {
+        Debug.Log("LightManager lost focus");
     }
 
-    public void ToggleLightOn()
+    public void SetPower(bool powered)
     {
-        toggle = !toggle;
-        affectedLight.SetActive(toggle);
-        lightSwitchAudioSource.PlayOneShot(lightSwitchAudioClip);
-        Debug.Log("Light Toggled. Bool: " + toggle);
+        hasPower = powered;
+        ApplyLightState();
     }
 
-    public void ToggleLightOff()
+    public void SetLightError(bool errorActive)
     {
-        toggle = false;
-        affectedLight.SetActive(toggle);
-        lightSwitchAudioSource.PlayOneShot(lightSwitchAudioClip);
-        Debug.Log("Light Forced Off. Bool: " + toggle);
+        hasError = errorActive;
+        ApplyLightState();
+    }
+
+    public void ToggleLightSwitch()
+    {
+        lightSwitchOn = !lightSwitchOn;
+        ApplyLightState();
+
+        if (lightSwitchAudioSource != null && lightSwitchAudioClip != null)
+        {
+            lightSwitchAudioSource.PlayOneShot(lightSwitchAudioClip);
+        }
+
+        Debug.Log("Light switch toggled. Switch On: " + lightSwitchOn +
+              ", Has Power: " + hasPower +
+              ", Error: " + hasError);
+    }
+
+    private void ApplyLightState()
+    {
+        if (affectedLight != null)
+        {
+            affectedLight.SetActive(lightSwitchOn && hasPower && !hasError);
+        }
     }
 }
