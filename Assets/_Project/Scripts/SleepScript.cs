@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SleepScript : Interactable
 {
+
+    [SerializeField] private InputActionReference interactAction;
+
     bool isSleeping = false;
 
     [SerializeField] GameObject sleepingPanel;
@@ -12,6 +16,16 @@ public class SleepScript : Interactable
     [SerializeField] Camera sleepCamera;
 
     [SerializeField] GameObject crosshair;
+
+    private void OnEnable()
+    {
+        interactAction?.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        interactAction?.action.Disable();
+    }
 
     public override void OnFocus()
     {
@@ -59,7 +73,7 @@ public class SleepScript : Interactable
             PlayerMovement.instance.canPause = true;
         }
 
-        if(Input.GetKeyDown(KeyCode.Q) && isSleeping)
+        if(interactAction.action.WasPressedThisFrame() && isSleeping)
         {
             sleepingPanel.SetActive(false);
             PlayerNeeds.instance.InvokeSleepBreak();

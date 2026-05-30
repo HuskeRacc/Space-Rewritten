@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     [SerializeField] bool crosshairEnabled = true;
 
     [Header("Input")]
+    [SerializeField] private InputActionReference lookAction;
+    [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference sprintAction;
     [SerializeField] private InputActionReference jumpAction;
     [SerializeField] private InputActionReference pauseAction;
@@ -155,6 +157,8 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     {
         OnTakeDamage += ApplyDamage;
 
+        moveAction.action.Enable();
+        lookAction.action.Enable();
         sprintAction?.action.Enable();
         jumpAction?.action.Enable();
         pauseAction?.action.Enable();
@@ -169,6 +173,8 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     {
         OnTakeDamage -= ApplyDamage;
 
+        moveAction.action.Disable();
+        lookAction.action.Disable();
         sprintAction?.action.Disable();
         jumpAction?.action.Disable();
         pauseAction?.action.Disable();
@@ -484,23 +490,37 @@ public class PlayerMovement : MonoBehaviour, ISaveable
 
     void HandleMovementInput()
     {
+        Vector2 moveInput = moveAction.action.ReadValue<Vector2>();
+
+        float currentSpeed = isCrouching
+            ? crouchSpeed
+            : IsSprinting
+                ? sprintSpeed
+                : walkSpeed;
+
         currentInput = new Vector2(
-            (isCrouching ? crouchSpeed : IsSprinting ? sprintSpeed : walkSpeed)
-            * Input.GetAxis("Vertical"), 
-            (isCrouching ? crouchSpeed : IsSprinting ? sprintSpeed : walkSpeed)
-            * Input.GetAxis("Horizontal"));
+            currentSpeed * moveInput.y,
+            currentSpeed * moveInput.x
+        );
 
         float moveDirectionY = moveDir.y;
-        moveDir = (transform.TransformDirection(Vector3.forward) * currentInput.x) + (transform.TransformDirection(Vector3.right) * currentInput.y);
+
+        moveDir =
+            (transform.TransformDirection(Vector3.forward) * currentInput.x) +
+            (transform.TransformDirection(Vector3.right) * currentInput.y);
+
         moveDir.y = moveDirectionY;
     }
 
     void HandleMouseLook()
     {
-        rotX -= Input.GetAxis("Mouse Y") * lookSpeed;
+        Vector2 lookInput = lookAction.action.ReadValue<Vector2>();
+
+        rotX -= lookInput.y * lookSpeed;
         rotX = Mathf.Clamp(rotX, -upperLookLimit, lowerLookLimit);
+
         playerCam.transform.localRotation = Quaternion.Euler(rotX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+        transform.rotation *= Quaternion.Euler(0, lookInput.x * lookSpeed, 0);
     }
 
     void HandleJump()
