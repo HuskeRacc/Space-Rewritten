@@ -41,4 +41,10 @@ public class ErrorNotificationSystem : MonoBehaviour
         if (solarUpgradeBought)
             errorSoundSource.PlayOneShot(errorSounds[2]);
     }
+
+    public void LightError()
+    {
+        errorSoundSource.PlayOneShot(errorSounds[0]);
+        // upgrade feature?
+    }
 }

@@ -159,17 +159,39 @@ public class ShipErrors : MonoBehaviour
 
     void LightError()
     {
+        ErrorNotificationSystem.instance.LightError();
+
         for (int i = 0; i < lightsGO.Length; i++)
         {
-            lights = lightsGO[i].GetComponent<LightManager>();
-            lights.ToggleLightOff();
-            errorCooldown = 120;
-            StartCoroutine(ErrorCooldown(errorCooldown));
-            Debug.Log("Light Error Triggered");
-            failedRNGChecks = 0;
-            RNGResult = 0;
+            LightManager light = lightsGO[i].GetComponent<LightManager>();
+
+            if (light != null)
+            {
+                light.SetLightError(true);
+            }
         }
 
+        errorCooldown = 120;
+        StartCoroutine(LightErrorDuration(errorCooldown));
+        StartCoroutine(ErrorCooldown(errorCooldown));
+
+        Debug.Log("Light Error Triggered");
+        failedRNGChecks = 0;
+        RNGResult = 0;
+    }
+
+    void ClearLightError()
+    {
+        for (int i = 0; i < lightsGO.Length; i++)
+        {
+            LightManager light = lightsGO[i].GetComponent<LightManager>();
+
+            if(light != null)
+            {
+                light.SetLightError(false);
+            }
+        }
+        Debug.Log("Light error cleared");
     }
 
 
@@ -195,5 +217,11 @@ public class ShipErrors : MonoBehaviour
         canError = false;
         yield return new WaitForSeconds(errorCooldown);
         canError = true;
+    }
+
+    IEnumerator LightErrorDuration(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        ClearLightError();
     }
 }
