@@ -123,8 +123,13 @@ namespace Poi
         /// <param name="path"></param>
         internal static void PingAssetAtPath(string path)
         {
-            var inst = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path).GetInstanceID();
-            EditorGUIUtility.PingObject(inst);
+            var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+
+            if(asset != null)
+            {
+                var entityId = asset.GetEntityId();
+                EditorGUIUtility.PingObject(entityId);
+            }
         }
 
         internal static void DrawWithLabelWidth(float width, Action action)
