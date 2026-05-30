@@ -371,17 +371,17 @@ namespace Thry
                 }
 
                 // Every property gets turned into a preprocessor variable
-                switch (prop.type)
+                switch (prop.propertyType)
                 {
-                    case MaterialProperty.PropType.Float:
-                    case MaterialProperty.PropType.Range:
+                    case UnityEngine.Rendering.ShaderPropertyType.Float:
+                    case UnityEngine.Rendering.ShaderPropertyType.Range:
                         definesSB.Append("#define PROP");
                         definesSB.Append(prop.name.ToUpper());
                         definesSB.Append(' ');
                         definesSB.Append(prop.floatValue.ToString(CultureInfo.InvariantCulture));
                         definesSB.Append(Environment.NewLine);
                         break;
-                    case MaterialProperty.PropType.Texture:
+                    case UnityEngine.Rendering.ShaderPropertyType.Texture:
                         if (prop.textureValue != null)
                         {
                             definesSB.Append("#define PROP");
@@ -430,7 +430,7 @@ namespace Thry
                     // check if we're renaming the property as well
                     if (animateTag == "2")
                     {
-                        if (prop.type != MaterialProperty.PropType.Texture &&
+                        if (prop.propertyType != UnityEngine.Rendering.ShaderPropertyType.Texture &&
                                 !prop.name.EndsWith("UV") && !prop.name.EndsWith("Pan")) // this property might be animated, but we're not allowed to rename it. this will break things.
                         {
                             // be sure we're not renaming stuff like _MainTex that should always be named the same
@@ -450,39 +450,39 @@ namespace Thry
                 }
 
                 PropertyData propData;
-                switch(prop.type)
+                switch(prop.propertyType)
                 {
-                    case MaterialProperty.PropType.Color:
+                    case UnityEngine.Rendering.ShaderPropertyType.Color:
                         propData = new PropertyData();
                         propData.type = PropertyType.Vector;
                         propData.name = prop.name;
-                        if ((prop.flags & MaterialProperty.PropFlags.HDR) != 0)
+                        if ((prop.propertyFlags & UnityEngine.Rendering.ShaderPropertyFlags.HDR) != 0)
                         {
-                            if ((prop.flags & MaterialProperty.PropFlags.Gamma) != 0)
+                            if ((prop.propertyFlags & UnityEngine.Rendering.ShaderPropertyFlags.Gamma) != 0)
                                 propData.value = prop.colorValue.linear;
                             else propData.value = prop.colorValue;
                         }
-                        else if ((prop.flags & MaterialProperty.PropFlags.Gamma) != 0)
+                        else if ((prop.propertyFlags & UnityEngine.Rendering.ShaderPropertyFlags.Gamma) != 0)
                             propData.value = prop.colorValue;
                         else propData.value = prop.colorValue.linear;
                         constantProps.Add(propData);
                         break;
-                    case MaterialProperty.PropType.Vector:
+                    case UnityEngine.Rendering.ShaderPropertyType.Vector:
                         propData = new PropertyData();
                         propData.type = PropertyType.Vector;
                         propData.name = prop.name;
                         propData.value = prop.vectorValue;
                         constantProps.Add(propData);
                         break;
-                    case MaterialProperty.PropType.Float:
-                    case MaterialProperty.PropType.Range:
+                    case UnityEngine.Rendering.ShaderPropertyType.Float:
+                    case UnityEngine.Rendering.ShaderPropertyType.Range:
                         propData = new PropertyData();
                         propData.type = PropertyType.Float;
                         propData.name = prop.name;
                         propData.value = new Vector4(prop.floatValue, 0, 0, 0);
                         constantProps.Add(propData);
                         break;
-                    case MaterialProperty.PropType.Texture:
+                    case UnityEngine.Rendering.ShaderPropertyType.Texture:
                         animateTag = material.GetTag(prop.name + "_ST" + AnimatedTagSuffix, false, "0");
                         if (!(animateTag != "" && animateTag == "1"))
                         {
@@ -800,18 +800,18 @@ namespace Thry
             foreach (var animProp in animatedPropsToRename)
             {
                 var newName = animProp.name + "_" + animPropertySuffix;
-                switch (animProp.type)
+                switch (animProp.propertyType)
                 {
-                    case MaterialProperty.PropType.Color:
+                    case UnityEngine.Rendering.ShaderPropertyType.Color:
                         material.SetColor(newName, animProp.colorValue);
                         break;
-                    case MaterialProperty.PropType.Vector:
+                    case UnityEngine.Rendering.ShaderPropertyType.Vector:
                         material.SetVector(newName, animProp.vectorValue);
                         break;
-                    case MaterialProperty.PropType.Float:
+                    case UnityEngine.Rendering.ShaderPropertyType.Float:
                         material.SetFloat(newName, animProp.floatValue);
                         break;
-                    case MaterialProperty.PropType.Range:
+                    case UnityEngine.Rendering.ShaderPropertyType.Range:
                         material.SetFloat(newName, animProp.floatValue);
                         break;
                     default:
@@ -822,18 +822,18 @@ namespace Thry
             foreach (var animProp in animatedPropsToDuplicate)
             {
                 var newName = animProp.name + "_" + animPropertySuffix;
-                switch (animProp.type)
+                switch (animProp.propertyType)
                 {
-                    case MaterialProperty.PropType.Color:
+                    case UnityEngine.Rendering.ShaderPropertyType.Color:
                         material.SetColor(newName, animProp.colorValue);
                         break;
-                    case MaterialProperty.PropType.Vector:
+                    case UnityEngine.Rendering.ShaderPropertyType.Vector:
                         material.SetVector(newName, animProp.vectorValue);
                         break;
-                    case MaterialProperty.PropType.Float:
+                    case UnityEngine.Rendering.ShaderPropertyType.Float:
                         material.SetFloat(newName, animProp.floatValue);
                         break;
-                    case MaterialProperty.PropType.Range:
+                    case UnityEngine.Rendering.ShaderPropertyType.Range:
                         material.SetFloat(newName, animProp.floatValue);
                         break;
                     default:

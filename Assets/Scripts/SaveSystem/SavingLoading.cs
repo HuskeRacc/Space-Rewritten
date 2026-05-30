@@ -56,7 +56,7 @@ using UnityEngine;
 
     private void CaptureState(Dictionary<string,object> state)
     {
-        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
+        foreach (var saveable in Object.FindObjectsByType<SaveableEntity>())
         {
             state[saveable.Id] = saveable.CaptureState();
         }
@@ -64,7 +64,7 @@ using UnityEngine;
 
     private void RestoreState(Dictionary<string,object> state)
     {
-        foreach (var saveable in FindObjectsOfType<SaveableEntity>())
+        foreach (var saveable in Object.FindObjectsByType<SaveableEntity>())
         {
             if(state.TryGetValue(saveable.Id,out object value))
             {
