@@ -521,10 +521,10 @@ namespace Thry
     {
         public static void UpdateTargetsValue(MaterialProperty p, System.Object value)
         {
-            if (p.type == MaterialProperty.PropType.Texture)
+            if (p.propertyType == UnityEngine.Rendering.ShaderPropertyType.Texture)
                 foreach (UnityEngine.Object m in p.targets)
                     ((Material)m).SetTexture(p.name, (Texture)value);
-            else if (p.type == MaterialProperty.PropType.Float)
+            else if (p.propertyType == UnityEngine.Rendering.ShaderPropertyType.Float)
             {
                 foreach (UnityEngine.Object m in p.targets)
                     if (value.GetType() == typeof(float))
@@ -601,13 +601,13 @@ namespace Thry
 
         public static void SetMaterialPropertyValue(MaterialProperty p, Material[] materials, string value)
         {
-            if (p.type == MaterialProperty.PropType.Texture)
+            if (p.propertyType == UnityEngine.Rendering.ShaderPropertyType.Texture)
             {
                 Texture tex = AssetDatabase.LoadAssetAtPath<Texture>(value);
                 if (tex != null)
                     foreach (Material m in materials) m.SetTexture(p.name, tex);
             }
-            else if (p.type == MaterialProperty.PropType.Float || p.type == MaterialProperty.PropType.Range)
+            else if (p.propertyType == UnityEngine.Rendering.ShaderPropertyType.Float || p.propertyType == UnityEngine.Rendering.ShaderPropertyType.Range)
             {
                 float f_value;
                 if (float.TryParse(Parser.GlobalizationFloat(value), out f_value))
@@ -618,13 +618,13 @@ namespace Thry
                         MaterialHelper.ToggleKeyword(p, drawer[1], f_value == 1);
                 }
             }
-            else if (p.type == MaterialProperty.PropType.Vector)
+            else if (p.propertyType == UnityEngine.Rendering.ShaderPropertyType.Vector)
             {
                 string[] xyzw = value.Split(",".ToCharArray());
                 Vector4 vector = new Vector4(float.Parse(xyzw[0]), float.Parse(xyzw[1]), float.Parse(xyzw[2]), float.Parse(xyzw[3]));
                 foreach (Material m in materials) m.SetVector(p.name, vector);
             }
-            else if (p.type == MaterialProperty.PropType.Color)
+            else if (p.propertyType == UnityEngine.Rendering.ShaderPropertyType.Color)
             {
                 Color col = Converter.stringToColor(value);
                 foreach (Material m in materials) m.SetColor(p.name, col);
@@ -633,25 +633,25 @@ namespace Thry
 
         public static void CopyPropertyValueFromMaterial(MaterialProperty p, Material source)
         {
-            switch (p.type)
+            switch (p.propertyType)
             {
-                case MaterialProperty.PropType.Float:
-                case MaterialProperty.PropType.Range:
+                case UnityEngine.Rendering.ShaderPropertyType.Float:
+                case UnityEngine.Rendering.ShaderPropertyType.Range:
                     float f = source.GetFloat(p.name);
                     p.floatValue = f;
                     string[] drawer = ShaderHelper.GetDrawer(p);
                     if (drawer != null && drawer.Length > 1 && drawer[0] == "Toggle" && drawer[1] != "__")
                         ToggleKeyword(p, drawer[1], f == 1);
                     break;
-                case MaterialProperty.PropType.Color:
+                case UnityEngine.Rendering.ShaderPropertyType.Color:
                     Color c = source.GetColor(p.name);
                     p.colorValue = c;
                     break;
-                case MaterialProperty.PropType.Vector:
+                case UnityEngine.Rendering.ShaderPropertyType.Vector:
                     Vector4 vector = source.GetVector(p.name);
                     p.vectorValue = vector;
                     break;
-                case MaterialProperty.PropType.Texture:
+                case UnityEngine.Rendering.ShaderPropertyType.Texture:
                     Texture t = source.GetTexture(p.name);
                     Vector2 offset = source.GetTextureOffset(p.name);
                     Vector2 scale = source.GetTextureScale(p.name);
@@ -672,22 +672,22 @@ namespace Thry
 
         public static void CopyMaterialValueFromProperty(MaterialProperty target, MaterialProperty source)
         {
-            switch (target.type)
+            switch (target.propertyType)
             {
-                case MaterialProperty.PropType.Float:
-                case MaterialProperty.PropType.Range:
+                case UnityEngine.Rendering.ShaderPropertyType.Float:
+                case UnityEngine.Rendering.ShaderPropertyType.Range:
                     target.floatValue = source.floatValue;
                     string[] drawer = ShaderHelper.GetDrawer(target);
                     if (drawer != null && drawer.Length > 1 && drawer[0] == "Toggle" && drawer[1] != "__")
                         ToggleKeyword(target, drawer[1], source.floatValue == 1);
                     break;
-                case MaterialProperty.PropType.Color:
+                case UnityEngine.Rendering.ShaderPropertyType.Color:
                     target.colorValue = source.colorValue;
                     break;
-                case MaterialProperty.PropType.Vector:
+                case UnityEngine.Rendering.ShaderPropertyType.Vector:
                     target.vectorValue = source.vectorValue;
                     break;
-                case MaterialProperty.PropType.Texture:
+                case UnityEngine.Rendering.ShaderPropertyType.Texture:
                     target.textureValue = source.textureValue;
                     target.textureScaleAndOffset = source.textureScaleAndOffset;
                     break;
@@ -696,25 +696,25 @@ namespace Thry
 
         public static void CopyPropertyValueToMaterial(MaterialProperty source, Material target)
         {
-            switch (source.type)
+            switch (source.propertyType)
             {
-                case MaterialProperty.PropType.Float:
-                case MaterialProperty.PropType.Range:
+                case UnityEngine.Rendering.ShaderPropertyType.Float:
+                case UnityEngine.Rendering.ShaderPropertyType.Range:
                     float f = source.floatValue;
                     target.SetFloat(source.name, f);
                     string[] drawer = ShaderHelper.GetDrawer(source);
                     if (drawer != null && drawer.Length > 1 && drawer[0] == "Toggle" && drawer[1] != "__")
                         ToggleKeyword(target, drawer[1], f == 1);
                     break;
-                case MaterialProperty.PropType.Color:
+                case UnityEngine.Rendering.ShaderPropertyType.Color:
                     Color c = source.colorValue;
                     target.SetColor(source.name, c);
                     break;
-                case MaterialProperty.PropType.Vector:
+                case UnityEngine.Rendering.ShaderPropertyType.Vector:
                     Vector4 vector = source.vectorValue;
                     target.SetVector(source.name, vector);
                     break;
-                case MaterialProperty.PropType.Texture:
+                case UnityEngine.Rendering.ShaderPropertyType.Texture:
                     Texture t = source.textureValue;
                     Vector4 scaleoffset = source.textureScaleAndOffset;
                     target.SetTexture(source.name, t);

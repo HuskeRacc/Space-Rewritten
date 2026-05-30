@@ -133,7 +133,7 @@ namespace Thry
         private ThryPropertyType GetPropertyType(MaterialProperty p, PropertyOptions options)
         {
             string name = p.name;
-            MaterialProperty.PropFlags flags = p.flags;
+            UnityEngine.Rendering.ShaderPropertyFlags flags = p.propertyFlags;
 
             if (DrawingData.lastPropertyDrawerType == DrawerType.Header)
                 return (DrawingData.lastPropertyDrawer as ThryHeaderDrawer).GetEndProperty() != null ? ThryPropertyType.headerWithEnd : ThryPropertyType.header;
@@ -145,7 +145,7 @@ namespace Thry
             if (name == "_ShaderOptimizerEnabled")
                 return ThryPropertyType.shader_optimizer;
 
-            if (flags == MaterialProperty.PropFlags.HideInInspector)
+            if (flags == UnityEngine.Rendering.ShaderPropertyFlags.HideInInspector)
             {
                 if (name.StartsWith("m_start"))
                     return ThryPropertyType.legacy_header_start;
@@ -171,7 +171,7 @@ namespace Thry
                 if (Regex.Match(name.ToLower(), @"^space\d*$").Success)
                     return ThryPropertyType.space;
             }
-            else if(flags.HasFlag(MaterialProperty.PropFlags.HideInInspector) == false)
+            else if(flags.HasFlag(UnityEngine.Rendering.ShaderPropertyFlags.HideInInspector) == false)
             {
                 if (!options.hide_in_inspector)
                     return ThryPropertyType.property;
@@ -304,9 +304,9 @@ namespace Thry
                     case ThryPropertyType.none:
                     case ThryPropertyType.property:
 
-                        bool forceOneLine = props[i].type == MaterialProperty.PropType.Vector && !DrawingData.lastPropertyUsedCustomDrawer;
-                        if (props[i].type == MaterialProperty.PropType.Texture)
-                            NewProperty = new TextureProperty(this, props[i], displayName, offset, options, props[i].flags.HasFlag(MaterialProperty.PropFlags.NoScaleOffset) == false, !DrawingData.lastPropertyUsedCustomDrawer);
+                        bool forceOneLine = props[i].propertyType == UnityEngine.Rendering.ShaderPropertyType.Vector && !DrawingData.lastPropertyUsedCustomDrawer;
+                        if (props[i].propertyType == UnityEngine.Rendering.ShaderPropertyType.Texture)
+                            NewProperty = new TextureProperty(this, props[i], displayName, offset, options, props[i].propertyFlags.HasFlag(UnityEngine.Rendering.ShaderPropertyFlags.NoScaleOffset) == false, !DrawingData.lastPropertyUsedCustomDrawer);
                         else
                             NewProperty = new ShaderProperty(this, props[i], displayName, offset, options, forceOneLine);
                         break;
@@ -683,19 +683,19 @@ namespace Thry
                     Material m = ((Material)active.editor.target);
                     foreach (MaterialProperty property in active.properties)
                     {
-                        switch (property.type)
+                        switch (property.propertyType)
                         {
-                            case MaterialProperty.PropType.Float:
-                            case MaterialProperty.PropType.Range:
+                            case UnityEngine.Rendering.ShaderPropertyType.Float:
+                            case UnityEngine.Rendering.ShaderPropertyType.Range:
                                 property.floatValue = m.GetFloat(property.name);
                                 break;
-                            case MaterialProperty.PropType.Texture:
+                            case UnityEngine.Rendering.ShaderPropertyType.Texture:
                                 property.textureValue = m.GetTexture(property.name);
                                 break;
-                            case MaterialProperty.PropType.Color:
+                            case UnityEngine.Rendering.ShaderPropertyType.Color:
                                 property.colorValue = m.GetColor(property.name);
                                 break;
-                            case MaterialProperty.PropType.Vector:
+                            case UnityEngine.Rendering.ShaderPropertyType.Vector:
                                 property.vectorValue = m.GetVector(property.name);
                                 break;
                         }

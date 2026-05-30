@@ -420,7 +420,7 @@ namespace Thry
 
         public override void TransferFromMaterialAndGroup(Material m, ShaderPart p)
         {
-            if (materialProperty.type != p.materialProperty.type) return;
+            if (materialProperty.propertyType != p.materialProperty.propertyType) return;
             MaterialHelper.CopyMaterialValueFromProperty(materialProperty, p.materialProperty);
             if (keyword != null) SetKeyword(ShaderEditor.active.materials, m.GetFloat(p.materialProperty.name) == 1);
             if (is_animatable && p.is_animatable)
@@ -469,7 +469,7 @@ namespace Thry
 
         public override void TransferFromMaterialAndGroup(Material m, ShaderPart p)
         {
-            if (materialProperty.type != p.materialProperty.type) return;
+            if (materialProperty.propertyType != p.materialProperty.propertyType) return;
             MaterialHelper.CopyMaterialValueFromProperty(materialProperty, p.materialProperty);
             TransferReferencePropertiesToMaterial(m, p);
         }
