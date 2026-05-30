@@ -395,7 +395,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     {
         if(Physics.Raycast(playerCam.ViewportPointToRay(interactionRayPoint), out RaycastHit hit, interactionDistance))
         {
-            if (hit.collider.gameObject.layer == 9 && (currentInteractable == null || hit.collider.gameObject.GetInstanceID() != currentInteractable.GetInstanceID()))
+            if (hit.collider.gameObject.layer == 9 && (currentInteractable == null || hit.collider.gameObject.GetEntityId() != gameObject.GetEntityId()))
             {
                 hit.collider.TryGetComponent(out currentInteractable);
                 if (currentInteractable) currentInteractable.OnFocus();

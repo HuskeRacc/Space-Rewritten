@@ -32,7 +32,7 @@ public class Radio : Interactable
 
     public override void OnLoseFocus()
     {
-        
+        Debug.Log("Radio Lost Focus");
     }
 
     void NextSong()
