@@ -8,7 +8,6 @@ public class Settings : MonoBehaviour
     public AudioMixer mixer;
     [SerializeField] Slider volumeSlider;
     [SerializeField] Slider sensSlider;
-    [SerializeField] Toggle fpsToggle;
     [SerializeField] TextMeshProUGUI fpsValue;
     [SerializeField] bool fpsCounterToggled = false;
 
@@ -35,23 +34,41 @@ public class Settings : MonoBehaviour
     }
 
     #region audio
+
+    private const string VolumePrefKey = "volume";
+    private const string MixerVolumeParameter = "GeneralVolume";
+
     void LoadVolumeSettings()
     {
-        if(PlayerPrefs.GetFloat("volume") != 0.00f)
+        float savedVolume = PlayerPrefs.GetFloat(VolumePrefKey, 1f);
+
+        if(volumeSlider != null)
         {
-            mixer.SetFloat("GeneralVolume", PlayerPrefs.GetFloat("volume"));
+            volumeSlider.minValue = 0.0001f;
+            volumeSlider.maxValue = 1f;
+            volumeSlider.value = savedVolume;
         }
-        else
-        {
-            mixer.SetFloat("GeneralVolume", 0.00f);
-        }
-        volumeSlider.value = PlayerPrefs.GetFloat("volume");
+
+        ApplyVolume(savedVolume);
     }
 
     public void SetAudioLevel(float _sliderValue)
     {
-        mixer.SetFloat("GeneralVolume", _sliderValue);
-        PlayerPrefs.SetFloat("volume", _sliderValue);
+        _sliderValue = Mathf.Clamp(_sliderValue, 0.0001f, 1f);
+
+        ApplyVolume(_sliderValue);
+
+        PlayerPrefs.SetFloat(VolumePrefKey, _sliderValue);
+        PlayerPrefs.Save();
+    }
+
+    private void ApplyVolume(float volume)
+    {
+        volume = Mathf.Clamp(volume, 0.0001f, 1f);
+
+        float volumeDb = Mathf.Log10(volume) * 20f;
+
+        mixer.SetFloat(MixerVolumeParameter, volumeDb);
     }
     #endregion
 
@@ -68,6 +85,7 @@ public class Settings : MonoBehaviour
         else
         {
             PlayerMovement.instance.lookSpeed = 1;
+            sensSlider.value = 1;
         }
 
     }

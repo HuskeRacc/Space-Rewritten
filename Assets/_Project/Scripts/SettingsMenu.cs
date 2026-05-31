@@ -14,8 +14,8 @@ public class SettingsMenu : MonoBehaviour
     private void Update()
     {
 
-            volumeValue.text = PlayerPrefs.GetFloat("volume").ToString("F0");
-            sensitivityValue.text = PlayerPrefs.GetFloat("sensitivity").ToString("F0");
+            volumeValue.text = PlayerPrefs.GetFloat("volume").ToString("F2");
+            sensitivityValue.text = PlayerPrefs.GetFloat("sensitivity").ToString("F2");
     }
 
     public void OnClick_Back()
