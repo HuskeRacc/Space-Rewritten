@@ -1,0 +1,65 @@
+Scene / layout ideas
+
+1. Make each room have a clear gameplay purpose:
+   - Helm: planning, drone control, destination/launch status.
+   - Mid room: crafting, food, upgrades, storage.
+   - Engine room: power, oxygen, fuel, emergency repairs.
+
+2. Add a visible objective screen at the helm:
+   - Destination: Station
+   - Thruster fuel required
+   - Current thruster fuel
+   - Launch status
+
+3. Make the engine room the “panic room”:
+   - Generator failure
+   - Oxygen failure
+   - Fuel refuelling
+   - Breaker resets
+   - Warning lights/sounds
+
+4. Make the mid room feel like the player’s survival workshop:
+   - Fabricator
+   - Food/coffee crafting
+   - Battery charging
+   - Storage crate for canisters/materials
+
+5. Keep the posters:
+   - They add character.
+   - Add more helpful-but-sarcastic ship safety signs.
+   - Use them to teach mechanics without boring tutorials.
+
+6. Make problems create movement:
+   - Drone decisions happen at helm.
+   - Crafting happens in mid room.
+   - Repairs/refuelling happen in engine room.
+   - Airlock/drone retrieval happens near the airlock.
+
+7. Add simple ambience:
+   - Low ship hum when generator is on.
+   - Dead silence or emergency beeps when power fails.
+   - Red light in engine room during failures.
+   - Screen flicker when battery is low.
+   
+Fuelium → crafted fuel canister → physically carry to generator → refuel
+Thrustium → thruster fuel cell → carry to engine room → load into thruster system
+Satonium → food item → physically take/eat/store
+Battery → crafted battery pack → insert into drone charger
+
+Visual clutter:
+Destination: Nearby Station
+Required Thruster Fuel: 100
+Current Thruster Fuel: X
+Launch Status: Not Ready / Ready
+
+CURRENT OBJECTIVE:
+Produce 100 Thruster Fuel to reach Helios Station.
+
+Thruster Fuel: 24 / 100
+Estimated launches remaining: 0
+Ship condition: Stable
+
+Drone missions:
+Safe Debris Field: low risk, mostly Satonium
+Fuel Wreckage: medium risk, mostly Fuelium
+Distant Engine Fragment: high risk, possible Thrustium

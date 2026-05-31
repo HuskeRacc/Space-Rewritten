@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour, ISaveable
     [SerializeField] float crouchSpeed = 3.0f;
 
     [Header("Look Params")]
-    [Range(1, 10)] public float lookSpeed = 2.0f;
+    [Range(0, 10)] public float lookSpeed = 1.0f;
 
     [SerializeField, Range(1, 180)] private float upperLookLimit = 80f;
     [SerializeField, Range(1, 180)] private float lowerLookLimit = 80f;
