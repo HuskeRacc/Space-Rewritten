@@ -131,16 +131,6 @@ This project is a playable prototype.
 
 It is not polished, balanced, or content-complete. Many systems are functional but still rough, and several areas are being reworked as the project is modernised.
 
-Recent work has focused on:
-
-* Upgrading the project to Unity 6.4
-* Cleaning and reorganising the project structure
-* Migrating to Unity’s newer Input System
-* Fixing old compatibility issues
-* Improving power and lighting behaviour
-* Reworking parts of the ship interior
-* Cleaning up settings and UI behaviour
-
 ---
 
 ## Planned Improvements
