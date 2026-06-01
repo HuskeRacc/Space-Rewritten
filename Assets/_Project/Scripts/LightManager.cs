@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class LightManager : Interactable
 {
-    [SerializeField] private GameObject affectedLight;
+    [SerializeField] private GameObject[] affectedLights;
+    [SerializeField] GameObject emergencyLight;
 
     [Header("State")]
     [SerializeField] private bool lightSwitchOn = true;
     [SerializeField] private bool hasPower = true;
     [SerializeField] private bool hasError = false;
+    [SerializeField] bool isEngineLight = false;
 
     [Header("Audio")]
     private AudioSource lightSwitchAudioSource;
@@ -26,6 +28,11 @@ public class LightManager : Interactable
         }
 
         ApplyLightState();
+
+        if(affectedLights.Length == 0)
+        {
+            Debug.Log("Light switch " +  this.gameObject.name + " does not have lights assigned");
+        }
     }
 
     public override void OnFocus()
@@ -45,7 +52,6 @@ public class LightManager : Interactable
 
     public override void OnLoseFocus()
     {
-        Debug.Log("LightManager lost focus");
     }
 
     public void SetPower(bool powered)
@@ -77,9 +83,16 @@ public class LightManager : Interactable
 
     private void ApplyLightState()
     {
-        if (affectedLight != null)
+        for (int i = 0; i < affectedLights.Length; i++)
         {
-            affectedLight.SetActive(lightSwitchOn && hasPower && !hasError);
+            if (affectedLights[i] != null)
+            {
+                affectedLights[i].SetActive(lightSwitchOn && hasPower && !hasError);
+                if (isEngineLight)
+                {
+                    emergencyLight.SetActive(lightSwitchOn && hasPower && !hasError);
+                }
+            }
         }
     }
 }
