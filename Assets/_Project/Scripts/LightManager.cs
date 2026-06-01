@@ -9,7 +9,7 @@ public class LightManager : Interactable
     [SerializeField] private bool lightSwitchOn = true;
     [SerializeField] private bool hasPower = true;
     [SerializeField] private bool hasError = false;
-    [SerializeField] bool isEngineLight = false;
+    [SerializeField] bool hasEmergencyLight = false;
 
     [Header("Audio")]
     private AudioSource lightSwitchAudioSource;
@@ -88,11 +88,12 @@ public class LightManager : Interactable
             if (affectedLights[i] != null)
             {
                 affectedLights[i].SetActive(lightSwitchOn && hasPower && !hasError);
-                if (isEngineLight)
-                {
-                    emergencyLight.SetActive(lightSwitchOn && hasPower && !hasError);
-                }
             }
+        }
+        if (hasEmergencyLight && emergencyLight != null)
+        {
+            emergencyLight.SetActive(!hasPower);
+            Debug.Log("emergency light toggled");
         }
     }
 }

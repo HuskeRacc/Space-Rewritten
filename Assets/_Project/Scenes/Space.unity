@@ -41504,11 +41504,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   affectedLights:
   - {fileID: 1551910481936473535}
-  emergencyLight: {fileID: 0}
+  emergencyLight: {fileID: 6011067121131987896}
   lightSwitchOn: 1
   hasPower: 1
   hasError: 0
-  isEngineLight: 0
+  hasEmergencyLight: 1
   lightSwitchAudioClip: {fileID: 8300000, guid: 4ac49ecf38e05434d85e4283daf3125f,
     type: 3}
   powerGenerator: {fileID: 8018071311715465215}
@@ -62658,7 +62658,7 @@ MonoBehaviour:
   lightSwitchOn: 1
   hasPower: 1
   hasError: 0
-  isEngineLight: 0
+  hasEmergencyLight: 0
   lightSwitchAudioClip: {fileID: 8300000, guid: 4ac49ecf38e05434d85e4283daf3125f,
     type: 3}
   powerGenerator: {fileID: 8018071311715465215}
@@ -82759,7 +82759,7 @@ GameObject:
   - component: {fileID: 9006440130157596422}
   - component: {fileID: 9172687245222611458}
   m_Layer: 0
-  m_Name: EngineBackupLight
+  m_Name: EmergencyLight
   m_TagString: backupLights
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86402,7 +86402,7 @@ MonoBehaviour:
   lightSwitchOn: 1
   hasPower: 1
   hasError: 0
-  isEngineLight: 0
+  hasEmergencyLight: 0
   lightSwitchAudioClip: {fileID: 8300000, guid: 4ac49ecf38e05434d85e4283daf3125f,
     type: 3}
   powerGenerator: {fileID: 8018071311715465215}
@@ -87731,7 +87731,7 @@ Light:
   m_Intensity: 10.274564
   m_Range: 41.7
   m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
+  m_InnerSpotAngle: 0
   m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
@@ -87777,9 +87777,9 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShapeRadius: 0
+  m_ShapeRadius: 0.025
   m_ShadowAngle: 0
-  m_LightUnit: 1
+  m_LightUnit: 0
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
 --- !u!65 &9053759222565524899
@@ -88433,12 +88433,12 @@ MonoBehaviour:
   m_LightUnit: 0
   m_LuxAtDistance: 1
   m_Intensity: 129.11398
-  m_InnerSpotPercent: 0
-  m_ShapeWidth: 0.5
-  m_ShapeHeight: 0.5
+  m_InnerSpotPercent: -1
+  m_ShapeWidth: -1
+  m_ShapeHeight: -1
   m_AspectRatio: 1
-  m_ShapeRadius: 0.025
-  m_Version: 11
+  m_ShapeRadius: -1
+  m_Version: 15
   m_ObsoleteShadowResolutionTier: 1
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
