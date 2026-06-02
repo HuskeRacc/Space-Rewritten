@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Radio : Interactable
 {
@@ -11,6 +12,9 @@ public class Radio : Interactable
     [SerializeField] AudioClip selectedClip;
     [SerializeField] AudioClip[] spookyClip;
     int i = 1;
+
+    [Header("Input")]
+    [SerializeField] private InputActionReference nextSongAction;
 
     private void Start()
     {
@@ -24,7 +28,7 @@ public class Radio : Interactable
 
     public override void OnFocus()
     {
-        if (radioAudioSource.isPlaying && Input.GetKeyDown(KeyCode.R))
+        if (radioAudioSource.isPlaying && nextSongAction.action.WasPressedThisFrame())
         {
             NextSong();
         }

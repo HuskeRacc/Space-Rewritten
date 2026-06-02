@@ -7868,6 +7868,7 @@ Transform:
   - {fileID: 734503468}
   - {fileID: 859351101}
   - {fileID: 2036898205}
+  - {fileID: 417097888}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &375588301 stripped
@@ -8331,6 +8332,190 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410363588}
   m_CullTransparentMesh: 0
+--- !u!1 &417097887
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 417097888}
+  - component: {fileID: 417097891}
+  - component: {fileID: 417097890}
+  - component: {fileID: 417097889}
+  m_Layer: 0
+  m_Name: ErrorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &417097888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417097887}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 371348617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &417097889
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417097887}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: a4cf6775e7a37c54288dc6af2c669e0f,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &417097890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417097887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c025fd884aa98934191042661a8704f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  oxygen: {fileID: 5641048298297125738}
+  power: {fileID: 8018071311715465215}
+  radio: {fileID: 1038764680058340928}
+  canError: 0
+  targetsForRNG: 0500000002000000030000000600000004000000
+  timeBetweenChecks: 60
+  errorCooldown: 230
+  RNGStartupWait: 60
+  RNGResult: 0
+  minRNGResult: 1
+  maxRNGResult: 26
+  failedRNGChecks: 0
+  maxFailedAmount: 20
+  powerError: 0
+  oxygenError: 0
+  solarError: 0
+  lightError: 0
+  radioError: 0
+--- !u!114 &417097891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417097887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 559a66511c664eb4985abedb406a746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ErrorNotificationSystem
+  errorSoundSource: {fileID: 417097889}
+  errorSounds:
+  - {fileID: 8300000, guid: 9710d0f4823b80e45a26e15b37f06b39, type: 3}
+  - {fileID: 8300000, guid: 9710d0f4823b80e45a26e15b37f06b39, type: 3}
+  - {fileID: 8300000, guid: 9710d0f4823b80e45a26e15b37f06b39, type: 3}
+  - {fileID: 8300000, guid: 9710d0f4823b80e45a26e15b37f06b39, type: 3}
+  oxygenUpgradeBought: 1
+  generatorUpgradeBought: 1
+  solarUpgradeBought: 1
+  lightUpgradeBought: 1
 --- !u!1 &418106602
 GameObject:
   m_ObjectHideFlags: 0
@@ -16319,10 +16504,15 @@ MonoBehaviour:
   terminalType: 2
   previewText: {fileID: 1947213929}
   previewUpdateRate: 0.5
+  normalColour: {r: 0, g: 1, b: 0, a: 1}
+  warningColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  criticalColour: {r: 1, g: 0, b: 0, a: 1}
+  offlineColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   shipSystems: {fileID: 0}
   powerGenerator: {fileID: 0}
   oxygenGenerator: {fileID: 0}
   materialBank: {fileID: 0}
+  droneDamageManager: {fileID: 0}
 --- !u!1 &839116218
 GameObject:
   m_ObjectHideFlags: 0
@@ -28176,10 +28366,15 @@ MonoBehaviour:
   terminalType: 1
   previewText: {fileID: 973948184}
   previewUpdateRate: 0.5
+  normalColour: {r: 0, g: 1, b: 0, a: 1}
+  warningColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  criticalColour: {r: 1, g: 0, b: 0, a: 1}
+  offlineColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   shipSystems: {fileID: 0}
   powerGenerator: {fileID: 0}
   oxygenGenerator: {fileID: 0}
   materialBank: {fileID: 0}
+  droneDamageManager: {fileID: 0}
 --- !u!4 &1401117563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5136943605105836472, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
@@ -29731,10 +29926,15 @@ MonoBehaviour:
   terminalType: 3
   previewText: {fileID: 1328901595}
   previewUpdateRate: 0.5
+  normalColour: {r: 0, g: 1, b: 0, a: 1}
+  warningColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  criticalColour: {r: 1, g: 0, b: 0, a: 1}
+  offlineColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   shipSystems: {fileID: 0}
   powerGenerator: {fileID: 0}
   oxygenGenerator: {fileID: 0}
   materialBank: {fileID: 0}
+  droneDamageManager: {fileID: 0}
 --- !u!4 &1452433582 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3784420129954010899, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
@@ -36270,13 +36470,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a996eb9f10efbed44aaa9374a2a63bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerminalScreen
-  terminalType: 5
+  terminalType: 4
   previewText: {fileID: 1616424014}
   previewUpdateRate: 0.5
+  normalColour: {r: 0, g: 1, b: 0, a: 1}
+  warningColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  criticalColour: {r: 1, g: 0, b: 0, a: 1}
+  offlineColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   shipSystems: {fileID: 0}
   powerGenerator: {fileID: 0}
   oxygenGenerator: {fileID: 0}
   materialBank: {fileID: 0}
+  droneDamageManager: {fileID: 0}
 --- !u!4 &1830999856 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6289541516524903260, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
@@ -40999,10 +41204,15 @@ MonoBehaviour:
   terminalType: 0
   previewText: {fileID: 316440416}
   previewUpdateRate: 0.5
+  normalColour: {r: 0, g: 1, b: 0, a: 1}
+  warningColour: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  criticalColour: {r: 1, g: 0, b: 0, a: 1}
+  offlineColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   shipSystems: {fileID: 0}
   powerGenerator: {fileID: 0}
   oxygenGenerator: {fileID: 0}
   materialBank: {fileID: 0}
+  droneDamageManager: {fileID: 0}
 --- !u!4 &2061655102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7529384709119183753, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
@@ -41019,7 +41229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2067334835}
   - component: {fileID: 2067334836}
-  - component: {fileID: 2067334837}
+  - component: {fileID: 2067334839}
   - component: {fileID: 2067334838}
   m_Layer: 0
   m_Name: ShipSystems
@@ -41066,36 +41276,6 @@ MonoBehaviour:
   shipBattery: 50
   batteryDecreaseRate: 1
   amountToAdd: 0
---- !u!114 &2067334837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067334834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c025fd884aa98934191042661a8704f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  oxygen: {fileID: 5641048298297125738}
-  power: {fileID: 8018071311715465215}
-  radio: {fileID: 1038764680058340928}
-  canError: 0
-  targetsForRNG: 0500000002000000030000000600000004000000
-  timeBetweenChecks: 60
-  errorCooldown: 230
-  RNGStartupWait: 60
-  RNGResult: 0
-  minRNGResult: 1
-  maxRNGResult: 26
-  failedRNGChecks: 0
-  maxFailedAmount: 20
-  powerError: 0
-  oxygenError: 0
-  solarError: 0
-  lightError: 0
-  radioError: 0
 --- !u!114 &2067334838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41109,6 +41289,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 909d96a8-27c1-4c4e-92ed-4dc87775ada1
+--- !u!114 &2067334839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067334834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 649c1e48863cf324d89053a7a33c7409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  satoniumBanked: 0
+  thrustiumBanked: 0
+  fueliumBanked: 0
 --- !u!1 &2073623200
 GameObject:
   m_ObjectHideFlags: 0
@@ -41256,11 +41451,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2092322952}
   - component: {fileID: 2092322953}
-  - component: {fileID: 2092322954}
   - component: {fileID: 2092322955}
   - component: {fileID: 2092322957}
   m_Layer: 0
-  m_Name: Drone&ShipManager
+  m_Name: DroneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41329,21 +41523,6 @@ MonoBehaviour:
   mode2MaxMineable: 12
   thrustiumMinimumMineable: 0.01
   thrustiumMaximumMineable: 0.02
---- !u!114 &2092322954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2092322951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 649c1e48863cf324d89053a7a33c7409, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  satoniumBanked: 0
-  thrustiumBanked: 0
-  fueliumBanked: 0
 --- !u!114 &2092322955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43311,6 +43490,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f3fa4f2bbcdd49a4993c4b82dfe14262, type: 3}
   - {fileID: 8300000, guid: f3fa4f2bbcdd49a4993c4b82dfe14262, type: 3}
   - {fileID: 8300000, guid: f2be29932c2bc794688af8ba1e42d656, type: 3}
+  nextSongAction: {fileID: 5017502145418245807, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
+    type: 3}
 --- !u!1 &1056797562529917828
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,50 +1,81 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ErrorNotificationSystem : MonoBehaviour
 {
     public static ErrorNotificationSystem instance;
 
-    [SerializeField] AudioSource errorSoundSource;
+    [Header("Audio")]
+    [SerializeField] private AudioSource errorSoundSource;
+    [SerializeField] private AudioClip[] errorSounds;
 
-    [SerializeField] AudioClip[] errorSounds; // max 2 for now
-
+    [Header("Notification Upgrades")]
     public bool oxygenUpgradeBought = false;
     public bool generatorUpgradeBought = false;
     public bool solarUpgradeBought = false;
+    public bool lightUpgradeBought = false;
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
     }
 
     private void Start()
     {
-        errorSoundSource = this.GetComponent<AudioSource>();
+        if (errorSoundSource == null)
+        {
+            errorSoundSource = GetComponent<AudioSource>();
+        }
+
+        if (errorSoundSource == null)
+        {
+            Debug.LogWarning("ErrorNotificationSystem is missing an AudioSource.");
+        }
     }
 
     public void OxygenError()
     {
-        if(oxygenUpgradeBought)
-        errorSoundSource.PlayOneShot(errorSounds[0]);
+        if (oxygenUpgradeBought)
+            PlayErrorSound(0);
     }
 
     public void GeneratorError()
     {
-        if(generatorUpgradeBought)
-        errorSoundSource.PlayOneShot(errorSounds[1]);
+        if (generatorUpgradeBought)
+            PlayErrorSound(1);
     }
 
     public void SolarError()
     {
         if (solarUpgradeBought)
-            errorSoundSource.PlayOneShot(errorSounds[2]);
+            PlayErrorSound(2);
     }
 
     public void LightError()
     {
-        errorSoundSource.PlayOneShot(errorSounds[0]);
-        // upgrade feature?
+        if (lightUpgradeBought)
+            PlayErrorSound(3);
+    }
+
+    private void PlayErrorSound(int index)
+    {
+        if (errorSoundSource == null)
+        {
+            Debug.LogWarning("Cannot play error sound. AudioSource is missing.");
+            return;
+        }
+
+        if (errorSounds == null || index < 0 || index >= errorSounds.Length || errorSounds[index] == null)
+        {
+            Debug.LogWarning("Cannot play error sound. Missing AudioClip at index: " + index);
+            return;
+        }
+
+        errorSoundSource.PlayOneShot(errorSounds[index]);
     }
 }

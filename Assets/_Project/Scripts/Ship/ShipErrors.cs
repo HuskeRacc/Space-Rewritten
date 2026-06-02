@@ -35,6 +35,17 @@ public class ShipErrors : MonoBehaviour
 
     private void Start()
     {
+        if (oxygen == null)
+        {
+            oxygen = FindAnyObjectByType<OxygenGenerator>();
+        }
+
+        if (power == null)
+            power = FindAnyObjectByType<PowerGenerator>();
+
+        if (radio == null)
+            radio = FindAnyObjectByType<Radio>();
+
         lightsGO = GameObject.FindGameObjectsWithTag("lightswitch");
         StartCoroutine(RNGStartup());
         StartCoroutine(RNGSystem());
@@ -137,10 +148,23 @@ public class ShipErrors : MonoBehaviour
 
     void OxygenError()
     {
-        ErrorNotificationSystem.instance.OxygenError();
-        oxygen.o2GeneratorActive = false;
+        if(ErrorNotificationSystem.instance != null)
+        {
+            ErrorNotificationSystem.instance.OxygenError();
+        }
+        else
+        {
+            Debug.LogWarning("OxygenError triggered, but ErrorNotificationSystem.instance is null.");
+        }
+
+        if(oxygen != null)
+        {
+            oxygen.o2GeneratorActive = false;
+        }
+
         errorCooldown = 120;
         StartCoroutine(ErrorCooldown(errorCooldown));
+        
         Debug.Log("Oxygen Error Triggered");
         failedRNGChecks = 0;
         RNGResult = 0;
