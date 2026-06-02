@@ -151,7 +151,7 @@ public class ShipSystems : MonoBehaviour, ISaveable
         return new SaveData
         {
             savedShipBattery = shipBattery,
-            savedShipOxygen = shipBattery
+            savedShipOxygen = shipOxygen
         };
 
     }
