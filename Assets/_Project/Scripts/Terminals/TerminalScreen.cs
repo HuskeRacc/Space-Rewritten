@@ -1,13 +1,28 @@
 using UnityEngine;
 using TMPro;
+
 public class TerminalScreen : Interactable
 {
+    private enum TerminalPreviewState
+    {
+        Normal,
+        Warning,
+        Critical,
+        Offline
+    }
+
     [Header("Terminal")]
     [SerializeField] private TerminalType terminalType;
 
     [Header("Preview")]
-    [SerializeField] TextMeshProUGUI previewText;
-    [SerializeField] float previewUpdateRate = 0.5f;
+    [SerializeField] private TextMeshProUGUI previewText;
+    [SerializeField] private float previewUpdateRate = 0.5f;
+
+    [Header("Preview Colours")]
+    [SerializeField] private Color normalColour = Color.green;
+    [SerializeField] private Color warningColour = Color.yellow;
+    [SerializeField] private Color criticalColour = Color.red;
+    [SerializeField] private Color offlineColour = Color.gray;
 
     [Header("Live Data References")]
     [SerializeField] private ShipSystems shipSystems;
@@ -16,7 +31,7 @@ public class TerminalScreen : Interactable
     [SerializeField] private ShipMaterialBank materialBank;
     [SerializeField] private DroneDamageManager droneDamageManager;
 
-    float nextPreviewUpdateTime;
+    private float nextPreviewUpdateTime;
 
     private void Start()
     {
@@ -26,13 +41,13 @@ public class TerminalScreen : Interactable
         if (materialBank == null)
             materialBank = ShipMaterialBank.instance;
 
-        if(powerGenerator == null)
+        if (powerGenerator == null)
             powerGenerator = FindAnyObjectByType<PowerGenerator>();
 
-        if(oxygenGenerator == null)
+        if (oxygenGenerator == null)
             oxygenGenerator = FindAnyObjectByType<OxygenGenerator>();
 
-        if(droneDamageManager == null)
+        if (droneDamageManager == null)
             droneDamageManager = FindAnyObjectByType<DroneDamageManager>();
 
         UpdatePreview();
@@ -62,11 +77,11 @@ public class TerminalScreen : Interactable
 
     private void UpdatePreview()
     {
-        if(previewText == null)
-        {
+        if (previewText == null)
             return;
-        }
+
         previewText.text = GetPreviewText();
+        previewText.color = GetColourForState(GetPreviewState());
     }
 
     private string GetPreviewText()
@@ -90,6 +105,30 @@ public class TerminalScreen : Interactable
 
             default:
                 return "UNKNOWN TERMINAL";
+        }
+    }
+
+    private TerminalPreviewState GetPreviewState()
+    {
+        switch (terminalType)
+        {
+            case TerminalType.Helm:
+                return GetHelmPreviewState();
+
+            case TerminalType.Shop:
+                return GetShopPreviewState();
+
+            case TerminalType.Systems:
+                return GetSystemsPreviewState();
+
+            case TerminalType.Repair:
+                return GetRepairPreviewState();
+
+            case TerminalType.Solar:
+                return GetSolarPreviewState();
+
+            default:
+                return TerminalPreviewState.Offline;
         }
     }
 
@@ -117,7 +156,7 @@ public class TerminalScreen : Interactable
         return
             "MATERIAL BANK:\n" +
             $"SA: {materialBank.satoniumBanked:0}\n" +
-            $"FU: {materialBank.fueliumBanked:0}\n" + 
+            $"FU: {materialBank.fueliumBanked:0}\n" +
             $"TH: {materialBank.thrustiumBanked:0}\n" +
             "[E] OPEN";
     }
@@ -142,9 +181,8 @@ public class TerminalScreen : Interactable
 
         return
             "SHIP SYSTEMS\n" +
-            $"PWR: {powerStatus}" + 
-            $"OXY: {oxygenStatus}\n" +
-            $"O2: {shipSystems.shipOxygen:0}%\n" +  
+            $"PWR: {powerStatus}  OXY: {oxygenStatus}\n" +
+            $"O2: {shipSystems.shipOxygen:0}%\n" +
             $"FUEL: {shipSystems.fuel:0}%\n" +
             "[E] OPEN";
     }
@@ -192,22 +230,95 @@ public class TerminalScreen : Interactable
         return damaged ? "DMG" : "OK";
     }
 
-
-
-    private string GetWorstDamagedPartText()
+    private TerminalPreviewState GetHelmPreviewState()
     {
-        if (droneDamageManager.jawsDamaged)
-            return "JAWS DAMAGED";
+        if (materialBank == null)
+            return TerminalPreviewState.Offline;
 
-        if (droneDamageManager.cargoDamaged)
-            return "CARGO DAMAGED";
+        if (materialBank.thrustiumBanked <= 0)
+            return TerminalPreviewState.Warning;
 
-        if (droneDamageManager.chassisDamaged)
-            return "CHASSIS DAMAGED";
+        return TerminalPreviewState.Normal;
+    }
 
-        if (droneDamageManager.thrustersDamaged)
-            return "THRUSTERS DAMAGED";
+    private TerminalPreviewState GetShopPreviewState()
+    {
+        if (materialBank == null)
+            return TerminalPreviewState.Offline;
 
-        return "NO FAULTS";
+        return TerminalPreviewState.Normal;
+    }
+
+    private TerminalPreviewState GetSystemsPreviewState()
+    {
+        if (shipSystems == null)
+            return TerminalPreviewState.Offline;
+
+        bool powerOff = powerGenerator == null || !powerGenerator.powerGeneratorActive;
+        bool oxygenOff = oxygenGenerator == null || !oxygenGenerator.o2GeneratorActive;
+
+        if (powerOff || oxygenOff || shipSystems.shipOxygen <= 20f || shipSystems.fuel <= 10f)
+            return TerminalPreviewState.Critical;
+
+        if (shipSystems.shipOxygen <= 50f || shipSystems.fuel <= 30f)
+            return TerminalPreviewState.Warning;
+
+        return TerminalPreviewState.Normal;
+    }
+
+    private TerminalPreviewState GetSolarPreviewState()
+    {
+        if (shipSystems == null)
+            return TerminalPreviewState.Offline;
+
+        if (!shipSystems.solarsActive)
+            return TerminalPreviewState.Critical;
+
+        if (shipSystems.shipBattery <= 30f)
+            return TerminalPreviewState.Warning;
+
+        return TerminalPreviewState.Normal;
+    }
+
+    private TerminalPreviewState GetRepairPreviewState()
+    {
+        if (droneDamageManager == null)
+            return TerminalPreviewState.Offline;
+
+        int damagedParts = 0;
+
+        if (droneDamageManager.jawsDamaged) damagedParts++;
+        if (droneDamageManager.cargoDamaged) damagedParts++;
+        if (droneDamageManager.chassisDamaged) damagedParts++;
+        if (droneDamageManager.thrustersDamaged) damagedParts++;
+
+        if (damagedParts >= 3)
+            return TerminalPreviewState.Critical;
+
+        if (damagedParts > 0)
+            return TerminalPreviewState.Warning;
+
+        return TerminalPreviewState.Normal;
+    }
+
+    private Color GetColourForState(TerminalPreviewState state)
+    {
+        switch (state)
+        {
+            case TerminalPreviewState.Normal:
+                return normalColour;
+
+            case TerminalPreviewState.Warning:
+                return warningColour;
+
+            case TerminalPreviewState.Critical:
+                return criticalColour;
+
+            case TerminalPreviewState.Offline:
+                return offlineColour;
+
+            default:
+                return normalColour;
+        }
     }
 }
