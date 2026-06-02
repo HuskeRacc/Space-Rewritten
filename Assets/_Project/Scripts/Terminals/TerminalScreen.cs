@@ -25,6 +25,12 @@ public class TerminalScreen : Interactable
         if (materialBank == null)
             materialBank = ShipMaterialBank.instance;
 
+        if(powerGenerator == null)
+            powerGenerator = FindAnyObjectByType<PowerGenerator>();
+
+        if(oxygenGenerator == null)
+            oxygenGenerator = FindAnyObjectByType<OxygenGenerator>();
+
         UpdatePreview();
     }
 
@@ -68,9 +74,6 @@ public class TerminalScreen : Interactable
 
             case TerminalType.Shop:
                 return GetShopPreview();
-
-            case TerminalType.Drone:
-                return GetDronePreview();
 
             case TerminalType.Systems:
                 return GetSystemsPreview();

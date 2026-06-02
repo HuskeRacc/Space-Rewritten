@@ -53,7 +53,7 @@ public class TerminalUIManager : MonoBehaviour
             case TerminalType.Systems:
                 return systemsMenu;
 
-            case TerminalType.Drone:
+            case TerminalType.Helm:
                 return helmMenu;
 
             case TerminalType.Repair:

@@ -4,6 +4,5 @@ public enum TerminalType
     Helm,
     Solar,
     Systems,
-    Drone,
     Repair
 }
