@@ -14,6 +14,7 @@ public class TerminalScreen : Interactable
     [SerializeField] private PowerGenerator powerGenerator;
     [SerializeField] private OxygenGenerator oxygenGenerator;
     [SerializeField] private ShipMaterialBank materialBank;
+    [SerializeField] private DroneDamageManager droneDamageManager;
 
     float nextPreviewUpdateTime;
 
@@ -30,6 +31,9 @@ public class TerminalScreen : Interactable
 
         if(oxygenGenerator == null)
             oxygenGenerator = FindAnyObjectByType<OxygenGenerator>();
+
+        if(droneDamageManager == null)
+            droneDamageManager = FindAnyObjectByType<DroneDamageManager>();
 
         UpdatePreview();
     }
@@ -96,7 +100,7 @@ public class TerminalScreen : Interactable
         return
             "HELM CONTROL\n" +
             $"THRUSTIUM: {thrustium:0}\n" +
-            "DEST: STATION\n" +
+            "DESTINATION: LOCAL STATION\n" +
             "[E] OPEN";
     }
 
@@ -111,18 +115,10 @@ public class TerminalScreen : Interactable
         }
 
         return
-            "SHOP / FABRICATOR\n" +
+            "MATERIAL BANK:\n" +
             $"SA: {materialBank.satoniumBanked:0}\n" +
-            $"FU: {materialBank.fueliumBanked:0}  TH: {materialBank.thrustiumBanked:0}\n" +
-            "[E] OPEN";
-    }
-
-    private string GetDronePreview()
-    {
-        return
-            "DRONE CONTROL\n" +
-            "MINING STATUS\n" +
-            "OPEN FOR DETAILS\n" +
+            $"FU: {materialBank.fueliumBanked:0}\n" + 
+            $"TH: {materialBank.thrustiumBanked:0}\n" +
             "[E] OPEN";
     }
 
@@ -146,25 +142,10 @@ public class TerminalScreen : Interactable
 
         return
             "SHIP SYSTEMS\n" +
-            $"PWR: {powerStatus}  O2 GEN: {oxygenStatus}\n" +
-            $"O2: {shipSystems.shipOxygen:0}%  FUEL: {shipSystems.fuel:0}%\n" +
-            "[E] OPEN";
-    }
-
-    private string GetRepairPreview()
-    {
-        string powerStatus = powerGenerator != null && powerGenerator.powerGeneratorActive
-            ? "OK"
-            : "NO POWER";
-
-        string oxygenStatus = oxygenGenerator != null && oxygenGenerator.o2GeneratorActive
-            ? "OK"
-            : "O2 OFF";
-
-        return
-            "REPAIR BAY\n" +
-            $"POWER: {powerStatus}\n" +
-            $"OXYGEN: {oxygenStatus}\n" +
+            $"PWR: {powerStatus}" + 
+            $"OXY: {oxygenStatus}\n" +
+            $"O2: {shipSystems.shipOxygen:0}%\n" +  
+            $"FUEL: {shipSystems.fuel:0}%\n" +
             "[E] OPEN";
     }
 
@@ -187,5 +168,46 @@ public class TerminalScreen : Interactable
             $"STATUS: {solarStatus}\n" +
             $"EFF: {shipSystems.solarEfficiency:0}%  BAT: {shipSystems.shipBattery:0}%\n" +
             "[E] OPEN";
+    }
+
+    private string GetRepairPreview()
+    {
+        if (droneDamageManager == null)
+        {
+            return
+                "REPAIR BAY\n" +
+                "DRONE STATUS UNKNOWN\n" +
+                "[E] OPEN";
+        }
+
+        return
+            "REPAIR BAY\n" +
+            $"JAWS: {PartState(droneDamageManager.jawsDamaged)}  CARGO: {PartState(droneDamageManager.cargoDamaged)}\n" +
+            $"CHAS: {PartState(droneDamageManager.chassisDamaged)}  THR: {PartState(droneDamageManager.thrustersDamaged)}\n" +
+            "[E] OPEN";
+    }
+
+    private string PartState(bool damaged)
+    {
+        return damaged ? "DMG" : "OK";
+    }
+
+
+
+    private string GetWorstDamagedPartText()
+    {
+        if (droneDamageManager.jawsDamaged)
+            return "JAWS DAMAGED";
+
+        if (droneDamageManager.cargoDamaged)
+            return "CARGO DAMAGED";
+
+        if (droneDamageManager.chassisDamaged)
+            return "CHASSIS DAMAGED";
+
+        if (droneDamageManager.thrustersDamaged)
+            return "THRUSTERS DAMAGED";
+
+        return "NO FAULTS";
     }
 }

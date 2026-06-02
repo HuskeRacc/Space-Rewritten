@@ -1501,6 +1501,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: db4910a5a0644784a8ffd10189f8b96e, type: 2}
+    - target: {fileID: 2644187338993010341, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2644187338993010341, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
+        type: 3}
+      propertyPath: m_TagString
+      value: SolarPad
+      objectReference: {fileID: 0}
     - target: {fileID: 3214189047228292417, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
         type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -16309,6 +16319,10 @@ MonoBehaviour:
   terminalType: 2
   previewText: {fileID: 1947213929}
   previewUpdateRate: 0.5
+  shipSystems: {fileID: 0}
+  powerGenerator: {fileID: 0}
+  oxygenGenerator: {fileID: 0}
+  materialBank: {fileID: 0}
 --- !u!1 &839116218
 GameObject:
   m_ObjectHideFlags: 0
@@ -28162,6 +28176,10 @@ MonoBehaviour:
   terminalType: 1
   previewText: {fileID: 973948184}
   previewUpdateRate: 0.5
+  shipSystems: {fileID: 0}
+  powerGenerator: {fileID: 0}
+  oxygenGenerator: {fileID: 0}
+  materialBank: {fileID: 0}
 --- !u!4 &1401117563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5136943605105836472, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
@@ -29713,6 +29731,10 @@ MonoBehaviour:
   terminalType: 3
   previewText: {fileID: 1328901595}
   previewUpdateRate: 0.5
+  shipSystems: {fileID: 0}
+  powerGenerator: {fileID: 0}
+  oxygenGenerator: {fileID: 0}
+  materialBank: {fileID: 0}
 --- !u!4 &1452433582 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3784420129954010899, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
@@ -36248,9 +36270,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a996eb9f10efbed44aaa9374a2a63bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerminalScreen
-  terminalType: 4
+  terminalType: 5
   previewText: {fileID: 1616424014}
   previewUpdateRate: 0.5
+  shipSystems: {fileID: 0}
+  powerGenerator: {fileID: 0}
+  oxygenGenerator: {fileID: 0}
+  materialBank: {fileID: 0}
 --- !u!4 &1830999856 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6289541516524903260, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
@@ -40973,6 +40999,10 @@ MonoBehaviour:
   terminalType: 0
   previewText: {fileID: 316440416}
   previewUpdateRate: 0.5
+  shipSystems: {fileID: 0}
+  powerGenerator: {fileID: 0}
+  oxygenGenerator: {fileID: 0}
+  materialBank: {fileID: 0}
 --- !u!4 &2061655102 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7529384709119183753, guid: c15aaa2e7433c164d9b5f96bcd46dc7a,
