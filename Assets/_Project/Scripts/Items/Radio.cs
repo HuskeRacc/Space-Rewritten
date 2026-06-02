@@ -13,6 +13,8 @@ public class Radio : Interactable
     [SerializeField] AudioClip[] spookyClip;
     int i = 1;
 
+    [SerializeField] bool spookyPlaying = false;
+
     [Header("Input")]
     [SerializeField] private InputActionReference nextSongAction;
 
@@ -23,12 +25,24 @@ public class Radio : Interactable
 
     public override void OnInteract()
     {
-        ToggleMusic();
+        if(!radioAudioSource.isPlaying)
+        {
+            PlayMusic();
+        }
+        else
+        {
+            StopMusic();
+        }
+
+        if (spookyPlaying)
+        {
+            StopMusicSpooky();
+        }
     }
 
     public override void OnFocus()
     {
-        if (radioAudioSource.isPlaying && nextSongAction.action.WasPressedThisFrame())
+        if (radioAudioSource.isPlaying && nextSongAction.action.WasPressedThisFrame() && !spookyPlaying)
         {
             NextSong();
         }
@@ -36,7 +50,6 @@ public class Radio : Interactable
 
     public override void OnLoseFocus()
     {
-        Debug.Log("Radio Lost Focus");
     }
 
     void NextSong()
@@ -55,7 +68,7 @@ public class Radio : Interactable
         radioAudioSource.Play();
     }
 
-    void ToggleMusic()
+    void PlayMusic()
     {
         if (!radioAudioSource.isPlaying)
         {
@@ -70,17 +83,25 @@ public class Radio : Interactable
                 radioAudioSource.Play();
             }
         }
-        else
-        {
-            radioAudioSource.Stop();
-        }
     }
 
-    public void ToggleMusicSpooky()
+    void StopMusic()
+    {
+        radioAudioSource.Stop();
+    }
+
+    public void PlayMusicSpooky()
     {
         radioAudioSource.Stop();
         selectedClip = spookyClip[Random.Range(0, spookyClip.Length)];
         radioAudioSource.PlayOneShot(selectedClip);
         selectedClip = null;
+        spookyPlaying = true;
+    }
+
+    void StopMusicSpooky()
+    {
+        radioAudioSource.Stop();
+        spookyPlaying = false;
     }
 }

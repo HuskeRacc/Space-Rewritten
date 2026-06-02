@@ -126,7 +126,7 @@ public class ShipErrors : MonoBehaviour
 
     void RadioError()
     {
-        radio.ToggleMusicSpooky();
+        radio.PlayMusicSpooky();
         errorCooldown = 240;
         StartCoroutine(ErrorCooldown(errorCooldown));
         Debug.Log("Radio Error Triggered");
