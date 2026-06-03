@@ -183,6 +183,7 @@ public class TerminalScreen : Interactable
             "SHIP SYSTEMS\n" +
             $"PWR: {powerStatus}  OXY: {oxygenStatus}\n" +
             $"O2: {shipSystems.shipOxygen:0}%\n" +
+            $"BAT: { shipSystems.shipBattery:0}%\n" +
             $"FUEL: {shipSystems.fuel:0}%\n" +
             "[E] OPEN";
     }
@@ -204,7 +205,7 @@ public class TerminalScreen : Interactable
         return
             "SOLAR ARRAY\n" +
             $"STATUS: {solarStatus}\n" +
-            $"EFF: {shipSystems.solarEfficiency:0}%  BAT: {shipSystems.shipBattery:0}%\n" +
+            $"EFFICIENCY: {shipSystems.solarEfficiency:0}%" +
             "[E] OPEN";
     }
 

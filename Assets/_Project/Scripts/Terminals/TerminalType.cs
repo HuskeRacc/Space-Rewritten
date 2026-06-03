@@ -4,5 +4,6 @@ public enum TerminalType
     Helm,
     Solar,
     Systems,
-    Repair
+    Repair,
+    Placeholder
 }
