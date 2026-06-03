@@ -43525,6 +43525,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f3fa4f2bbcdd49a4993c4b82dfe14262, type: 3}
   - {fileID: 8300000, guid: f3fa4f2bbcdd49a4993c4b82dfe14262, type: 3}
   - {fileID: 8300000, guid: f2be29932c2bc794688af8ba1e42d656, type: 3}
+  spookyPlaying: 0
   nextSongAction: {fileID: 5017502145418245807, guid: e0771ab0d840e1b4c8a5dd25c2d9bcfa,
     type: 3}
 --- !u!1 &1056797562529917828
@@ -79329,12 +79330,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1395181386137427473}
   - component: {fileID: 1038764680058340928}
-  - component: {fileID: 3456763674105139877}
-  - component: {fileID: 5587483075135475682}
   - component: {fileID: 3018421638238896708}
   - component: {fileID: 2051482131944239585}
-  - component: {fileID: 7107946883297338522}
   - component: {fileID: 1290493215074700006}
+  - component: {fileID: 3456763674105139877}
+  - component: {fileID: 5587483075135475682}
+  - component: {fileID: 7107946883297338522}
   m_Layer: 9
   m_Name: Radio
   m_TagString: Untagged
