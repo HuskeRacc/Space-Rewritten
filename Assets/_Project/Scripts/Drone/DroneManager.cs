@@ -138,11 +138,11 @@ public class DroneManager : MonoBehaviour, ISaveable
         }
         if (mode == 1)
         {
-            InvokeRepeating(nameof(SatMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(FuelMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
         if(mode== 2)
         {
-            InvokeRepeating(nameof(FuelMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(SatMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
         InvokeRepeating(nameof(DepleteBattery), 0, UnityEngine.Random.Range(minimumBatteryDepletionTime, maximumBatteryDepletionTime));
     }

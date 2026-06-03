@@ -125,10 +125,9 @@ public class HelmMenu : MonoBehaviour
 
    IEnumerator ValueUpdateText()
     {
-        Debug.Log("Travel status update check");
         UpdateTravelStatus();
         TravelStatusBankedTHR.text = ShipMaterialBank.instance.thrustiumBanked.ToString("F0") + " / " + thrustiumRequiredForNextStation.ToString("F0");
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(10);
         StartCoroutine(ValueUpdateText());
     }
 
