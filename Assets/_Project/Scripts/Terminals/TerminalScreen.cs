@@ -205,7 +205,7 @@ public class TerminalScreen : Interactable
         return
             "SOLAR ARRAY\n" +
             $"STATUS: {solarStatus}\n" +
-            $"EFFICIENCY: {shipSystems.solarEfficiency:0}%" +
+            $"EFFICIENCY: {shipSystems.solarEfficiency:0}%\n" +
             "[E] OPEN";
     }
 
