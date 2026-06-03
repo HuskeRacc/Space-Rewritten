@@ -11,25 +11,23 @@ public class HelmMenu : MonoBehaviour
     [SerializeField] PlayerMovement player;
     [SerializeField] DroneManager droneManager;
 
-    [SerializeField] TextMeshProUGUI statusText;
-    [SerializeField] TextMeshProUGUI buttonTXT;
-    [SerializeField] TextMeshProUGUI batteryTXT;
+    [SerializeField] TextMeshProUGUI statusValue;
+    [SerializeField] TextMeshProUGUI sendDroneButtonTXT;
+    [SerializeField] TextMeshProUGUI batteryValue;
     public TextMeshProUGUI travelTimeLeftValue;
     [SerializeField] float timeToTravelCalculated;
-
-    [SerializeField] TextMeshProUGUI modeValue;
 
     [SerializeField] TextMeshProUGUI satoniumValue;
     [SerializeField] TextMeshProUGUI thrustiumValue;
     [SerializeField] TextMeshProUGUI fueliumValue;
 
-    [SerializeField] TextMeshProUGUI satoniumBankedValue;
-    [SerializeField] TextMeshProUGUI thrustiumBankedValue;
-    [SerializeField] TextMeshProUGUI fueliumBankedValue;
-
     [SerializeField] Button travelButton;
 
     [SerializeField] GameObject helmMenu;
+
+    [SerializeField] TextMeshProUGUI fuelModeTXT;
+    [SerializeField] TextMeshProUGUI satModeTXT;
+    [SerializeField] TextMeshProUGUI anyModeTXT;
 
     private void Awake()
     {
@@ -61,21 +59,32 @@ public class HelmMenu : MonoBehaviour
         }
     }
 
-    public void OnClick_ResetMode0()
+    public void OnClick_AnyMode()
     {
         DroneManager.instance.mode = 0;
-        modeValue.text = "0";
+        ResetButtonText();
+        anyModeTXT.text = "SET";
     }
 
-    public void OnClick_SetMode1()
+    public void OnClick_FuelMode()
     {
         DroneManager.instance.mode = 1;
-        modeValue.text = "1";
+        ResetButtonText();
+        fuelModeTXT.text = "SET";
+
     }
-    public void OnClick_SetMode2()
+    public void OnClick_SatMode()
     {
         DroneManager.instance.mode = 2;
-        modeValue.text = "2";
+        ResetButtonText();
+        satModeTXT.text = "SET";
+    }
+
+    private void ResetButtonText()
+    {
+        satModeTXT.text = "SET MODE";
+        fuelModeTXT.text = "SET MODE";
+        anyModeTXT.text = "SET MODE";
     }
 
     public void Onclick_Travel()
@@ -90,7 +99,6 @@ public class HelmMenu : MonoBehaviour
     {
         DisplayTextValues();
         DisplayDroneValues();
-        DisplayBankedValues();
 
         if (ShipMaterialBank.instance.thrustiumBanked >= 250)
         {
@@ -104,9 +112,9 @@ public class HelmMenu : MonoBehaviour
 
     void DisplayTextValues()
     {
-        statusText.text = droneManager.droneStatus;
-        buttonTXT.text = droneManager.buttonStatus;
-        batteryTXT.text = "Battery Power: " + droneManager.battery.ToString("F0") + "%";
+        statusValue.text = droneManager.droneStatus;
+        sendDroneButtonTXT.text = droneManager.buttonStatus;
+        batteryValue.text = droneManager.battery.ToString("F0") + "%";
     }
 
     void DisplayDroneValues()
@@ -114,13 +122,6 @@ public class HelmMenu : MonoBehaviour
         satoniumValue.text = DroneManager.instance.satoniumAmount.ToString("F2");
         thrustiumValue.text = DroneManager.instance.thrustiumAmount.ToString("F2");
         fueliumValue.text = DroneManager.instance.fueliumAmount.ToString("F2");
-    }
-
-    void DisplayBankedValues()
-    {
-        satoniumBankedValue.text = ShipMaterialBank.instance.satoniumBanked.ToString("F2");
-        thrustiumBankedValue.text = ShipMaterialBank.instance.thrustiumBanked.ToString("F2");
-        fueliumBankedValue.text = ShipMaterialBank.instance.fueliumBanked.ToString("F2");
     }
 
     public void DisplayTravelTime(float timeToTravel)

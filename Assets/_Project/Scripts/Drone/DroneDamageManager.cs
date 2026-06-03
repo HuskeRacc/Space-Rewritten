@@ -76,15 +76,15 @@ public class DroneDamageManager : MonoBehaviour
             if(!materialGainRateSaved)
             {
                 savedMaterialGainRate = DroneManager.instance.maximumMineable;
-                savedMaterialGainRateMode1 = DroneManager.instance.mode1MaxMineable;
-                savedMaterialGainRateMode2 = DroneManager.instance.mode2MaxMineable;
+                savedMaterialGainRateMode1 = DroneManager.instance.satModeMaxMineable;
+                savedMaterialGainRateMode2 = DroneManager.instance.fuelModeMaxMineable;
                 Debug.Log("Saved Material Gain rates");
                 materialGainRateSaved = true;
             }
 
             DroneManager.instance.maximumMineable /= 2;
-            DroneManager.instance.mode1MaxMineable /= 2;
-            DroneManager.instance.mode2MaxMineable /= 2;
+            DroneManager.instance.satModeMaxMineable /= 2;
+            DroneManager.instance.fuelModeMaxMineable /= 2;
             Debug.Log("Reduced all material gain rates divided by 2");
             materialGainRateReducedAmount++;
         }
@@ -99,8 +99,8 @@ public class DroneDamageManager : MonoBehaviour
         if(!jawsDamaged && !cargoDamaged)
         {
             DroneManager.instance.maximumMineable = savedMaterialGainRate;
-            DroneManager.instance.mode1MaxMineable = savedMaterialGainRateMode1;
-            DroneManager.instance.mode2MaxMineable = savedMaterialGainRateMode2;
+            DroneManager.instance.satModeMaxMineable = savedMaterialGainRateMode1;
+            DroneManager.instance.fuelModeMaxMineable = savedMaterialGainRateMode2;
 
             savedMaterialGainRate = 0;
             savedMaterialGainRateMode1 = 0;
@@ -110,8 +110,8 @@ public class DroneDamageManager : MonoBehaviour
             Debug.Log(
                 "Material Gain Rate Reset | Mode 0: " 
                 + DroneManager.instance.maximumMineable 
-                + " Mode 1: " + DroneManager.instance.mode1MaxMineable + " Mode 2: " 
-                + DroneManager.instance.mode2MaxMineable
+                + " Mode 1: " + DroneManager.instance.satModeMaxMineable + " Mode 2: " 
+                + DroneManager.instance.fuelModeMaxMineable
                 );
         }
     }

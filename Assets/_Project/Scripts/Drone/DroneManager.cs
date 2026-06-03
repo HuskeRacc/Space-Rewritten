@@ -52,10 +52,10 @@ public class DroneManager : MonoBehaviour, ISaveable
     [Header("Mined Value")]
     public float minimumMineable = 0.1f;
     public float maximumMineable = 1.0f;
-    public float mode1MinMineable = 1.0f;
-    public float mode1MaxMineable = 1.0f;
-    public float mode2MinMineable = 1.0f;
-    public float mode2MaxMineable = 1.0f;
+    public float satModeMinMineable = 1.0f;
+    public float satModeMaxMineable = 1.0f;
+    public float fuelModeMinMineable = 1.0f;
+    public float fuelModeMaxMineable = 1.0f;
 
     public float thrustiumMinimumMineable = 0.01f;
     public float thrustiumMaximumMineable = 0.02f;
@@ -104,7 +104,7 @@ public class DroneManager : MonoBehaviour, ISaveable
         status = 0;
 
         droneStatus = "Idle";
-        buttonStatus = "Send?";
+        buttonStatus = "Send";
 
         InvokeRepeating(nameof(ChargeBattery), 0, UnityEngine.Random.Range(minimumBatteryChargeTime, maximumBatteryChargeTime));
     }
@@ -134,15 +134,15 @@ public class DroneManager : MonoBehaviour, ISaveable
 
         if (mode == 0)
         {
-            InvokeRepeating(nameof(Mode0MaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(AnyMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
         if (mode == 1)
         {
-            InvokeRepeating(nameof(Mode1MaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(SatMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
         if(mode== 2)
         {
-            InvokeRepeating(nameof(Mode2MaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
+            InvokeRepeating(nameof(FuelMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
         InvokeRepeating(nameof(DepleteBattery), 0, UnityEngine.Random.Range(minimumBatteryDepletionTime, maximumBatteryDepletionTime));
     }
@@ -178,7 +178,7 @@ public class DroneManager : MonoBehaviour, ISaveable
         fueliumAmount = 0;
     }
 
-    void Mode0MaterialGain()
+    void AnyMaterialGain()
     {
         float satonium = UnityEngine.Random.Range(minimumMineable,maximumMineable);
         float thrustium = UnityEngine.Random.Range(thrustiumMinimumMineable, thrustiumMaximumMineable);
@@ -189,16 +189,16 @@ public class DroneManager : MonoBehaviour, ISaveable
         thrustiumAmount += thrustium;
     }
 
-    void Mode1MaterialGain()
+    void SatMaterialGain()
     {
-        float satonium = UnityEngine.Random.Range(mode1MinMineable, mode1MaxMineable);
+        float satonium = UnityEngine.Random.Range(satModeMinMineable, satModeMaxMineable);
         
         satoniumAmount += satonium;
     }
 
-    void Mode2MaterialGain()
+    void FuelMaterialGain()
     {
-        float fuelium = UnityEngine.Random.Range(mode2MinMineable, mode2MaxMineable);
+        float fuelium = UnityEngine.Random.Range(fuelModeMinMineable, fuelModeMaxMineable);
 
         fueliumAmount += fuelium;
     }
