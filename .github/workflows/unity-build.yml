@@ -3,6 +3,10 @@ name: Build Unity Project
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   build-windows:
     name: Build Windows
