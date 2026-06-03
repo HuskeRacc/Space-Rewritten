@@ -93,7 +93,6 @@ public class LightManager : Interactable
         if (hasEmergencyLight && emergencyLight != null)
         {
             emergencyLight.SetActive(!hasPower);
-            Debug.Log("emergency light toggled");
         }
     }
 }

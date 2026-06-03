@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,44 +5,49 @@ using UnityEngine.UI;
 
 public class HelmMenu : MonoBehaviour
 {
-
     public static HelmMenu instance;
 
-    [SerializeField] PlayerMovement player;
-    [SerializeField] DroneManager droneManager;
+    [Header("References")]
+    [SerializeField] private PlayerMovement player;
+    [SerializeField] private DroneManager droneManager;
+    [SerializeField] private GameObject helmMenu;
 
-    [SerializeField] TextMeshProUGUI statusValue;
-    [SerializeField] TextMeshProUGUI sendDroneButtonTXT;
-    [SerializeField] TextMeshProUGUI batteryValue;
+    [Header("Drone Status UI")]
+    [SerializeField] private TextMeshProUGUI statusValue;
+    [SerializeField] private TextMeshProUGUI sendDroneButtonTXT;
+    [SerializeField] private TextMeshProUGUI batteryValue;
+    [SerializeField] private TextMeshProUGUI travelTimeLeftValue;
 
-    [SerializeField] TextMeshProUGUI travelTimeLeftValue;
-    [SerializeField] float timeToTravelCalculated;
+    [Header("Drone Storage UI")]
+    [SerializeField] private TextMeshProUGUI satoniumValue;
+    [SerializeField] private TextMeshProUGUI thrustiumValue;
+    [SerializeField] private TextMeshProUGUI fueliumValue;
 
-    [SerializeField] TextMeshProUGUI satoniumValue;
-    [SerializeField] TextMeshProUGUI thrustiumValue;
-    [SerializeField] TextMeshProUGUI fueliumValue;
+    [Header("Ship Storage UI")]
+    [SerializeField] private TextMeshProUGUI satBankedValue;
+    [SerializeField] private TextMeshProUGUI fuelBankedValue;
+    [SerializeField] private TextMeshProUGUI thruBankedValue;
 
-    [SerializeField] TextMeshProUGUI TravelStatusBankedTHR;
+    [Header("Travel UI")]
+    [SerializeField] private TextMeshProUGUI travelStatusTXT;
+    [SerializeField] private TextMeshProUGUI travelStatusBankedTHR;
+    [SerializeField] private Button travelButton;
+    [SerializeField] private float requiredThrustium = 250f;
+    [SerializeField] private int travelSceneIndex = 2;
 
-    [SerializeField] Button travelButton;
-
-    [SerializeField] GameObject helmMenu;
-
-    [SerializeField] TextMeshProUGUI fuelModeTXT;
-    [SerializeField] TextMeshProUGUI satModeTXT;
-    [SerializeField] TextMeshProUGUI anyModeTXT;
-
-    [SerializeField] TextMeshProUGUI travelStatusTXT;
-
-    [SerializeField] float requiredThrustium = 250f;
+    [Header("Mode Button Text")]
+    [SerializeField] private TextMeshProUGUI fuelModeTXT;
+    [SerializeField] private TextMeshProUGUI satModeTXT;
+    [SerializeField] private TextMeshProUGUI anyModeTXT;
 
     [Header("Mode Button Graphics")]
-    [SerializeField] Image fuelModePanel;
-    [SerializeField] Image satModePanel;
-    [SerializeField] Image anyModePanel;
+    [SerializeField] private Image fuelModePanel;
+    [SerializeField] private Image satModePanel;
+    [SerializeField] private Image anyModePanel;
+    [SerializeField] private Color modeAvailableColor = Color.green;
+    [SerializeField] private Color modeUnavailableColor = Color.red;
 
-    [SerializeField] Color modeAvailableColor = Color.green;
-    [SerializeField] Color modeUnavailableColor = Color.red;
+    private float timeToTravelCalculated;
 
     private void Awake()
     {
@@ -52,157 +56,236 @@ public class HelmMenu : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(ValueUpdateText());
+        UpdateModeButtonText();
     }
+
     private void Update()
     {
-        DisplayTextValues();
-        DisplayDroneValues();
-        UpdateTravelStatus();
+        UpdateDroneStatusUI();
+        UpdateDroneStorageUI();
+        UpdateShipStorageUI();
+        UpdateTravelUI();
         UpdateModeButtonVisuals();
-
-        travelButton.interactable = ShipMaterialBank.instance.thrustiumBanked >= requiredThrustium && !droneManager.IsDeployed;
-    }
-
-    private void UpdateModeButtonVisuals()
-    {
-        bool droneDeployed = droneManager != null && droneManager.IsDeployed;
-
-        Color targetColor = droneDeployed ? modeUnavailableColor : modeAvailableColor;
-
-        if(fuelModePanel != null) fuelModePanel.color = targetColor;
-
-        if(satModePanel != null) satModePanel.color = targetColor;
-
-        if(anyModePanel != null) anyModePanel.color = targetColor;
     }
 
     public void OnClick_Back()
     {
         helmMenu.SetActive(false);
+
         player.canMove = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
     public void OnClick_SendDrone()
     {
+        if (droneManager == null)
+            return;
+
         droneManager.ToggleDeployment();
     }
 
     public void OnClick_AnyMode()
     {
+        if (droneManager == null)
+            return;
+
         droneManager.SetModeAny();
-        ResetButtonText();
-        anyModeTXT.text = "SET";
+        UpdateModeButtonText();
     }
 
     public void OnClick_FuelMode()
     {
-        droneManager.SetModeFuelium();
-        ResetButtonText();
-        fuelModeTXT.text = "SET";
+        if (droneManager == null)
+            return;
 
+        droneManager.SetModeFuelium();
+        UpdateModeButtonText();
     }
+
     public void OnClick_SatMode()
     {
+        if (droneManager == null)
+            return;
+
         droneManager.SetModeSatonium();
-        ResetButtonText();
-        satModeTXT.text = "SET";
+        UpdateModeButtonText();
     }
 
-    private void ResetButtonText()
+    public void OnClick_Travel()
+    {
+        if (!CanTravel())
+            return;
+
+        SceneManager.LoadScene(travelSceneIndex);
+    }
+
+    public void DisplayTravelTime(float timeToTravel)
+    {
+        timeToTravelCalculated = timeToTravel;
+
+        travelTimeLeftValue.text = timeToTravelCalculated.ToString("F0");
+        travelTimeLeftValue.gameObject.SetActive(true);
+
+        CancelInvoke(nameof(CalculateTravelTimeLeft));
+        InvokeRepeating(nameof(CalculateTravelTimeLeft), 0, 1);
+    }
+
+    private void UpdateDroneStatusUI()
+    {
+        if (droneManager == null)
+            return;
+
+        statusValue.text = droneManager.StatusText;
+        sendDroneButtonTXT.text = droneManager.ButtonText;
+        batteryValue.text = $"{droneManager.battery:0}%";
+    }
+
+    private void UpdateDroneStorageUI()
+    {
+        if (droneManager == null)
+            return;
+
+        satoniumValue.text = droneManager.satoniumAmount.ToString("F2");
+        thrustiumValue.text = droneManager.thrustiumAmount.ToString("F2");
+        fueliumValue.text = droneManager.fueliumAmount.ToString("F2");
+    }
+
+    private void UpdateShipStorageUI()
+    {
+        if (ShipMaterialBank.instance == null)
+            return;
+
+        if (satBankedValue != null)
+            satBankedValue.text = ShipMaterialBank.instance.satoniumBanked.ToString("F2");
+
+        if (thruBankedValue != null)
+            thruBankedValue.text = ShipMaterialBank.instance.thrustiumBanked.ToString("F2");
+
+        if (fuelBankedValue != null)
+            fuelBankedValue.text = ShipMaterialBank.instance.fueliumBanked.ToString("F2");
+    }
+
+    private void UpdateTravelUI()
+    {
+        UpdateTravelRequirementText();
+        UpdateTravelStatus();
+
+        if (travelButton != null)
+            travelButton.interactable = CanTravel();
+    }
+
+    private void UpdateTravelRequirementText()
+    {
+        if (travelStatusBankedTHR == null)
+            return;
+
+        if (ShipMaterialBank.instance == null)
+        {
+            travelStatusBankedTHR.text = $"0 / {requiredThrustium:0}";
+            return;
+        }
+
+        travelStatusBankedTHR.text = $"{ShipMaterialBank.instance.thrustiumBanked:0} / {requiredThrustium:0}";
+    }
+
+    private void UpdateTravelStatus()
+    {
+        if (ShipMaterialBank.instance == null || droneManager == null)
+        {
+            SetTravelStatus("SYS ERROR", Color.red);
+            return;
+        }
+
+        if (droneManager.IsDeployed)
+        {
+            SetTravelStatus("DRONE AWAY", Color.red);
+            return;
+        }
+
+        if (ShipMaterialBank.instance.thrustiumBanked < requiredThrustium)
+        {
+            SetTravelStatus("LOW THRUSTIUM", Color.red);
+            return;
+        }
+
+        SetTravelStatus("READY", Color.green);
+    }
+
+    private bool CanTravel()
+    {
+        if (ShipMaterialBank.instance == null || droneManager == null)
+            return false;
+
+        if (droneManager.IsDeployed)
+            return false;
+
+        return ShipMaterialBank.instance.thrustiumBanked >= requiredThrustium;
+    }
+
+    private void SetTravelStatus(string message, Color color)
+    {
+        if (travelStatusTXT == null)
+            return;
+
+        travelStatusTXT.text = message;
+        travelStatusTXT.color = color;
+    }
+
+    private void UpdateModeButtonText()
+    {
+        ResetModeButtonText();
+
+        if (droneManager == null)
+            return;
+
+        switch(droneManager.Mode)
+        {
+            case DroneManager.DroneMiningMode.Any:
+                anyModeTXT.text = "SET";
+                break;
+
+            case DroneManager.DroneMiningMode.Fuelium:
+                fuelModeTXT.text = "SET";
+                break;
+
+            case DroneManager.DroneMiningMode.Satonium:
+                satModeTXT.text = "SET";
+                break;
+        }
+    }
+
+    private void UpdateModeButtonVisuals()
+    {
+        bool droneDeployed = droneManager != null && droneManager.IsDeployed;
+        Color targetColor = droneDeployed ? modeUnavailableColor : modeAvailableColor;
+
+        if (fuelModePanel != null)
+            fuelModePanel.color = targetColor;
+
+        if (satModePanel != null)
+            satModePanel.color = targetColor;
+
+        if (anyModePanel != null)
+            anyModePanel.color = targetColor;
+    }
+
+    private void ResetModeButtonText()
     {
         satModeTXT.text = "SET MODE";
         fuelModeTXT.text = "SET MODE";
         anyModeTXT.text = "SET MODE";
     }
 
-    public void Onclick_Travel()
-    {
-        if(ShipMaterialBank.instance.thrustiumBanked >= 250)
-        {
-            SceneManager.LoadScene(2);
-        }
-    }
-
-
-
-   IEnumerator ValueUpdateText()
-    {
-        UpdateTravelStatus();
-        TravelStatusBankedTHR.text = $"{ShipMaterialBank.instance.thrustiumBanked:0} / {requiredThrustium:0}";
-        yield return new WaitForSeconds(10);
-        StartCoroutine(ValueUpdateText());
-    }
-
-    void UpdateTravelStatus()
-    {
-        if(ShipMaterialBank.instance == null || DroneManager.instance == null)
-        {
-            SetTravelStatus("Travel Status: SYS ERROR", Color.red);
-            return;
-        }
-
-        float thrustiumBanked = ShipMaterialBank.instance.thrustiumBanked;
-
-        if(droneManager.IsDeployed)
-        {
-            SetTravelStatus("Travel Status: DRONE AWAY", Color.red);
-            return;
-        }
-
-        if(thrustiumBanked < requiredThrustium)
-        {
-            SetTravelStatus("Travel Status: LOW $THR", Color.red);
-            return;
-        }
-
-        SetTravelStatus("Travel Status: READY", Color.green);
-    }
-
-    private bool IsDroneDeployed(string status)
-    {
-        return status == "Returning" ||
-                status == "Out of Power" ||
-                status == "Mining" ||
-                status == "En-Route";
-    }
-
-    private void SetTravelStatus(string message, Color color)
-    {
-        travelStatusTXT.text = message;
-        travelStatusTXT.color = color;
-    }
-
-    void DisplayTextValues()
-    {
-        statusValue.text = droneManager.StatusText;
-        sendDroneButtonTXT.text = droneManager.ButtonText;
-        batteryValue.text = droneManager.battery.ToString("F0") + "%";
-    }
-
-    void DisplayDroneValues()
-    {
-        satoniumValue.text = DroneManager.instance.satoniumAmount.ToString("F2");
-        thrustiumValue.text = DroneManager.instance.thrustiumAmount.ToString("F2");
-        fueliumValue.text = DroneManager.instance.fueliumAmount.ToString("F2");
-    }
-
-    public void DisplayTravelTime(float timeToTravel)
-    {
-        timeToTravelCalculated = timeToTravel;
-        travelTimeLeftValue.text = timeToTravelCalculated.ToString("F0");
-        InvokeRepeating(nameof(CalculateTravelTimeLeft), 0, 1);
-        travelTimeLeftValue.gameObject.SetActive(true);
-    }
-
-    void CalculateTravelTimeLeft()
+    private void CalculateTravelTimeLeft()
     {
         if (timeToTravelCalculated <= 0)
         {
             travelTimeLeftValue.gameObject.SetActive(false);
             CancelInvoke(nameof(CalculateTravelTimeLeft));
+            return;
         }
+
         travelTimeLeftValue.text = timeToTravelCalculated.ToString("F0");
         timeToTravelCalculated--;
     }
