@@ -156,7 +156,7 @@ public class DroneDamageManager : MonoBehaviour
             Debug.Log("Countdown finished. Rolling Damage RNG");
             if (checkingRNG == false) // failsafe so the RNG doesnt run more than once.
             {
-                if (DroneManager.instance.status == 2)
+                if (DroneManager.instance != null && DroneManager.instance.IsMining)
                 {
                     DamageRNG();
                 }
@@ -172,7 +172,7 @@ public class DroneDamageManager : MonoBehaviour
 
     void Countdown()
     {
-        if(DroneManager.instance.status == 2)
+        if(DroneManager.instance != null && DroneManager.instance.IsMining)
             countdownToCheck++;
     }
 

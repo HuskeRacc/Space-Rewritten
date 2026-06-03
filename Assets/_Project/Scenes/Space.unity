@@ -1036,7 +1036,7 @@ GameObject:
   - component: {fileID: 57590946}
   - component: {fileID: 57590945}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: AnyModePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3241,7 +3241,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Travel Status: Not Ready.'
+  m_text: 'Travel Status: DRONE AWAY'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6271,7 +6271,7 @@ GameObject:
   - component: {fileID: 293581214}
   - component: {fileID: 293581213}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: SatModePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17950,7 +17950,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $FUEL
+  m_text: $FU
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -32781,7 +32781,7 @@ GameObject:
   - component: {fileID: 1627374302}
   - component: {fileID: 1627374301}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: FuelModePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39626,7 +39626,12 @@ MonoBehaviour:
   satModeTXT: {fileID: 883501686}
   anyModeTXT: {fileID: 617255177}
   travelStatusTXT: {fileID: 144652892}
-  thrustiumRequiredForNextStation: 250
+  requiredThrustium: 250
+  fuelModePanel: {fileID: 1627374301}
+  satModePanel: {fileID: 293581213}
+  anyModePanel: {fileID: 57590945}
+  modeAvailableColor: {r: 0, g: 1, b: 0, a: 1}
+  modeUnavailableColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2032742248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40704,7 +40709,7 @@ MonoBehaviour:
   - {fileID: 1142319225}
   - {fileID: 2341034}
   - {fileID: 754940177}
-  status: 0
+  state: 0
   mode: 0
   battery: 50
   satoniumAmount: 0

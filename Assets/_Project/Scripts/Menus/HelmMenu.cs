@@ -35,7 +35,15 @@ public class HelmMenu : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI travelStatusTXT;
 
-    [SerializeField] float thrustiumRequiredForNextStation = 250f;
+    [SerializeField] float requiredThrustium = 250f;
+
+    [Header("Mode Button Graphics")]
+    [SerializeField] Image fuelModePanel;
+    [SerializeField] Image satModePanel;
+    [SerializeField] Image anyModePanel;
+
+    [SerializeField] Color modeAvailableColor = Color.green;
+    [SerializeField] Color modeUnavailableColor = Color.red;
 
     private void Awake()
     {
@@ -45,6 +53,28 @@ public class HelmMenu : MonoBehaviour
     private void Start()
     {
         StartCoroutine(ValueUpdateText());
+    }
+    private void Update()
+    {
+        DisplayTextValues();
+        DisplayDroneValues();
+        UpdateTravelStatus();
+        UpdateModeButtonVisuals();
+
+        travelButton.interactable = ShipMaterialBank.instance.thrustiumBanked >= requiredThrustium && !droneManager.IsDeployed;
+    }
+
+    private void UpdateModeButtonVisuals()
+    {
+        bool droneDeployed = droneManager != null && droneManager.IsDeployed;
+
+        Color targetColor = droneDeployed ? modeUnavailableColor : modeAvailableColor;
+
+        if(fuelModePanel != null) fuelModePanel.color = targetColor;
+
+        if(satModePanel != null) satModePanel.color = targetColor;
+
+        if(anyModePanel != null) anyModePanel.color = targetColor;
     }
 
     public void OnClick_Back()
@@ -56,39 +86,26 @@ public class HelmMenu : MonoBehaviour
     }
     public void OnClick_SendDrone()
     {
-        if (droneManager.status == 0)
-        {
-            droneManager.Sending();
-        }
-
-        if (droneManager.status == 2)
-        {
-            droneManager.Returning();
-        }
-
-        if (droneManager.status == 4)
-        {
-            droneManager.Returning();
-        }
+        droneManager.ToggleDeployment();
     }
 
     public void OnClick_AnyMode()
     {
-        DroneManager.instance.mode = 0;
+        droneManager.SetModeAny();
         ResetButtonText();
         anyModeTXT.text = "SET";
     }
 
     public void OnClick_FuelMode()
     {
-        DroneManager.instance.mode = 1;
+        droneManager.SetModeFuelium();
         ResetButtonText();
         fuelModeTXT.text = "SET";
 
     }
     public void OnClick_SatMode()
     {
-        DroneManager.instance.mode = 2;
+        droneManager.SetModeSatonium();
         ResetButtonText();
         satModeTXT.text = "SET";
     }
@@ -108,47 +125,59 @@ public class HelmMenu : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        DisplayTextValues();
-        DisplayDroneValues();
 
-        if (ShipMaterialBank.instance.thrustiumBanked >= 250)
-        {
-            travelButton.interactable = true;
-        }
-        else
-        {
-            travelButton.interactable = false;
-        }
-    }
 
    IEnumerator ValueUpdateText()
     {
         UpdateTravelStatus();
-        TravelStatusBankedTHR.text = ShipMaterialBank.instance.thrustiumBanked.ToString("F0") + " / " + thrustiumRequiredForNextStation.ToString("F0");
+        TravelStatusBankedTHR.text = $"{ShipMaterialBank.instance.thrustiumBanked:0} / {requiredThrustium:0}";
         yield return new WaitForSeconds(10);
         StartCoroutine(ValueUpdateText());
     }
 
     void UpdateTravelStatus()
     {
-        if(ShipMaterialBank.instance.thrustiumBanked >= 250)
+        if(ShipMaterialBank.instance == null || DroneManager.instance == null)
         {
-            travelStatusTXT.color = Color.green;
-            travelStatusTXT.text = "Travel Status: READY";
+            SetTravelStatus("Travel Status: SYS ERROR", Color.red);
+            return;
         }
-        else
+
+        float thrustiumBanked = ShipMaterialBank.instance.thrustiumBanked;
+
+        if(droneManager.IsDeployed)
         {
-            travelStatusTXT.color = Color.red;
-            travelStatusTXT.text = "Travel Status: NOT READY";
+            SetTravelStatus("Travel Status: DRONE AWAY", Color.red);
+            return;
         }
+
+        if(thrustiumBanked < requiredThrustium)
+        {
+            SetTravelStatus("Travel Status: LOW $THR", Color.red);
+            return;
+        }
+
+        SetTravelStatus("Travel Status: READY", Color.green);
+    }
+
+    private bool IsDroneDeployed(string status)
+    {
+        return status == "Returning" ||
+                status == "Out of Power" ||
+                status == "Mining" ||
+                status == "En-Route";
+    }
+
+    private void SetTravelStatus(string message, Color color)
+    {
+        travelStatusTXT.text = message;
+        travelStatusTXT.color = color;
     }
 
     void DisplayTextValues()
     {
-        statusValue.text = droneManager.droneStatus;
-        sendDroneButtonTXT.text = droneManager.buttonStatus;
+        statusValue.text = droneManager.StatusText;
+        sendDroneButtonTXT.text = droneManager.ButtonText;
         batteryValue.text = droneManager.battery.ToString("F0") + "%";
     }
 

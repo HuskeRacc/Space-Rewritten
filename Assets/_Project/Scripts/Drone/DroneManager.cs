@@ -6,6 +6,20 @@ using UnityEngine.UI;
 
 public class DroneManager : MonoBehaviour, ISaveable
 {
+    public enum DroneState
+    {
+        Idle,
+        EnRoute,
+        Mining,
+        Returning,
+        OutOfPower
+    }
+    public enum DroneMiningMode
+    {
+        Any,
+        Fuelium,
+        Satonium
+    }
 
     public static DroneManager instance;
 
@@ -23,9 +37,71 @@ public class DroneManager : MonoBehaviour, ISaveable
     [SerializeField] Button[] modeButtons;
 
     [Header("Drone Status")]
-    public int status = 0;
+    [SerializeField] private DroneState state = DroneState.Idle;
+    [SerializeField] private DroneMiningMode mode = DroneMiningMode.Any;
 
-    public int mode = 0;
+    public DroneState State => state;
+    public DroneMiningMode Mode => mode;
+
+    public bool IsDeployed =>
+        state == DroneState.EnRoute ||
+        state == DroneState.Mining ||
+        state == DroneState.Returning ||
+        state == DroneState.OutOfPower;
+
+    public bool IsMining => state == DroneState.Mining;
+
+    public string StatusText
+    {
+        get
+        {
+            switch (state)
+            {
+                case DroneState.Idle:
+                    return "Idle";
+
+                case DroneState.EnRoute:
+                    return "En-Route";
+
+                case DroneState.Mining:
+                    return "Mining";
+
+                case DroneState.Returning:
+                    return "Returning";
+
+                case DroneState.OutOfPower:
+                    return "Out of Power";
+
+                default:
+                    return "Unknown";
+            }
+        }
+    }
+
+    public string ButtonText
+    {
+        get
+        {
+            switch (state)
+            {
+                case DroneState.Idle:
+                    return "Send";
+
+                case DroneState.Mining:
+                case DroneState.OutOfPower:
+                    return "Return?";
+
+                case DroneState.EnRoute:
+                case DroneState.Returning:
+                    return "Please Wait...";
+
+                default:
+                    return "Unavailable";
+            }
+        }
+    }
+
+
 
     public float battery = 100f;
 
@@ -101,10 +177,7 @@ public class DroneManager : MonoBehaviour, ISaveable
 
         BankMaterials();
 
-        status = 0;
-
-        droneStatus = "Idle";
-        buttonStatus = "Send";
+        state = DroneState.Idle;
 
         InvokeRepeating(nameof(ChargeBattery), 0, UnityEngine.Random.Range(minimumBatteryChargeTime, maximumBatteryChargeTime));
     }
@@ -117,9 +190,8 @@ public class DroneManager : MonoBehaviour, ISaveable
         }
 
         anim.SetBool("TakeOff",true);
-        status = 1;
+        state = DroneState.EnRoute;
         DisplayTravelTime();
-        droneStatus = "En-Route";
         droneAudioSource.PlayOneShot(droneSounds[0]);
         buttonStatus = "Please Wait...";
         CancelInvoke(nameof(ChargeBattery));
@@ -128,19 +200,17 @@ public class DroneManager : MonoBehaviour, ISaveable
 
     public void Mining()
     {
-        status = 2;
-        droneStatus = "Mining";
-        buttonStatus = "Return?";
+        state = DroneState.Mining;
 
-        if (mode == 0)
+        if (mode == DroneMiningMode.Any)
         {
             InvokeRepeating(nameof(AnyMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
-        if (mode == 1)
+        if (mode == DroneMiningMode.Fuelium)
         {
             InvokeRepeating(nameof(FuelMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
-        if(mode== 2)
+        if (mode == DroneMiningMode.Satonium)
         {
             InvokeRepeating(nameof(SatMaterialGain), 4, UnityEngine.Random.Range(MinimumMaterialGainTime, MaximumMaterialGainTime));
         }
@@ -149,10 +219,9 @@ public class DroneManager : MonoBehaviour, ISaveable
 
     public void Returning()
     {
-        droneStatus = "Returning";
+        state = DroneState.Returning;
         anim.SetBool("TakeOff", false);
         anim.SetBool("Recall", true);
-        status = 3;
         DisplayTravelTime();
         buttonStatus = "Please Wait...";
         CancelInvoke();
@@ -161,10 +230,7 @@ public class DroneManager : MonoBehaviour, ISaveable
 
     public void WaitingForReturn()
     {
-        Debug.Log("Drone out of battery");
-        droneStatus = "Out of Power.";
-        status = 4;
-        buttonStatus = "Return?";
+        state = DroneState.OutOfPower;
         CancelInvoke();
     }
 
@@ -235,6 +301,36 @@ public class DroneManager : MonoBehaviour, ISaveable
     public void DisplayTravelTime()
     {
         HelmMenu.instance.DisplayTravelTime(timeToTravel);
+    }
+
+    public void SetModeAny()
+    {
+        mode = DroneMiningMode.Any;
+    }
+
+    public void SetModeFuelium()
+    {
+        mode = DroneMiningMode.Fuelium;
+    }
+
+    public void SetModeSatonium()
+    {
+        mode = DroneMiningMode.Satonium;
+    }
+
+    public void ToggleDeployment()
+    {
+        switch (state)
+        {
+            case DroneState.Idle:
+                Sending();
+                break;
+
+            case DroneState.Mining:
+            case DroneState.OutOfPower:
+                Returning();
+                break;
+        }
     }
 
     public object CaptureState()

@@ -55,7 +55,7 @@ public class DroneRepairsMenu : MonoBehaviour
     void UpdateVisuals()
     {
         #region Deployed Error
-        if (DroneManager.instance.status != 0)
+        if (DroneManager.instance.IsDeployed)
         {
             droneVisuals.SetActive(false);
             droneDeployedErrorTXT.SetActive(true);
@@ -67,7 +67,7 @@ public class DroneRepairsMenu : MonoBehaviour
         }
         #endregion
 
-        if (DroneManager.instance.status != 0)
+        if (DroneManager.instance != null && DroneManager.instance.IsDeployed)
         {
             jawsButton.gameObject.SetActive(false);
             cargoButton.gameObject.SetActive(false);
