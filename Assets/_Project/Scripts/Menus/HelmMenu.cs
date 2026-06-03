@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,12 +15,15 @@ public class HelmMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI statusValue;
     [SerializeField] TextMeshProUGUI sendDroneButtonTXT;
     [SerializeField] TextMeshProUGUI batteryValue;
-    public TextMeshProUGUI travelTimeLeftValue;
+
+    [SerializeField] TextMeshProUGUI travelTimeLeftValue;
     [SerializeField] float timeToTravelCalculated;
 
     [SerializeField] TextMeshProUGUI satoniumValue;
     [SerializeField] TextMeshProUGUI thrustiumValue;
     [SerializeField] TextMeshProUGUI fueliumValue;
+
+    [SerializeField] TextMeshProUGUI TravelStatusBankedTHR;
 
     [SerializeField] Button travelButton;
 
@@ -29,9 +33,18 @@ public class HelmMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI satModeTXT;
     [SerializeField] TextMeshProUGUI anyModeTXT;
 
+    [SerializeField] TextMeshProUGUI travelStatusTXT;
+
+    [SerializeField] float thrustiumRequiredForNextStation = 250f;
+
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(ValueUpdateText());
     }
 
     public void OnClick_Back()
@@ -107,6 +120,29 @@ public class HelmMenu : MonoBehaviour
         else
         {
             travelButton.interactable = false;
+        }
+    }
+
+   IEnumerator ValueUpdateText()
+    {
+        Debug.Log("Travel status update check");
+        UpdateTravelStatus();
+        TravelStatusBankedTHR.text = ShipMaterialBank.instance.thrustiumBanked.ToString("F0") + " / " + thrustiumRequiredForNextStation.ToString("F0");
+        yield return new WaitForSeconds(5);
+        StartCoroutine(ValueUpdateText());
+    }
+
+    void UpdateTravelStatus()
+    {
+        if(ShipMaterialBank.instance.thrustiumBanked >= 250)
+        {
+            travelStatusTXT.color = Color.green;
+            travelStatusTXT.text = "Travel Status: READY";
+        }
+        else
+        {
+            travelStatusTXT.color = Color.red;
+            travelStatusTXT.text = "Travel Status: NOT READY";
         }
     }
 
