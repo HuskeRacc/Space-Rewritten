@@ -201,82 +201,50 @@ public class PlayerMovement : MonoBehaviour, ISaveable
 
     private void Update()
     {
-        if (!canMove)
-            canPause = false;
-        else canPause = true;
+        // Simplified boolean assignment
+        canPause = canMove;
 
-        if(canPause)
-            HandlePause();
+        if (canPause) HandlePause();
 
-        if (canMove)
+        // Early exit: If we can't move, don't process anything below this line.
+        if (!canMove) return;
+
+        HandleMouseLook();
+
+        if (hasGravity)
         {
-            HandleMouseLook();
-
-            if (hasGravity)
-            {
-                HandleMovementInput();
-
-                if (canJump)
-                    HandleJump();
-
-                if (canUseHeadbob)
-                    HandleHeadBob();
-
-                if (useFootSteps)
-                    HandleFootsteps();
-            }
-
-            if (canUseFlashlight)
-                HandleFlashlight();
-
-            if (canCrouch)
-                HandleCrouch();
-
-            if (canZoom)
-                HandleZoom();
-
-            if(canInteract)
-            {
-                HandleInteractionCheck();
-                HandleInteractionInput();
-            }
-
-            if(canPickup)
-            {
-                HandlePickupInput();
-            }
-
-            if (heldObj != null)
-            {
-                HandlePickupObjectMovement();
-            }
-
-            if (useStamina)
-                HandleStamina();
-
-            if(crosshairEnabled)
-            HandleCrosshairVisibility();
-
-            ApplyFinalMovements();
+            HandleMovementInput();
+            if (canJump) HandleJump();
+            if (canUseHeadbob) HandleHeadBob();
+            if (useFootSteps) HandleFootsteps();
         }
+
+        if (canUseFlashlight) HandleFlashlight();
+        if (canCrouch) HandleCrouch();
+        if (canZoom) HandleZoom();
+
+        if (canInteract)
+        {
+            HandleInteractionCheck();
+            HandleInteractionInput();
+        }
+
+        if (canPickup) HandlePickupInput();
+        if (heldObj != null) HandlePickupObjectMovement();
+        if (useStamina) HandleStamina();
+        if (crosshairEnabled) HandleCrosshairVisibility();
+
+        ApplyFinalMovements();
     }
 
     void HandlePause()
     {
         if (pauseAction.action.WasPressedThisFrame())
         {
-            if (lockCursor)
-                lockCursor = false;
-            else lockCursor = true;
+            lockCursor = !lockCursor; // Flips the boolean instantly
 
-            if (lockCursor)
-            {
-                Unpause();
-            }
-            else
-            {
-                Pause();
-            }
+            if (lockCursor) Unpause();
+            else Pause();
         }
     }
 

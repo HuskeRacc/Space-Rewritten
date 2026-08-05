@@ -38,6 +38,7 @@ public class SleepScript : Interactable
         {
             if (!isSleeping)
             {
+                sleepCamera.gameObject.SetActive(true);
                 PlayerMovement.instance.canPause = false;
                 sleepingPanel.SetActive(true);
                 PlayerNeeds.instance.InvokeSleep();
@@ -65,6 +66,7 @@ public class SleepScript : Interactable
         {
 
             sleepingPanel.SetActive(false);
+            sleepCamera.gameObject.SetActive(false);
             PlayerNeeds.instance.InvokeSleepBreak();
             sleepCamera.depth = 0;
             crosshair.SetActive(true);
@@ -76,6 +78,7 @@ public class SleepScript : Interactable
         if(interactAction.action.WasPressedThisFrame() && isSleeping)
         {
             sleepingPanel.SetActive(false);
+            sleepCamera.gameObject.SetActive(false);
             PlayerNeeds.instance.InvokeSleepBreak();
             sleepCamera.depth = 0;
             crosshair.SetActive(true);
