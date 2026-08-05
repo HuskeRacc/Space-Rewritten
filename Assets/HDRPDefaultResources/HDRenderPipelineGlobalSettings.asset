@@ -166,7 +166,6 @@ MonoBehaviour:
       - rid: 2028305517136052421
       - rid: 2028305517136052422
       - rid: 2028305517136052423
-      - rid: 2028305517136052424
       - rid: 2028305517136052425
       - rid: 2028305517136052426
       - rid: 2028305517136052427
@@ -198,27 +197,7 @@ MonoBehaviour:
       - rid: 8539844833252474884
       - rid: 8539844833252474885
     m_RuntimeSettings:
-      m_List:
-      - rid: 2028305517136052416
-      - rid: 2028305517136052417
-      - rid: 2028305517136052422
-      - rid: 2028305517136052423
-      - rid: 2028305517136052424
-      - rid: 2028305517136052426
-      - rid: 2028305517136052429
-      - rid: 2028305517136052430
-      - rid: 2028305517136052431
-      - rid: 2028305517136052433
-      - rid: 2028305517136052434
-      - rid: 2028305517136052436
-      - rid: 2028305517136052437
-      - rid: 2028305517136052440
-      - rid: 2028305517136052441
-      - rid: 2028305517136052444
-      - rid: 2028305517136052446
-      - rid: 2028305517136052447
-      - rid: 8539844833252474882
-      - rid: 8539844833252474884
+      m_List: []
   renderingLayerNames:
   - Light Layer default
   - Light Layer 1
@@ -359,12 +338,6 @@ MonoBehaviour:
         m_AfterPostProcessCustomPostProcesses:
           m_InjectionPoint: 2
           m_CustomPostProcessTypesAsString: []
-    - rid: 2028305517136052424
-      type: {class: RenderGraphSettings, ns: UnityEngine.Rendering.HighDefinition,
-        asm: Unity.RenderPipelines.HighDefinition.Runtime}
-      data:
-        m_Version: 0
-        m_DynamicRenderPassCulling: 0
     - rid: 2028305517136052425
       type: {class: DiffusionProfileDefaultSettings, ns: UnityEngine.Rendering.HighDefinition,
         asm: Unity.RenderPipelines.HighDefinition.Runtime}
@@ -890,6 +863,8 @@ MonoBehaviour:
           type: 3}
         m_VolumetricMaterialCS: {fileID: 7200000, guid: 26f18c9cb0bccbf4481f8c84579affb1,
           type: 3}
+        m_ClearVolumetricMaterialCS: {fileID: 7200000, guid: a34e917ab17a38d419e6dd712988ac15,
+          type: 3}
         m_EyeMaterialCS: {fileID: 7200000, guid: 76f78ba05cea1ed449c1ef613ab90597,
           type: 3}
         m_FilterAreaLightCookiesPS: {fileID: 4800000, guid: c243aac96dda5fa40bed693ed5ba02c4,
@@ -1238,6 +1213,13 @@ MonoBehaviour:
         asm: Unity.RenderPipelines.Core.Runtime}
       data:
         m_version: 0
+        m_PanelSettings: {fileID: 11400000, guid: fa69697be3070b04a893666f5947f18c,
+          type: 2}
+        m_StyleSheets:
+        - {fileID: 7433441132597879392, guid: 0ff99fd36f66f1a41bcc1d3c90e0922a, type: 3}
+        - {fileID: 7433441132597879392, guid: 3a8aa4d508da46d4dace18b280f064aa, type: 3}
+        m_VisualTreeAsset: {fileID: 9197481963319205126, guid: b647ceb1e15264943b9b439971e71110,
+          type: 3}
     - rid: 8539844833252474884
       type: {class: LightmapSamplingSettings, ns: UnityEngine.Rendering, asm: Unity.RenderPipelines.Core.Runtime}
       data:
