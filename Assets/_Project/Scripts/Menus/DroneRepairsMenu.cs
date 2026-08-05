@@ -42,7 +42,9 @@ public class DroneRepairsMenu : MonoBehaviour
     public void OnClick_BackButton()
     {
         droneRepairsMenu.SetActive(false);
-        PlayerMovement.instance.canMove = true;
+        PlayerLook playerLook = FindAnyObjectByType<PlayerLook>();
+        if (playerLook != null) playerLook.canLook = true;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

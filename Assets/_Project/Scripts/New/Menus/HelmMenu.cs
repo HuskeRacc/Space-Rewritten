@@ -8,7 +8,6 @@ public class HelmMenu : MonoBehaviour
     public static HelmMenu instance;
 
     [Header("References")]
-    [SerializeField] private PlayerMovement player;
     [SerializeField] private DroneManager droneManager;
     [SerializeField] private GameObject helmMenu;
 
@@ -72,7 +71,10 @@ public class HelmMenu : MonoBehaviour
     {
         helmMenu.SetActive(false);
 
-        player.canMove = true;
+        // Re-enable camera looking
+        PlayerLook playerLook = FindAnyObjectByType<PlayerLook>();
+        if (playerLook != null) playerLook.canLook = true;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

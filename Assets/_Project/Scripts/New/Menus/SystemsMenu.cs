@@ -18,7 +18,10 @@ public class SystemsMenu : MonoBehaviour
     public void OnClick_CloseMenu()
     {
         systemsMenu.SetActive(false);
-        PlayerMovement.instance.canMove = true;
+
+        PlayerLook playerLook = FindAnyObjectByType<PlayerLook>();
+        if (playerLook != null) playerLook.canLook = true;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

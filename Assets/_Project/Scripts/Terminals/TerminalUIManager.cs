@@ -11,9 +11,6 @@ public class TerminalUIManager : MonoBehaviour
     [SerializeField] GameObject helmMenu;
     [SerializeField] GameObject repairMenu;
 
-    [Header("Player")]
-    [SerializeField] PlayerMovement player;
-
     GameObject currentMenu;
 
     private void Awake()
@@ -88,16 +85,14 @@ public class TerminalUIManager : MonoBehaviour
 
     private void SetPlayerMenuMode(bool menuOpen)
     {
-        if (player == null)
+        // Find the new camera look script and disable/enable it based on the menu state
+        PlayerLook playerLook = FindAnyObjectByType<PlayerLook>();
+        if (playerLook != null)
         {
-            player = PlayerMovement.instance;
+            playerLook.canLook = !menuOpen;
         }
 
-        if (player != null)
-        {
-            player.canMove = !menuOpen;
-        }
-
+        // Lock/Unlock the cursor so you can click the UI buttons
         Cursor.lockState = menuOpen ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = menuOpen;
     }

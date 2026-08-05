@@ -11,14 +11,14 @@ public class PauseMenu : MonoBehaviour
         settingsMenu.SetActive(true);
         this.gameObject.SetActive(false);
     }
-    
+
     public void OnClick_Resume()
     {
-        if(!GameObject.Find("Player").TryGetComponent<PlayerMovement>(out var playerMovement))
+        PauseManager pauseManager = FindAnyObjectByType<PauseManager>();
+        if (pauseManager != null)
         {
-            return;
+            pauseManager.Unpause();
         }
-        playerMovement.Unpause();
     }
 
     public void OnClick_Exit()

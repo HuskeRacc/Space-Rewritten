@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ShopMenu : MonoBehaviour
 {
-    [SerializeField] PlayerMovement player;
     [SerializeField] PlayerStatus status;
     [SerializeField] ShipSystems ship;
 
@@ -12,7 +11,10 @@ public class ShopMenu : MonoBehaviour
     public void OnClick_Back()
     {
         shopMenu.SetActive(false);
-        player.canMove = true;
+
+        PlayerLook playerLook = FindAnyObjectByType<PlayerLook>();
+        if (playerLook != null) playerLook.canLook = true;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

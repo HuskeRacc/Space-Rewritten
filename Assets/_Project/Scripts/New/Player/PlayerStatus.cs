@@ -30,8 +30,10 @@ public class PlayerStatus : MonoBehaviour
 
     private void Update()
     {
-        if(hasDisplayedRecently)
-        UpdateStatus();
+        if(!hasDisplayedRecently)
+        {
+            UpdateStatus();
+        }
     }
 
     void UpdateStatus()

@@ -109,14 +109,22 @@ public class PlayerNeeds : MonoBehaviour, ISaveable
     {
         savedFatigueDecreaseRate = fatigueDecreaseRate;
         fatigueDecreaseRate = 0;
-        PlayerMovement.instance.canMove = false;
+
+        // Lock the camera instead of PlayerMovement
+        PlayerLook playerLook = FindAnyObjectByType<PlayerLook>();
+        if (playerLook != null) playerLook.canLook = false;
+
         InvokeRepeating(nameof(Sleep), 0.1f, 0.1f);
     }
 
     public void InvokeSleepBreak()
     {
         fatigueDecreaseRate = savedFatigueDecreaseRate;
-        PlayerMovement.instance.canMove = true;
+
+        // Unlock the camera instead of PlayerMovement
+        PlayerLook playerLook = FindAnyObjectByType<PlayerLook>();
+        if (playerLook != null) playerLook.canLook = true;
+
         CancelInvoke(nameof(Sleep));
     }
 
@@ -151,7 +159,8 @@ public class PlayerNeeds : MonoBehaviour, ISaveable
 
         if (!alreadyDamaged)
         {
-            PlayerMovement.OnTakeDamage(suffocationDamage);
+            // new health logic tbi
+            Debug.Log($"Took {suffocationDamage} suffocation damage!");
 
             alreadyDamaged = true;
             Invoke(nameof(ResetDamage), damageCooldown);

@@ -140,7 +140,7 @@ public class TerminalScreen : Interactable
             "HELM CONTROL\n" +
             $"THRUSTIUM: {thrustium:0}\n" +
             "DESTINATION: LOCAL STATION\n" +
-            "[E] OPEN";
+            "[LMB] OPEN";
     }
 
     private string GetShopPreview()
@@ -150,7 +150,7 @@ public class TerminalScreen : Interactable
             return
                 "SHOP\n" +
                 "MATERIAL BANK OFFLINE\n" +
-                "[E] OPEN";
+                "[LMB] OPEN";
         }
 
         return
@@ -158,7 +158,7 @@ public class TerminalScreen : Interactable
             $"SA: {materialBank.satoniumBanked:0}\n" +
             $"FU: {materialBank.fueliumBanked:0}\n" +
             $"TH: {materialBank.thrustiumBanked:0}\n" +
-            "[E] OPEN";
+            "[LMB] OPEN";
     }
 
     private string GetSystemsPreview()
@@ -168,7 +168,7 @@ public class TerminalScreen : Interactable
             return
                 "SHIP SYSTEMS\n" +
                 "STATUS UNKNOWN\n" +
-                "[E] OPEN";
+                "[LMB] OPEN";
         }
 
         string powerStatus = powerGenerator != null && powerGenerator.powerGeneratorActive
@@ -185,7 +185,7 @@ public class TerminalScreen : Interactable
             $"O2: {shipSystems.shipOxygen:0}%\n" +
             $"BAT: { shipSystems.shipBattery:0}%\n" +
             $"FUEL: {shipSystems.fuel:0}%\n" +
-            "[E] OPEN";
+            "[LMB] OPEN";
     }
 
     private string GetSolarPreview()
@@ -195,7 +195,7 @@ public class TerminalScreen : Interactable
             return
                 "SOLAR ARRAY\n" +
                 "STATUS UNKNOWN\n" +
-                "[E] OPEN";
+                "[LMB] OPEN";
         }
 
         string solarStatus = shipSystems.solarsActive
@@ -206,7 +206,7 @@ public class TerminalScreen : Interactable
             "SOLAR ARRAY\n" +
             $"STATUS: {solarStatus}\n" +
             $"EFFICIENCY: {shipSystems.solarEfficiency:0}%\n" +
-            "[E] OPEN";
+            "[LMB] OPEN";
     }
 
     private string GetRepairPreview()
@@ -216,14 +216,14 @@ public class TerminalScreen : Interactable
             return
                 "REPAIR BAY\n" +
                 "DRONE STATUS UNKNOWN\n" +
-                "[E] OPEN";
+                "[LMB] OPEN";
         }
 
         return
             "REPAIR BAY\n" +
             $"JAWS: {PartState(droneDamageManager.jawsDamaged)}  CARGO: {PartState(droneDamageManager.cargoDamaged)}\n" +
             $"CHAS: {PartState(droneDamageManager.chassisDamaged)}  THR: {PartState(droneDamageManager.thrustersDamaged)}\n" +
-            "[E] OPEN";
+            "[LMB] OPEN";
     }
 
     private string PartState(bool damaged)
