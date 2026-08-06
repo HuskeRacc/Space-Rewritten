@@ -35,7 +35,7 @@ public class SleepScript : Interactable
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not tired enough.", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not tired enough.", false));
         }
     }
 

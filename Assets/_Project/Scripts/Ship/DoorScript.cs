@@ -48,11 +48,11 @@ public class DoorScript : Interactable
         {
             if (isAirlock)
             {
-                StartCoroutine(PlayerStatus.instance.TextPopup("It's not safe!", 2, false));
+                StartCoroutine(PlayerStatus.instance.TextPopup("It's not safe!", false));
             }
             else
             {
-                StartCoroutine(PlayerStatus.instance.TextPopup("Locked!", 2, false));
+                StartCoroutine(PlayerStatus.instance.TextPopup("Locked!", false));
             }
         }
     }

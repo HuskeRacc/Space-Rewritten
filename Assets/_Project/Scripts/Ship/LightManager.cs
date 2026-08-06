@@ -11,16 +11,11 @@ public class LightManager : Interactable
     [SerializeField] private bool hasError = false;
     [SerializeField] bool hasEmergencyLight = false;
 
-    [Header("Audio")]
-    private AudioSource lightSwitchAudioSource;
-    [SerializeField] private AudioClip lightSwitchAudioClip;
-
     [Header("References")]
     [SerializeField] private PowerGenerator powerGenerator;
 
     private void Start()
     {
-        lightSwitchAudioSource = GetComponent<AudioSource>();
 
         if (powerGenerator != null)
         {
@@ -70,11 +65,6 @@ public class LightManager : Interactable
     {
         lightSwitchOn = !lightSwitchOn;
         ApplyLightState();
-
-        if (lightSwitchAudioSource != null && lightSwitchAudioClip != null)
-        {
-            lightSwitchAudioSource.PlayOneShot(lightSwitchAudioClip);
-        }
 
         Debug.Log("Light switch toggled. Switch On: " + lightSwitchOn +
               ", Has Power: " + hasPower +

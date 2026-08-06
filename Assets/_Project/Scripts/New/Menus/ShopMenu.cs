@@ -34,7 +34,7 @@ public class ShopMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough fuelium!", 2, false));
+            StartCoroutine(status.TextPopup("Not Enough fuelium!", false));
         }
     }
 
@@ -47,7 +47,7 @@ public class ShopMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough satonium!", 2, false));
+            StartCoroutine(status.TextPopup("Not Enough satonium!", false));
         }
     }
 
@@ -60,7 +60,7 @@ public class ShopMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough satonium!", 2, false));
+            StartCoroutine(status.TextPopup("Not Enough satonium!", false));
         }
     }
 
@@ -73,7 +73,7 @@ public class ShopMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough fuelium!", 2, false));
+            StartCoroutine(status.TextPopup("Not Enough fuelium!", false));
         }
     }
     public void OnClick_BuyCoffee()
@@ -85,7 +85,7 @@ public class ShopMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(status.TextPopup("Not Enough satonium!", 2, false));
+            StartCoroutine(status.TextPopup("Not Enough satonium!", false));
         }
     }
 

@@ -168,7 +168,7 @@ public class DroneRepairsMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Satonium!", 5, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Satonium!", false));
         }
     }
 
@@ -188,7 +188,7 @@ public class DroneRepairsMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Satonium!", 5, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Satonium!", false));
         }
     }
 
@@ -208,7 +208,7 @@ public class DroneRepairsMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Satonium!", 5, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Satonium!", false));
         }
     }
 
@@ -228,7 +228,7 @@ public class DroneRepairsMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Fuelium!", 5, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Fuelium!", false));
         }
     }
 }

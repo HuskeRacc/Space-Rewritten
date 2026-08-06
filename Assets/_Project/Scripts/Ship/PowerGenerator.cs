@@ -9,11 +9,6 @@ public class PowerGenerator : Interactable, ISaveable
     public bool powerGeneratorActive;
     public bool powerGeneratorAvailable;
 
-    [SerializeField] AudioSource powerSound;
-    [SerializeField] AudioSource refuelAudioSource;
-    [SerializeField] AudioSource toggleSoundSource;
-    [SerializeField] AudioClip refuelAudioClip;
-    [SerializeField] AudioClip toggleAudioClip;
     [SerializeField] OxygenGenerator oxygen;
     [SerializeField] ShipSystems ship;
     [SerializeField] PlayerStatus status;
@@ -86,7 +81,7 @@ public class PowerGenerator : Interactable, ISaveable
         }
         else
         {
-            StartCoroutine(status.TextPopup("No Fuel.", 5, false));
+            StartCoroutine(status.TextPopup("No Fuel.", false));
         }
     }
 
@@ -105,12 +100,10 @@ public class PowerGenerator : Interactable, ISaveable
         if (powerGeneratorActive)
         {
             lightIndicator.GetComponent<Renderer>().material.color = Color.green;
-            powerSound.UnPause();
         }
         else
         {
             lightIndicator.GetComponent<Renderer>().material.color = Color.red;
-            powerSound.Pause();
         }
 
         if (powerGeneratorAvailable)
@@ -148,7 +141,6 @@ public class PowerGenerator : Interactable, ISaveable
     {
         if (powerGeneratorAvailable)
         {
-            toggleSoundSource.PlayOneShot(toggleAudioClip);
             powerGeneratorActive = !powerGeneratorActive;
         }
     }
@@ -158,7 +150,6 @@ public class PowerGenerator : Interactable, ISaveable
         if(other.CompareTag("fuelCan"))
         {
             Debug.Log("Generator Refueled!");
-            refuelAudioSource.PlayOneShot(refuelAudioClip);
             Destroy(other.gameObject);
             ship.fuel += 75f;
         }

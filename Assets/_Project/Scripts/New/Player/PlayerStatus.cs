@@ -40,11 +40,11 @@ public class PlayerStatus : MonoBehaviour
     {
         if(ship.shipOxygen < lowShipOxygenThreshold)
         {
-            StartCoroutine(TextPopup(hardToBreatheText, 5, true));
+            StartCoroutine(TextPopup(hardToBreatheText, true));
         } 
         else if(player.oxygen <= 0)
         {
-            StartCoroutine(TextPopup(cantBreatheText, 5, true));
+            StartCoroutine(TextPopup(cantBreatheText, true));
         }
         else 
         { 
@@ -52,12 +52,12 @@ public class PlayerStatus : MonoBehaviour
         }
     }
 
-    public IEnumerator TextPopup(string text, int timeDisplayed, bool cooldownRequired)
+    public IEnumerator TextPopup(string text, bool cooldownRequired)
     {
         statusText.text = text;
         statusText.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(timeDisplayed);
+        yield return new WaitForSeconds(2f);
 
         statusText.gameObject.SetActive(false);
 

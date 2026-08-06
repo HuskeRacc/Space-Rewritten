@@ -93,7 +93,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
@@ -107,7 +107,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
@@ -121,7 +121,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
@@ -135,7 +135,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
@@ -149,7 +149,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
@@ -163,7 +163,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
@@ -177,7 +177,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
@@ -191,7 +191,7 @@ public class UpgradesMenu : MonoBehaviour
         }
         else
         {
-            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", 2, false));
+            StartCoroutine(PlayerStatus.instance.TextPopup("Not Enough Thrustium!", false));
         }
     }
 
