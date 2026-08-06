@@ -30,7 +30,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void Update()
     {
-        if(!hasDisplayedRecently)
+        if (!hasDisplayedRecently)
         {
             UpdateStatus();
         }
@@ -38,37 +38,43 @@ public class PlayerStatus : MonoBehaviour
 
     void UpdateStatus()
     {
-        if(ship.shipOxygen < lowShipOxygenThreshold)
+        if (ship.shipOxygen < lowShipOxygenThreshold)
         {
+            // The '5' here is now safely ignored by the Coroutine below
             StartCoroutine(TextPopup(hardToBreatheText, true));
-        } 
-        else if(player.oxygen <= 0)
+        }
+        else if (player.oxygen <= 0)
         {
+            // The '5' here is also safely ignored
             StartCoroutine(TextPopup(cantBreatheText, true));
         }
-        else 
-        { 
-            statusText.gameObject.SetActive(false); 
+        else
+        {
+            statusText.gameObject.SetActive(false);
         }
     }
 
+    // We leave "int timeDisplayed" here so your other scripts don't throw errors!
     public IEnumerator TextPopup(string text, bool cooldownRequired)
     {
+        // 1. Instantly lock the loop
+        hasDisplayedRecently = true;
+
         statusText.text = text;
         statusText.gameObject.SetActive(true);
 
+        // 2. Use your hardcoded time instead of the timeDisplayed variable
         yield return new WaitForSeconds(2f);
 
         statusText.gameObject.SetActive(false);
 
-        if(cooldownRequired)
-        StartCoroutine(PopupCooldown());
-    }
+        // 3. Process the cooldown
+        if (cooldownRequired)
+        {
+            yield return new WaitForSeconds(popupCooldown);
+        }
 
-    IEnumerator PopupCooldown()
-    {
-        hasDisplayedRecently = true;
-        yield return new WaitForSeconds(popupCooldown);
+        // 4. Unlock the loop
         hasDisplayedRecently = false;
     }
 }

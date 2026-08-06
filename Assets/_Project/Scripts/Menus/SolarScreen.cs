@@ -10,9 +10,6 @@ public class SolarScreen : MonoBehaviour
     [SerializeField] TextMeshProUGUI batteryValue;
     [SerializeField] TextMeshProUGUI chargeRateValue;
 
-    [SerializeField] AudioSource solarPanelAudioSource;
-    [SerializeField] AudioClip solarPanelCleanAudioClip;
-
     private void Update()
     {
         efficiencyValue.text = ShipSystems.instance.solarEfficiency.ToString("F0");
@@ -31,7 +28,6 @@ public class SolarScreen : MonoBehaviour
 
     public void OnClick_CleanSolars()
     {
-        solarPanelAudioSource.PlayOneShot(solarPanelCleanAudioClip);
         ShipSystems.instance.solarEfficiency = 100f;
     }
 
