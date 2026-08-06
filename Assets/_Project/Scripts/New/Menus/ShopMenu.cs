@@ -8,6 +8,11 @@ public class ShopMenu : MonoBehaviour
     [SerializeField] GameObject upgradesMenu;
     [SerializeField] GameObject shopMenu;
 
+    [Header("Item Stations")]
+    [SerializeField] ItemStation foodStation;
+    [SerializeField] ItemStation batteryStation;
+    [SerializeField] ItemStation coffeeStation;
+
     public void OnClick_Back()
     {
         shopMenu.SetActive(false);
@@ -19,44 +24,18 @@ public class ShopMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void OnClick_UpgradesMenu()
+    public void OnClick_BuyFood()
     {
-        upgradesMenu.SetActive(true);
-        shopMenu.SetActive(false);
-    }
-
-    public void OnClick_BuyFuel()
-    {
-        if (ShipMaterialBank.instance.fueliumBanked >= ShopPrices.instance.fuelPrice)
+        if (foodStation != null && foodStation.currentUses >= foodStation.maxCapacity)
         {
-            ShipMaterialBank.instance.fueliumBanked -= ShopPrices.instance.fuelPrice;
-            ItemSpawner.instance.SpawnSmallItem(3);
+            StartCoroutine(status.TextPopup("Food station is full!", false));
+            return;
         }
-        else
-        {
-            StartCoroutine(status.TextPopup("Not Enough fuelium!", false));
-        }
-    }
 
-    public void OnClick_BuyMRE()
-    {
-        if(ShipMaterialBank.instance.satoniumBanked >= ShopPrices.instance.mrePrice)
+        if (ShipMaterialBank.instance.satoniumBanked >= ShopPrices.instance.mrePrice)
         {
             ShipMaterialBank.instance.satoniumBanked -= ShopPrices.instance.mrePrice;
-            ItemSpawner.instance.SpawnSmallItem(0);
-        }
-        else
-        {
-            StartCoroutine(status.TextPopup("Not Enough satonium!", false));
-        }
-    }
-
-    public void OnClick_BuyDonut()
-    {
-        if (ShipMaterialBank.instance.satoniumBanked >= ShopPrices.instance.donutPrice)
-        {
-            ShipMaterialBank.instance.satoniumBanked -= ShopPrices.instance.donutPrice;
-            ItemSpawner.instance.SpawnSmallItem(1);
+            foodStation.AddStock(1);
         }
         else
         {
@@ -66,27 +45,39 @@ public class ShopMenu : MonoBehaviour
 
     public void OnClick_BuyBattery()
     {
+        if (batteryStation != null && batteryStation.currentUses >= batteryStation.maxCapacity)
+        {
+            StartCoroutine(status.TextPopup("Battery station is full!", false));
+            return;
+        }
+
         if (ShipMaterialBank.instance.fueliumBanked >= ShopPrices.instance.batteryPrice)
         {
             ShipMaterialBank.instance.fueliumBanked -= ShopPrices.instance.batteryPrice;
-            ItemSpawner.instance.SpawnSmallItem(2);
+            batteryStation.AddStock(1);
         }
         else
         {
             StartCoroutine(status.TextPopup("Not Enough fuelium!", false));
         }
     }
+
     public void OnClick_BuyCoffee()
     {
+        if (coffeeStation != null && coffeeStation.currentUses >= coffeeStation.maxCapacity)
+        {
+            StartCoroutine(status.TextPopup("Coffee station is full!", false));
+            return;
+        }
+
         if (ShipMaterialBank.instance.satoniumBanked >= ShopPrices.instance.coffeePrice)
         {
             ShipMaterialBank.instance.satoniumBanked -= ShopPrices.instance.coffeePrice;
-            ItemSpawner.instance.SpawnSmallItem(4);
+            coffeeStation.AddStock(1);
         }
         else
         {
             StartCoroutine(status.TextPopup("Not Enough satonium!", false));
         }
     }
-
 }

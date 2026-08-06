@@ -69,7 +69,7 @@ public class CameraMover : MonoBehaviour
         transform.rotation = targetRotation; // Hard snap at the end of Phase 1
 
         // Add a tiny pause here if you want it to feel more deliberate!
-        yield return new WaitForSeconds(0.1f);
+        //yield return new WaitForSeconds(0.1f);
 
         // --- PHASE 2: MOVING (POSITION) ---
         float moveProgress = 0f;

@@ -77,12 +77,6 @@ public class ShipErrors : MonoBehaviour
             LightError();
             lightError = false;
         }
-
-        if (radioError)
-        {
-            RadioError();
-            radioError = false;
-        }
     }
 
     void ErrorCheck()
@@ -108,11 +102,6 @@ public class ShipErrors : MonoBehaviour
             LightError();
         }
 
-        if (RNGResult == targetsForRNG[4])
-        {
-            RadioError();
-        }
-
         if (failedRNGChecks >= maxFailedAmount)
         {
             RNGResult = targetsForRNG[Random.Range(0,3)];
@@ -124,19 +113,8 @@ public class ShipErrors : MonoBehaviour
         }
     }
 
-    void RadioError()
-    {
-        radio.PlayMusicSpooky();
-        errorCooldown = 240;
-        StartCoroutine(ErrorCooldown(errorCooldown));
-        Debug.Log("Radio Error Triggered");
-        failedRNGChecks = 0;
-        RNGResult = 0;
-    }
-
     void PowerError()
     {
-        ErrorNotificationSystem.instance.GeneratorError();
         power.powerGeneratorActive = false;
         power.powerGeneratorAvailable = true;
         errorCooldown = 240;
@@ -148,14 +126,6 @@ public class ShipErrors : MonoBehaviour
 
     void OxygenError()
     {
-        if(ErrorNotificationSystem.instance != null)
-        {
-            ErrorNotificationSystem.instance.OxygenError();
-        }
-        else
-        {
-            Debug.LogWarning("OxygenError triggered, but ErrorNotificationSystem.instance is null.");
-        }
 
         if(oxygen != null)
         {
@@ -172,7 +142,6 @@ public class ShipErrors : MonoBehaviour
 
     void SolarError()
     {
-        ErrorNotificationSystem.instance.SolarError();
         ShipSystems.instance.solarsActive = false;
         errorCooldown = 120;
         StartCoroutine(ErrorCooldown(errorCooldown));
@@ -183,7 +152,6 @@ public class ShipErrors : MonoBehaviour
 
     void LightError()
     {
-        ErrorNotificationSystem.instance.LightError();
 
         for (int i = 0; i < lightsGO.Length; i++)
         {

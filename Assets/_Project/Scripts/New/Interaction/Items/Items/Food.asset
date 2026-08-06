@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 749ea036fec9c4b4eaceec002b27c28b, type: 3}
-  m_Name: Donut
+  m_Name: Food
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableItemData
-  itemName: Donut
-  description: Very tasty and cheap.
-  maxUses: 2
-  satiationRestore: 7
+  itemName: Standard Space-Military Ration
+  description: Doesn't taste so good...
+  maxUses: 13
+  satiationRestore: 15
   fatigueRestore: 0

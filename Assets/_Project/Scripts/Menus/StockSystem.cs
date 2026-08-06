@@ -12,11 +12,6 @@ public class StockSystem : MonoBehaviour
 
     [SerializeField] List<GameObject> stockIndicators;
 
-    private void Awake()
-    {
-
-    }
-
     private void Start()
     {
         for (int i = 0; i < stockIndicators.Count; i++)
@@ -27,6 +22,10 @@ public class StockSystem : MonoBehaviour
         OldMREPrice = ShopPrices.instance.mrePrice;
         OldDonutPrice = ShopPrices.instance.donutPrice;
         OldBatteryPrice = ShopPrices.instance.batteryPrice;
+
+        // Also making sure Coffee initializes correctly here!
+        OldCoffeePrice = ShopPrices.instance.coffeePrice;
+
         InvokeRepeating(nameof(DisplayPriceDifferences), 0f, ShopPrices.instance.priceVaryRate);
     }
 
@@ -55,8 +54,9 @@ public class StockSystem : MonoBehaviour
         }
         else if (OldMREPrice > ShopPrices.instance.mrePrice)
         {
-            stockIndicators[2].SetActive(true);
-            stockIndicators[3].SetActive(false);
+            // FIXED: These now flip correctly when the price drops
+            stockIndicators[2].SetActive(false);
+            stockIndicators[3].SetActive(true);
             OldMREPrice = ShopPrices.instance.mrePrice;
         }
 
@@ -93,13 +93,13 @@ public class StockSystem : MonoBehaviour
         {
             stockIndicators[8].SetActive(true);
             stockIndicators[9].SetActive(false);
-            OldBatteryPrice = ShopPrices.instance.coffeePrice;
+            OldCoffeePrice = ShopPrices.instance.coffeePrice;
         }
         else if (OldCoffeePrice > ShopPrices.instance.coffeePrice)
         {
             stockIndicators[8].SetActive(false);
             stockIndicators[9].SetActive(true);
-            OldBatteryPrice = ShopPrices.instance.coffeePrice;
+            OldCoffeePrice = ShopPrices.instance.coffeePrice;
         }
     }
 }
